@@ -50,9 +50,6 @@ public class OrderStateMachineConfig extends EnumStateMachineConfigurerAdapter<O
                 .withExternal().source(OrderStatus.WAIT_RECEIVE).target(OrderStatus.FINISH).event(OrderStatusChangeEvent.RECEIVED);
     }
 
-    /**
-     * 可以持久化到redis里面
-     */
     @Bean
     public StateMachinePersister<OrderStatus,OrderStatusChangeEvent, Order> orderStateMachinePersister(){
         return new DefaultStateMachinePersister<>(orderStateMachineDao);
