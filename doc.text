@@ -1,0 +1,23 @@
+Sprint
+	状态
+		1.新建
+		2.dev
+		3.test
+		4.pre
+		5.prod
+	事件
+	新建 -> dev >> 执行dev 下配置的多个任务，（基于new_tag创建分支）
+	dev -> test >> dev 分支合并到 master
+	test -> pre >> 基于master 创建预发布 tag
+	pre -> prod >> 预发环境 tag 已经是prod的可用分支
+
+urgentSprint
+    状态
+        1.新建
+        2.dev
+        4.pre
+        5.prod
+	事件
+	新建 -> dev >> 执行dev 下配置的多个任务，（基于new_tag创建分支）
+	dev -> pre >> 基于dev分支创建 hotfix_new_tag,预发环境就发布这个tag
+	pre -> prod >> 预发环境 tag ，mr代码到 master分支
