@@ -10,8 +10,8 @@ import lombok.Getter;
 @Getter
 public enum OrderStatusChangeEvent {
     PAYED("支付"),
-    DELIVERY("发送"),
-    RECEIVED("接收");
+    DELIVERY("发货"),
+    RECEIVED("收获");
 
     //状态描述
     private String desc;

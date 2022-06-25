@@ -4,7 +4,12 @@ import com.code.line.system.constant.OrderStatus;
 import com.code.line.system.constant.OrderStatusChangeEvent;
 import com.code.line.system.model.Order;
 import com.code.line.system.state.machine.OrderStateMachineDao;
+import com.code.line.system.state.machine.action.OrderDeliverAction;
+import com.code.line.system.state.machine.action.OrderPayAction;
+import com.code.line.system.state.machine.action.OrderReceiveAction;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachine;
@@ -36,18 +41,26 @@ public class OrderStateMachineConfig extends EnumStateMachineConfigurerAdapter<O
      */
     @Override
     public void configure(StateMachineStateConfigurer<OrderStatus, OrderStatusChangeEvent> states) throws Exception {
-        states.withStates()
+        states
+                .withStates()
                 .initial(OrderStatus.WAIT_PAYMAENT)
                 .states(EnumSet.allOf(OrderStatus.class));
     }
+
+    @Autowired
+    private OrderPayAction payAction;
+    @Autowired
+    private OrderDeliverAction deliverAction;
+    @Autowired
+    private OrderReceiveAction orderReceiveAction;
 
     @Override
     public void configure(StateMachineTransitionConfigurer<OrderStatus, OrderStatusChangeEvent> transitions)
             throws Exception {
         transitions
-                .withExternal().source(OrderStatus.WAIT_PAYMAENT).target(OrderStatus.WAIT_DELIVER).event(OrderStatusChangeEvent.PAYED).and()
-                .withExternal().source(OrderStatus.WAIT_DELIVER).target(OrderStatus.WAIT_RECEIVE).event(OrderStatusChangeEvent.DELIVERY).and()
-                .withExternal().source(OrderStatus.WAIT_RECEIVE).target(OrderStatus.FINISH).event(OrderStatusChangeEvent.RECEIVED);
+                .withExternal().source(OrderStatus.WAIT_PAYMAENT).target(OrderStatus.WAIT_DELIVER).event(OrderStatusChangeEvent.PAYED).action(payAction).and()
+                .withExternal().source(OrderStatus.WAIT_DELIVER).target(OrderStatus.WAIT_RECEIVE).event(OrderStatusChangeEvent.DELIVERY).action(deliverAction).and()
+                .withExternal().source(OrderStatus.WAIT_RECEIVE).target(OrderStatus.FINISH).event(OrderStatusChangeEvent.RECEIVED).action(orderReceiveAction);
     }
 
     @Bean

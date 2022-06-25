@@ -24,21 +24,27 @@ public class OrderAnnotaionStateMachineLinstener {
     @OnTransition(source = "WAIT_PAYMAENT",target = "WAIT_DELIVER")
     public boolean payTransition(Message<OrderStatusChangeEvent> message){
         Order order = (Order)message.getHeaders().get("order");
-        log.info("触发支付请求 order={}", JSON.toJSONString(order));
+        OrderStatusChangeEvent payload = message.getPayload();
+        log.info("监听到触发支付请求 order={}", JSON.toJSONString(order));
+        log.info("---- ---- ---- ---- ---- ---- ---- ---- ");
         return true;
     }
 
     @OnTransition(source = "WAIT_DELIVER",target = "WAIT_RECEIVE")
     public boolean deliverTransition(Message<OrderStatusChangeEvent> message){
         Order order = (Order)message.getHeaders().get("order");
-        log.info("触发发货请求 order={}", JSON.toJSONString(order));
+        OrderStatusChangeEvent payload = message.getPayload();
+        log.info("监听到触发发货请求 order={}", JSON.toJSONString(order));
+        log.info("---- ---- ---- ---- ---- ---- ---- ---- ");
         return true;
     }
 
     @OnTransition(source = "WAIT_RECEIVE",target = "FINISH")
     public boolean receiveTransition(Message<OrderStatusChangeEvent> message){
         Order order = (Order)message.getHeaders().get("order");
-        log.info("触发收获请求 order={}", JSON.toJSONString(order));
+        OrderStatusChangeEvent payload = message.getPayload();
+        log.info("监听到触发收获请求 order={}", JSON.toJSONString(order));
+        log.info("---- ---- ---- ---- ---- ---- ---- ---- ");
         return true;
     }
 
