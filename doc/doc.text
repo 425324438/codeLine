@@ -1,11 +1,20 @@
 Sprint
 	状态
-		1.新建
+		1.new
 		2.dev
 		3.test
 		4.pre
 		5.prod
-	事件
+	事件event
+	    每个事件执行的是多个子任务
+	    1.CREATE_PRINT  创建Sprint
+	    2.DEV_TO_TEST   dev分支的代码merge到test环境
+	    3.TEST_TO_PRE
+	    4.PRE_TO_PROD
+
+
+
+	事件触发机制
 	新建 -> dev >> 执行dev 下配置的多个任务，（基于new_tag创建分支）
 	dev -> test >> dev 分支合并到 master
 	test -> pre >> 基于master 创建预发布 tag
@@ -13,11 +22,14 @@ Sprint
 
 urgentSprint
     状态
-        1.新建
+        1.new
         2.dev
         4.pre
         5.prod
-	事件
+	事件event
 	新建 -> dev >> 执行dev 下配置的多个任务，（基于new_tag创建分支）
 	dev -> pre >> 基于dev分支创建 hotfix_new_tag,预发环境就发布这个tag
 	pre -> prod >> 预发环境 tag ，mr代码到 master分支
+
+# 参考文档
+https://blog.csdn.net/firebat/article/details/90178339
