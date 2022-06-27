@@ -28,10 +28,19 @@ public class GitLabTools {
     private GitLabTools (){};
 
 
+    /**
+     * 创建分支
+     * @param projectPath gitLab中项目的访问地址webUrl 例：https://gitlab.com/425324438/test
+     * @param branchName  新分支名称
+     * @param ref         基于某个分支/tag创建
+     * @return
+     */
     public Branch createBranch(String projectPath,String branchName, String ref){
         RepositoryApi repositoryApi = gitLabApi.getRepositoryApi();
         try {
-            return repositoryApi.createBranch(projectPath, branchName, ref);
+            String[] split = projectPath.split("/");
+            String projectUrl = split[split.length-2] +"/"+ split[split.length-1];
+            return repositoryApi.createBranch(projectUrl, branchName, ref);
         } catch (GitLabApiException e) {
             log.info("gitLab createBranch Exception, projectPath={},branchName={},ref={}",projectPath,branchName,ref);
             log.info("gitLab createBranch Exception, errMsg={},e={}",e.getMessage(),e);
