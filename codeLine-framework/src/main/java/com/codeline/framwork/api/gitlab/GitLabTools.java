@@ -99,12 +99,12 @@ public class GitLabTools {
         }
     }
 
-    /**
-     * 创建release
-     * @param projectPath 项目路径
-     * @param tagName   Tag名称
-     * @param releaseNotes 说明，支持MarkDown形式
-     */
+    ///**
+    // * 创建release
+    // * @param projectPath 项目路径
+    // * @param tagName   Tag名称
+    // * @param releaseNotes 说明，支持MarkDown形式
+    // */
     //public Release createRelease(String projectPath, String tagName, String releaseNotes){
     //    TagsApi tagsApi = gitLabApi.getTagsApi();
     //    try {
