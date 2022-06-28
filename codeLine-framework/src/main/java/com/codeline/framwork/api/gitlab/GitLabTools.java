@@ -1,5 +1,6 @@
 package com.codeline.framwork.api.gitlab;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.codeline.framwork.exception.SysRunException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,6 @@ import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.Tag;
-import org.springframework.stereotype.Component;
 
 /**
  * @author: syl
@@ -38,9 +38,7 @@ public class GitLabTools {
     public Branch createBranch(String projectPath,String branchName, String ref){
         RepositoryApi repositoryApi = gitLabApi.getRepositoryApi();
         try {
-            String[] split = projectPath.split("/");
-            String projectUrl = split[split.length-2] +"/"+ split[split.length-1];
-            return repositoryApi.createBranch(projectUrl, branchName, ref);
+            return repositoryApi.createBranch(getProjectUrl(projectPath), branchName, ref);
         } catch (GitLabApiException e) {
             log.info("gitLab createBranch Exception, projectPath={},branchName={},ref={}",projectPath,branchName,ref);
             log.info("gitLab createBranch Exception, errMsg={},e={}",e.getMessage(),e);
@@ -59,7 +57,7 @@ public class GitLabTools {
     public MergeRequest createMerge(String projectPath, String sourceBranch, String targetBranch, String title, String description){
         MergeRequestApi mergeRequestApi = gitLabApi.getMergeRequestApi();
         try {
-            return mergeRequestApi.createMergeRequest(projectPath, sourceBranch, targetBranch,
+            return mergeRequestApi.createMergeRequest(getProjectUrl(projectPath), sourceBranch, targetBranch,
                     title, description, null);
         } catch (GitLabApiException e) {
             log.info("gitLab createMerge Exception, projectPath={},sourceBranch={},targetBranch={},title={},description={}",projectPath,sourceBranch,targetBranch,title,description);
@@ -76,7 +74,7 @@ public class GitLabTools {
     public MergeRequest approveMergeRequest(String projectPath, Long mergeRequestIid){
         MergeRequestApi mergeRequestApi = gitLabApi.getMergeRequestApi();
         try {
-            return mergeRequestApi.approveMergeRequest(projectPath, mergeRequestIid, "");
+            return mergeRequestApi.approveMergeRequest(getProjectUrl(projectPath), mergeRequestIid, "");
         } catch (GitLabApiException e) {
             log.info("gitLab approveMergeRequest Exception, projectPath={},mergeRequestIid={}",projectPath,mergeRequestIid);
             log.info("gitLab approveMergeRequest Exception, errMsg={},e={}",e.getMessage(),e);
@@ -93,7 +91,7 @@ public class GitLabTools {
     public Tag createTag(String projectPath, String tagName,String ref){
         TagsApi tagsApi = gitLabApi.getTagsApi();
         try {
-            return tagsApi.createTag(projectPath, tagName, ref);
+            return tagsApi.createTag(getProjectUrl(projectPath), tagName, ref);
         } catch (GitLabApiException e) {
             log.info("gitLab createTag Exception, projectPath={},tagName={}, ref={}",projectPath, tagName, ref);
             log.info("gitLab createTag Exception, errMsg={},e={}",e.getMessage(),e);
@@ -107,19 +105,25 @@ public class GitLabTools {
      * @param tagName   Tag名称
      * @param releaseNotes 说明，支持MarkDown形式
      */
-    public Release createRelease(String projectPath, String tagName, String releaseNotes){
-        TagsApi tagsApi = gitLabApi.getTagsApi();
-        try {
-            return tagsApi.createRelease(projectPath, tagName, releaseNotes);
-        } catch (GitLabApiException e) {
-            log.info("gitLab createRelease Exception, projectPath={},tagName={}, releaseNotes={}",projectPath, tagName, releaseNotes);
-            log.info("gitLab createRelease Exception, errMsg={},e={}",e.getMessage(),e);
-            throw new SysRunException(e.getMessage(),e);
-        }
+    //public Release createRelease(String projectPath, String tagName, String releaseNotes){
+    //    TagsApi tagsApi = gitLabApi.getTagsApi();
+    //    try {
+    //        return tagsApi.createRelease(getProjectUrl(projectPath), tagName, releaseNotes);
+    //    } catch (GitLabApiException e) {
+    //        log.info("gitLab createRelease Exception, projectPath={},tagName={}, releaseNotes={}",projectPath, tagName, releaseNotes);
+    //        log.info("gitLab createRelease Exception, errMsg={},e={}",e.getMessage(),e);
+    //        throw new SysRunException(e.getMessage(),e);
+    //    }
+    //}
+
+
+
+    private String getProjectUrl(String projectPath){
+        if (StringUtils.isBlank(projectPath))
+            throw new NullPointerException("projectPath is null");
+        String[] split = projectPath.split("/");
+        return split[split.length-2] +"/"+ split[split.length-1];
     }
-
-
-
 
 
     public static GitLabTools getInstance(String gitLabUrl,String gitLabToken){
