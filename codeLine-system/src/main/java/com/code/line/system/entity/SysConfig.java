@@ -2,6 +2,9 @@ package com.code.line.system.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,6 +21,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="SysConfig对象", description="系统配置表")
+@TableName(value = "sys_config")
 public class SysConfig implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,13 +30,13 @@ public class SysConfig implements Serializable {
       private Long id;
 
     @ApiModelProperty(value = "key")
-    private String key;
+    private String keyStr;
 
     @ApiModelProperty(value = "value")
-    private String value;
+    private String valueStr;
 
     @ApiModelProperty(value = "说明")
-    private String describe;
+    private String describeStr;
 
     @ApiModelProperty(value = "创建者")
     private String creator;

@@ -1,13 +1,12 @@
 package com.codeline.framwork.api.gitlab;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.codeline.framwork.exception.SysRunException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.gitlab4j.api.*;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.MergeRequest;
-import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.Tag;
 
 /**
@@ -120,6 +119,7 @@ public class GitLabTools {
 
     private String getProjectUrl(String projectPath){
         if (StringUtils.isBlank(projectPath))
+
             throw new NullPointerException("projectPath is null");
         String[] split = projectPath.split("/");
         return split[split.length-2] +"/"+ split[split.length-1];
