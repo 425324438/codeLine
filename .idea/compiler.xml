@@ -16,7 +16,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="codeLine" options="-parameters" />
+      <module name="codeLine" options="" />
       <module name="codeLine-framwork" options="-parameters" />
       <module name="codeLine-system" options="-parameters" />
       <module name="core" options="-parameters" />
