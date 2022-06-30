@@ -30,14 +30,14 @@ public class ProjectController {
         return null;
     }
 
-    @GetMapping("${id}")
+    @GetMapping("#{id}")
     public ResultApi<TProject> getById(@PathVariable("id") Long id){
         TProject project = projectService.getById(id);
         return ResultApi.success(project,"成功");
     }
 
-    @GetMapping("${group}")
-    public ResultApi<List<TProject>> getByGroup(@PathVariable("${group}") String group){
+    @GetMapping("#{group}")
+    public ResultApi<List<TProject>> getByGroup(@PathVariable("group") String group){
         List<TProject> projectList = projectService.getByGroup(group);
         return ResultApi.success(projectList,"成功");
     }
