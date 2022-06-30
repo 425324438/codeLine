@@ -119,7 +119,6 @@ public class GitLabTools {
 
     private String getProjectUrl(String projectPath){
         if (StringUtils.isBlank(projectPath))
-
             throw new NullPointerException("projectPath is null");
         String[] split = projectPath.split("/");
         return split[split.length-2] +"/"+ split[split.length-1];

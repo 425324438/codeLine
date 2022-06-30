@@ -65,7 +65,7 @@ public class MysqlGenerator {
         //strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
         // 写于父类中的公共字段
         //strategy.setSuperEntityColumns("id");
-        String tableName = "sys_config,t_sprint,t_sprint_project,t_envent_subtask_config,t_sprint_templet";
+        String tableName = "t_project";
         strategy.setInclude(tableName.split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
