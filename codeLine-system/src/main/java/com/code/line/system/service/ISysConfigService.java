@@ -2,6 +2,10 @@ package com.code.line.system.service;
 
 import com.code.line.system.entity.SysConfig;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.codeline.framwork.request.BaseConfigBo;
+import com.codeline.framwork.response.ApiResult;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -13,4 +17,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISysConfigService extends IService<SysConfig> {
 
+    ApiResult saveBaseConfig(BaseConfigBo baseConfigBo);
+
+    ApiResult<BaseConfigBo> getGitLabBaseConfig();
+
+    boolean saveConfig( Map<String,String> config);
 }
