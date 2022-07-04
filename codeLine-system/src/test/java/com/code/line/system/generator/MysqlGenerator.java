@@ -1,6 +1,7 @@
 package com.code.line.system.generator;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.mysql.cj.xdevapi.Column;
@@ -29,9 +31,24 @@ public class MysqlGenerator {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setAuthor("暮色听雨");
         gc.setOpen(false);
-         gc.setSwagger2(true); //实体属性 Swagger2 注解
+
+        //是否支持AR模式
+        gc.setActiveRecord(true)
+                .setAuthor("暮色听雨") //作者
+                .setFileOverride(true)//是否文件覆盖，如果多次
+                .setIdType(IdType.ASSIGN_ID) //主键策略
+                .setBaseResultMap(true)
+                .setBaseColumnList(true)
+                .setEntityName("%sEntity")
+                .setMapperName("%sMapper")
+                .setEnableCache(true)
+                .setXmlName("%sMapper")
+                .setServiceImplName("%sServiceImpl")
+                .setSwagger2(true)
+                .setDateType(DateType.ONLY_DATE);
+
+
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
@@ -47,13 +64,6 @@ public class MysqlGenerator {
         pc.setParent("com.code.line.system");
         mpg.setPackageInfo(pc);
 
-        // 自定义配置
-        InjectionConfig cfg = new InjectionConfig() {
-            @Override
-            public void initMap() {
-                // to do nothing
-            }
-        };
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
@@ -61,16 +71,12 @@ public class MysqlGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
-        // 公共父类
-        //strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
-        // 写于父类中的公共字段
-        //strategy.setSuperEntityColumns("id");
+
         String tableName = "t_project";
         strategy.setInclude(tableName.split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
         mpg.setStrategy(strategy);
-        //mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
     }
 }
