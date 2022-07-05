@@ -1,5 +1,6 @@
 package com.codeline.framwork.request.search;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -9,4 +10,13 @@ import lombok.Data;
  */
 @Data
 public class ProjectSearch {
+
+    @ApiModelProperty("group")
+    private String group;
+
+    @ApiModelProperty("项目名称")
+    private String name;
+
+    @ApiModelProperty("根据git地址模糊查询")
+    private String likeGitUrl;
 }
