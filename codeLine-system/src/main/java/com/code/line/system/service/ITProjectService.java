@@ -24,4 +24,6 @@ public interface ITProjectService extends IService<TProject> {
 
     ApiResult editProject(UpdateProjectBo updateProjectBo);
 
+    ApiResult delProject(Long id);
+
 }

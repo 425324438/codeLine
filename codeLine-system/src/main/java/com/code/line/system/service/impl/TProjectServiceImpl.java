@@ -68,4 +68,20 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
         }
         return ApiResult.error("修改失败，数据保存失败");
     }
+
+    @Override
+    public ApiResult delProject(Long id) {
+        if (id == null){
+            return ApiResult.error("id不能为空");
+        }
+        LambdaUpdateWrapper<TProject> delWrapper = Wrappers.lambdaUpdate();
+        delWrapper.eq(TProject::getId, id);
+        delWrapper.set(TProject::getStatus,DbStatus.DELETE.getCode());
+
+        boolean update = update(delWrapper);
+        if (update){
+            return ApiResult.success();
+        }
+        return ApiResult.error("删除失败，数据保存失败");
+    }
 }

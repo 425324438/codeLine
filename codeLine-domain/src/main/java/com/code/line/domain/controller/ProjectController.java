@@ -53,5 +53,11 @@ public class ProjectController {
         return ApiResult.success(projectList,"成功");
     }
 
+    @DeleteMapping("#{id}")
+    @ApiOperation("删除项目")
+    public ApiResult delProject(@PathVariable("id") Long id){
+        return projectService.delProject(id);
+    }
+
 
 }
