@@ -7,7 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.gitlab4j.api.*;
 import org.gitlab4j.api.models.Branch;
 import org.gitlab4j.api.models.MergeRequest;
+import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.Tag;
+
+import java.util.List;
 
 /**
  * @author: syl
@@ -46,7 +49,7 @@ public class GitLabTools {
     }
 
     /**
-     * 创建mr
+     * 创建MR
      * @param projectPath 项目路径
      * @param sourceBranch 源分支
      * @param targetBranch 目标分支
@@ -66,14 +69,14 @@ public class GitLabTools {
     }
 
     /**
-     * 批准合并请求
+     * 合并MR请求
      * @param projectPath 项目路径
      * @param mergeRequestIid id
      */
-    public MergeRequest approveMergeRequest(String projectPath, Long mergeRequestIid){
+    public MergeRequest acceptMergeRequest(String projectPath, Long mergeRequestIid){
         MergeRequestApi mergeRequestApi = gitLabApi.getMergeRequestApi();
         try {
-            return mergeRequestApi.approveMergeRequest(getProjectUrl(projectPath), mergeRequestIid, "");
+            return mergeRequestApi.acceptMergeRequest(getProjectUrl(projectPath), mergeRequestIid);
         } catch (GitLabApiException e) {
             log.info("gitLab approveMergeRequest Exception, projectPath={},mergeRequestIid={}",projectPath,mergeRequestIid);
             log.info("gitLab approveMergeRequest Exception, errMsg={},e={}",e.getMessage(),e);
@@ -98,22 +101,38 @@ public class GitLabTools {
         }
     }
 
-    ///**
-    // * 创建release
-    // * @param projectPath 项目路径
-    // * @param tagName   Tag名称
-    // * @param releaseNotes 说明，支持MarkDown形式
-    // */
-    //public Release createRelease(String projectPath, String tagName, String releaseNotes){
-    //    TagsApi tagsApi = gitLabApi.getTagsApi();
-    //    try {
-    //        return tagsApi.createRelease(getProjectUrl(projectPath), tagName, releaseNotes);
-    //    } catch (GitLabApiException e) {
-    //        log.info("gitLab createRelease Exception, projectPath={},tagName={}, releaseNotes={}",projectPath, tagName, releaseNotes);
-    //        log.info("gitLab createRelease Exception, errMsg={},e={}",e.getMessage(),e);
-    //        throw new SysRunException(e.getMessage(),e);
-    //    }
-    //}
+    /**
+     * 查询项目的 Tags
+     * @param projectPath 项目路径
+     * @return
+     */
+    public List<Tag> tagList(String projectPath){
+        TagsApi tagsApi = gitLabApi.getTagsApi();
+        try {
+            return tagsApi.getTags(getProjectUrl(projectPath));
+        } catch (GitLabApiException e) {
+            log.info("gitLab tagList Exception, projectPath={}",projectPath);
+            log.info("gitLab tagList Exception, errMsg={},e={}",e.getMessage(),e);
+            throw new SysRunException(e.getMessage(),e);
+        }
+    }
+
+    /**
+     * 创建release
+     * @param projectPath 项目路径
+     * @param tagName   Tag名称
+     * @param releaseNotes 说明，支持MarkDown形式
+     */
+    public Release createRelease(String projectPath, String tagName, String releaseNotes){
+        TagsApi tagsApi = gitLabApi.getTagsApi();
+        try {
+            return tagsApi.createRelease(getProjectUrl(projectPath), tagName, releaseNotes);
+        } catch (GitLabApiException e) {
+            log.info("gitLab createRelease Exception, projectPath={},tagName={}, releaseNotes={}",projectPath, tagName, releaseNotes);
+            log.info("gitLab createRelease Exception, errMsg={},e={}",e.getMessage(),e);
+            throw new SysRunException(e.getMessage(),e);
+        }
+    }
 
 
 

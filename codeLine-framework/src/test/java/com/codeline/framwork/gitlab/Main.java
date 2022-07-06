@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.codeline.framwork.api.gitlab.GitLabTools;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.MergeRequest;
 import org.gitlab4j.api.models.Release;
 import org.gitlab4j.api.models.Tag;
 
@@ -14,18 +15,30 @@ import org.gitlab4j.api.models.Tag;
  */
 public class Main {
 
-    private static String token = "";
-    private static String url = "";
+    private static String token = "glpat-C28EvDXB9zXNHosy9yFt";
+    private static String url = "https://gitlab.com/";
 
-    static String gitUrl = "";
+    static String gitUrl = "https://gitlab.com/codeline1/codelineTest";
     static GitLabTools instance = GitLabTools.getInstance(url, token);
 
     public static void main(String[] args) throws GitLabApiException {
-        Branch master = instance.createBranch(gitUrl, "dev1.1.7", "tag_1.1.6");
-        System.out.println("Branch success ="+ JSON.toJSONString(master));
+        //Branch main = instance.createBranch(gitUrl, "dev1.0", "main");
+        //System.out.println("createBranch success ="+ JSON.toJSONString(main));
 
-        //Tag master = instance.createTag(gitUrl, "tag_1.1.6", "master");
-        //System.out.println("Tag success ="+ JSON.toJSONString(master));
+        //MergeRequest merge = instance.createMerge(gitUrl, "dev1.0", "main", "dev1.0 merge test", "merge test");
+        //System.out.println("createMerge success ="+ JSON.toJSONString(merge));
+        //System.out.println("createMerge success MR_ID="+ merge.getIid());
+
+
+        //MergeRequest mergeRequest = instance.acceptMergeRequest(gitUrl, 1l);
+        //System.out.println("acceptMergeRequest success ="+ JSON.toJSONString(mergeRequest));
+
+
+        //Tag tag = instance.createTag(gitUrl, "tag_1.1", "main");
+        //System.out.println("createTag success ="+ JSON.toJSONString(tag));
+
+        Release release = instance.createRelease(gitUrl, "tag_1.1", "release_1.2");
+        System.out.println("createRelease success ="+ JSON.toJSONString(release));
 
     }
 }
