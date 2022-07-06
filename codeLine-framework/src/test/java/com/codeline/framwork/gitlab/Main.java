@@ -2,11 +2,12 @@ package com.codeline.framwork.gitlab;
 
 import com.alibaba.fastjson.JSON;
 import com.codeline.framwork.api.gitlab.GitLabTools;
+import com.codeline.framwork.exception.SysRunException;
+import org.apache.commons.lang3.StringUtils;
+import org.gitlab4j.api.GitLabApi;
 import org.gitlab4j.api.GitLabApiException;
-import org.gitlab4j.api.models.Branch;
-import org.gitlab4j.api.models.MergeRequest;
-import org.gitlab4j.api.models.Release;
-import org.gitlab4j.api.models.Tag;
+import org.gitlab4j.api.ReleasesApi;
+import org.gitlab4j.api.models.*;
 
 /**
  * @author: syl
@@ -21,7 +22,7 @@ public class Main {
     static String gitUrl = "https://gitlab.com/codeline1/codelineTest";
     static GitLabTools instance = GitLabTools.getInstance(url, token);
 
-    public static void main(String[] args) throws GitLabApiException {
+    public static void main(String[] args) throws GitLabApiException, SysRunException {
         //Branch main = instance.createBranch(gitUrl, "dev1.0", "main");
         //System.out.println("createBranch success ="+ JSON.toJSONString(main));
 
@@ -37,8 +38,9 @@ public class Main {
         //Tag tag = instance.createTag(gitUrl, "tag_1.1", "main");
         //System.out.println("createTag success ="+ JSON.toJSONString(tag));
 
-        Release release = instance.createRelease(gitUrl, "tag_1.1", "release_1.2");
+        Release release = instance.createRelease(gitUrl, "tag_1.2", "release_1.3","备注");
         System.out.println("createRelease success ="+ JSON.toJSONString(release));
 
     }
+
 }

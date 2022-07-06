@@ -1,14 +1,12 @@
 package com.codeline.framwork.api.gitlab;
 
 import com.codeline.framwork.exception.SysRunException;
+import jdk.nashorn.internal.ir.ReturnNode;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.gitlab4j.api.*;
-import org.gitlab4j.api.models.Branch;
-import org.gitlab4j.api.models.MergeRequest;
-import org.gitlab4j.api.models.Release;
-import org.gitlab4j.api.models.Tag;
+import org.gitlab4j.api.models.*;
 
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class GitLabTools {
      * @param ref         基于某个分支/tag创建
      * @return
      */
-    public Branch createBranch(String projectPath,String branchName, String ref){
+    public Branch createBranch(String projectPath,String branchName, String ref) throws SysRunException {
         RepositoryApi repositoryApi = gitLabApi.getRepositoryApi();
         try {
             return repositoryApi.createBranch(getProjectUrl(projectPath), branchName, ref);
@@ -56,7 +54,8 @@ public class GitLabTools {
      * @param title 标题
      * @param description   描述
      */
-    public MergeRequest createMerge(String projectPath, String sourceBranch, String targetBranch, String title, String description){
+    public MergeRequest createMerge(String projectPath, String sourceBranch, String targetBranch, String title, String description)
+            throws SysRunException {
         MergeRequestApi mergeRequestApi = gitLabApi.getMergeRequestApi();
         try {
             return mergeRequestApi.createMergeRequest(getProjectUrl(projectPath), sourceBranch, targetBranch,
@@ -73,7 +72,7 @@ public class GitLabTools {
      * @param projectPath 项目路径
      * @param mergeRequestIid id
      */
-    public MergeRequest acceptMergeRequest(String projectPath, Long mergeRequestIid){
+    public MergeRequest acceptMergeRequest(String projectPath, Long mergeRequestIid) throws SysRunException {
         MergeRequestApi mergeRequestApi = gitLabApi.getMergeRequestApi();
         try {
             return mergeRequestApi.acceptMergeRequest(getProjectUrl(projectPath), mergeRequestIid);
@@ -90,7 +89,7 @@ public class GitLabTools {
      * @param tagName   名称，一般都是版本号
      * @param ref   来源，一般是指某一个分支
      */
-    public Tag createTag(String projectPath, String tagName,String ref){
+    public Tag createTag(String projectPath, String tagName,String ref) throws SysRunException {
         TagsApi tagsApi = gitLabApi.getTagsApi();
         try {
             return tagsApi.createTag(getProjectUrl(projectPath), tagName, ref);
@@ -106,7 +105,7 @@ public class GitLabTools {
      * @param projectPath 项目路径
      * @return
      */
-    public List<Tag> tagList(String projectPath){
+    public List<Tag> tagList(String projectPath) throws SysRunException {
         TagsApi tagsApi = gitLabApi.getTagsApi();
         try {
             return tagsApi.getTags(getProjectUrl(projectPath));
@@ -121,19 +120,25 @@ public class GitLabTools {
      * 创建release
      * @param projectPath 项目路径
      * @param tagName   Tag名称
-     * @param releaseNotes 说明，支持MarkDown形式
+     * @param releaseName 说明，支持MarkDown形式
+     * @exception  同一个Tag只能创建一次Release，如果重复创建则会抛出异常：Release already exists
      */
-    public Release createRelease(String projectPath, String tagName, String releaseNotes){
-        TagsApi tagsApi = gitLabApi.getTagsApi();
+    public Release createRelease(String projectPath, String tagName, String releaseName,String description)
+            throws SysRunException {
+        ReleasesApi releasesApi = gitLabApi.getReleasesApi();
         try {
-            return tagsApi.createRelease(getProjectUrl(projectPath), tagName, releaseNotes);
+            ReleaseParams releaseParams = new ReleaseParams();
+            releaseParams.setName(releaseName);
+            releaseParams.setTagName(tagName);
+            releaseParams.setDescription(description);
+
+            return releasesApi.createRelease(getProjectUrl(projectPath), releaseParams);
         } catch (GitLabApiException e) {
-            log.info("gitLab createRelease Exception, projectPath={},tagName={}, releaseNotes={}",projectPath, tagName, releaseNotes);
+            log.info("gitLab createRelease Exception, projectPath={},tagName={}, releaseName={}",projectPath, tagName, releaseName);
             log.info("gitLab createRelease Exception, errMsg={},e={}",e.getMessage(),e);
             throw new SysRunException(e.getMessage(),e);
         }
     }
-
 
 
     private String getProjectUrl(String projectPath){
