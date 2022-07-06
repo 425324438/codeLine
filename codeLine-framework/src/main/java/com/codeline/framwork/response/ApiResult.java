@@ -20,6 +20,14 @@ public class ApiResult<T> {
     private static int success = 0;
     private static int error = -1;
 
+    public boolean isErr(){
+        return code.equals(error);
+    }
+
+    public boolean isSuccess(){
+        return code.equals(success);
+    }
+
     public static ApiResult result(boolean res){
         if (res){
             return ApiResult.success();

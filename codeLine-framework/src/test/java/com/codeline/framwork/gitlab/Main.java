@@ -2,11 +2,8 @@ package com.codeline.framwork.gitlab;
 
 import com.alibaba.fastjson.JSON;
 import com.codeline.framwork.api.gitlab.GitLabTools;
-import com.codeline.framwork.exception.SysRunException;
-import org.apache.commons.lang3.StringUtils;
-import org.gitlab4j.api.GitLabApi;
+import com.codeline.framwork.exception.SysException;
 import org.gitlab4j.api.GitLabApiException;
-import org.gitlab4j.api.ReleasesApi;
 import org.gitlab4j.api.models.*;
 
 /**
@@ -22,7 +19,7 @@ public class Main {
     static String gitUrl = "https://gitlab.com/codeline1/codelineTest";
     static GitLabTools instance = GitLabTools.getInstance(url, token);
 
-    public static void main(String[] args) throws GitLabApiException, SysRunException {
+    public static void main(String[] args) throws GitLabApiException, SysException {
         //Branch main = instance.createBranch(gitUrl, "dev1.0", "main");
         //System.out.println("createBranch success ="+ JSON.toJSONString(main));
 
