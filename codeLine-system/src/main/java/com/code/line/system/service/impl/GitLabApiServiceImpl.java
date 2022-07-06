@@ -1,6 +1,6 @@
 package com.code.line.system.service.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.code.line.system.service.GitApiService;
 import com.code.line.system.service.ISysConfigService;
 import com.codeline.framwork.api.gitlab.GitLabTools;
 import com.codeline.framwork.constant.GitStorageType;
@@ -8,7 +8,6 @@ import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.request.BaseConfigBo;
 import com.codeline.framwork.response.ApiResult;
 import org.gitlab4j.api.GitLabApiException;
-import org.gitlab4j.api.models.Release;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @Description:
  */
 @Service
-public class GitLabApiServiceImpl implements GitApiService{
+public class GitLabApiServiceImpl implements GitApiService {
 
     private static GitLabTools instance = null;
 

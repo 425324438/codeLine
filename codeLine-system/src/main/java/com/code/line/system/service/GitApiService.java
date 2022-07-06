@@ -1,4 +1,4 @@
-package com.code.line.system.service.impl;
+package com.code.line.system.service;
 
 import com.codeline.framwork.constant.GitStorageType;
 
