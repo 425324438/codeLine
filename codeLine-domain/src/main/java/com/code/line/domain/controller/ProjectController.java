@@ -47,6 +47,13 @@ public class ProjectController {
         return ApiResult.success(project,"成功");
     }
 
+    /*
+        查看项目git分支
+        查看Tag列表
+        查看Release列表
+        查看OPEN状态的MR列表
+     */
+
     @GetMapping("#{group}")
     @ApiOperation("根据应用group查询")
     public ApiResult<List<TProject>> getByGroup(@PathVariable("group") String group){
