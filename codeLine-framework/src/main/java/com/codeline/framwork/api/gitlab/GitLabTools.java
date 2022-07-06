@@ -47,6 +47,40 @@ public class GitLabTools {
     }
 
     /**
+     * 查询项目的分支列表
+     * @param projectPath
+     * @return
+     * @throws SysRunException
+     */
+    public List<Branch> getBranchList(String projectPath) throws SysRunException {
+        RepositoryApi repositoryApi = gitLabApi.getRepositoryApi();
+        try {
+            return repositoryApi.getBranches(getProjectUrl(projectPath));
+        } catch (GitLabApiException e) {
+            log.info("gitLab getBranchList Exception, projectPath={}",projectPath);
+            log.info("gitLab getBranchList Exception, errMsg={},e={}",e.getMessage(),e);
+            throw new SysRunException(e.getMessage(),e);
+        }
+    }
+
+    /**
+     * 查询 OPEN 状态的 MR
+     * @param projectPath
+     * @return
+     * @throws SysRunException
+     */
+    public List<MergeRequest> getMergeRequestList(String projectPath) throws SysRunException {
+        MergeRequestApi mergeRequestApi = gitLabApi.getMergeRequestApi();
+        try {
+            return mergeRequestApi.getMergeRequests(getProjectUrl(projectPath), Constants.MergeRequestState.OPENED);
+        } catch (GitLabApiException e) {
+            log.info("gitLab getMergeRequestList Exception, projectPath={}",projectPath);
+            log.info("gitLab getMergeRequestList Exception, errMsg={},e={}",e.getMessage(),e);
+            throw new SysRunException(e.getMessage(),e);
+        }
+    }
+
+    /**
      * 创建MR
      * @param projectPath 项目路径
      * @param sourceBranch 源分支
@@ -66,6 +100,8 @@ public class GitLabTools {
             throw new SysRunException(e.getMessage(),e);
         }
     }
+
+
 
     /**
      * 合并MR请求
@@ -121,7 +157,7 @@ public class GitLabTools {
      * @param projectPath 项目路径
      * @param tagName   Tag名称
      * @param releaseName 说明，支持MarkDown形式
-     * @exception  同一个Tag只能创建一次Release，如果重复创建则会抛出异常：Release already exists
+     * @exception SysRunException 同一个Tag只能创建一次Release，如果重复创建则会抛出异常：Release already exists
      */
     public Release createRelease(String projectPath, String tagName, String releaseName,String description)
             throws SysRunException {
@@ -136,6 +172,23 @@ public class GitLabTools {
         } catch (GitLabApiException e) {
             log.info("gitLab createRelease Exception, projectPath={},tagName={}, releaseName={}",projectPath, tagName, releaseName);
             log.info("gitLab createRelease Exception, errMsg={},e={}",e.getMessage(),e);
+            throw new SysRunException(e.getMessage(),e);
+        }
+    }
+
+    /**
+     * 根据项目查询Release列表
+     * @param projectPath
+     * @return
+     * @throws SysRunException
+     */
+    public List<Release> getReleaseList(String projectPath) throws SysRunException {
+        ReleasesApi releasesApi = gitLabApi.getReleasesApi();
+        try {
+            return releasesApi.getReleases(getProjectUrl(projectPath));
+        } catch (GitLabApiException e){
+            log.info("gitLab getReleaseList Exception, projectPath={}",projectPath);
+            log.info("gitLab getReleaseList Exception, errMsg={},e={}",e.getMessage(),e);
             throw new SysRunException(e.getMessage(),e);
         }
     }
