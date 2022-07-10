@@ -35,14 +35,15 @@ urgentSprint
 https://blog.csdn.net/firebat/article/details/90178339
 
 
+{
+  "dev":[
+    stage1:{exe_status:未开始，执行中，已结束,name:"创建分支",description:"dev环境新建，创建dev分支"，exe_result:"执行结果"},
+    stage2:{exe_status:未开始，执行中，已结束,name:"CrreateMerge",description:"创建mergeRequest到master分支"，exe_result:"执行结果"}
+    stage3:{exe_status:未开始，执行中，已结束,name:"AcceptMerge",description:"尝试合并MergeRequest"，exe_result:"执行结果，如果执行成功，
+        则Sprint进入Test环节，如果失败，则在页面上提示哪些项目的自动合并执行失败了，并给出MR访问的URl，WebHook监听这些MR，一旦执行合并，则可以将
+        Sprint进入Test环节"}
+  ],
+  "test":[
 
-sudo docker run --detach \
-  --hostname gitlab.example.com \
-  --publish 4433:443 --publish 8080:80 --publish 22:22 \
-  --name gitlab \
-  --restart always \
-  --volume $GITLAB_HOME/config:/etc/gitlab \
-  --volume $GITLAB_HOME/logs:/var/log/gitlab \
-  --volume $GITLAB_HOME/data:/var/opt/gitlab \
-  --shm-size 256m \
-  registry.gitlab.cn/omnibus/gitlab-jh:latest
+  ]
+}
