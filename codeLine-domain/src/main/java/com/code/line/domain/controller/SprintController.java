@@ -1,7 +1,11 @@
 package com.code.line.domain.controller;
 
+import com.code.line.system.service.ITSprintService;
+import com.codeline.framwork.request.CreateSprintBo;
 import com.codeline.framwork.request.search.SprintSearch;
 import com.codeline.framwork.response.ApiResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Path;
@@ -15,13 +19,15 @@ import javax.ws.rs.Path;
 @RequestMapping("/sprint")
 public class SprintController {
 
+    @Autowired
+    private ITSprintService sprintService;
+
     /**
      * 创建Sprint
      */
     @PutMapping()
-    public ApiResult create(){
-
-        return null;
+    public ApiResult create(@RequestBody @Validated CreateSprintBo createSprintBo){
+        return sprintService.create(createSprintBo);
     }
 
 

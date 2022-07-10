@@ -4,6 +4,8 @@ import com.code.line.system.entity.TSprint;
 import com.code.line.system.mapper.TSprintMapper;
 import com.code.line.system.service.ITSprintService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.codeline.framwork.request.CreateSprintBo;
+import com.codeline.framwork.response.ApiResult;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class TSprintServiceImpl extends ServiceImpl<TSprintMapper, TSprint> implements ITSprintService {
 
+    @Override
+    public ApiResult create(CreateSprintBo createSprintBo) {
+        return null;
+    }
 }

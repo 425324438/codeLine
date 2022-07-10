@@ -2,6 +2,8 @@ package com.code.line.system.service;
 
 import com.code.line.system.entity.TSprint;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.codeline.framwork.request.CreateSprintBo;
+import com.codeline.framwork.response.ApiResult;
 
 /**
  * <p>
@@ -12,5 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-06-28
  */
 public interface ITSprintService extends IService<TSprint> {
+
+    ApiResult create( CreateSprintBo createSprintBo);
 
 }
