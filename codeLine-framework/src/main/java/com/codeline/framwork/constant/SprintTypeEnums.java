@@ -15,7 +15,7 @@ public enum SprintTypeEnums {
 
     private String name;
 
-    SprintTypeEnums(String name) {
+    SprintTypeEnums( String name) {
         this.name = name;
     }
 

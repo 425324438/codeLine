@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,6 +21,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@TableName("t_sprint_project")
 @ApiModel(value="TSprintProject对象", description="迭代内的项目列表")
 public class TSprintProject implements Serializable {
 
@@ -31,6 +33,9 @@ public class TSprintProject implements Serializable {
 
     @ApiModelProperty(value = "迭代id")
     private Long sprintId;
+
+    @ApiModelProperty(value = "项目id")
+    private Long projectId;
 
     @ApiModelProperty(value = "项目git地址")
     private String gitUrl;

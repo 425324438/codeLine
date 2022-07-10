@@ -16,16 +16,19 @@ import java.util.List;
 @Data
 public class CreateSprintBo {
 
+    @NotBlank
     @ApiModelProperty("Sprint名称")
-    @NotNull
     private String name;
 
+    @NotNull
     @ApiModelProperty("迭代类型")
-    private SprintTypeEnums sprintTypeEnums;
+    private SprintTypeEnums sprintType;
 
+    @NotBlank
     @ApiModelProperty("迭代版本号，后端会自动拼接日期（格式=yyyyMMdd）")
-    private String sprintVersion;
+    private String version;
 
+    @NotEmpty
     @ApiModelProperty("迭代项目id集合")
     private List<Long> projectIds;
 

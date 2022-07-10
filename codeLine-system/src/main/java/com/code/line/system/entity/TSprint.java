@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.codeline.framwork.constant.SprintTypeEnums;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,6 +22,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@TableName("t_sprint")
 @ApiModel(value="TSprint对象", description="迭代列表")
 public class TSprint implements Serializable {
 
@@ -34,6 +37,9 @@ public class TSprint implements Serializable {
 
     @ApiModelProperty(value = "迭代模版id")
     private Long sprintTempletId;
+
+    @ApiModelProperty("迭代类型")
+    private String sprintType;
 
     @ApiModelProperty(value = "版本号")
     private String version;
