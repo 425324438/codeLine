@@ -1,6 +1,8 @@
 package com.code.line.system.action;
 
+import com.code.line.system.action.bean.Action;
 import com.codeline.framwork.response.ApiResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.List;
 @Service
 public class ActionEngine {
 
+    @Autowired
+    private List<Action> actionList;
 
     /**
      * TSprintActionListEntity
