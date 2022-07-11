@@ -1,6 +1,6 @@
 package com.code.line.system.service;
 
-import com.code.line.system.entity.TSprintTemplet;
+import com.code.line.system.entity.TSprintTemplate;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.codeline.framwork.constant.SprintTypeEnums;
 
@@ -12,8 +12,8 @@ import com.codeline.framwork.constant.SprintTypeEnums;
  * @author 暮色听雨
  * @since 2022-06-28
  */
-public interface ITSprintTempletService extends IService<TSprintTemplet> {
+public interface ITSprintTemplateService extends IService<TSprintTemplate> {
 
-    TSprintTemplet getByType(SprintTypeEnums sprintType);
+    TSprintTemplate getByType(SprintTypeEnums sprintType);
 
 }

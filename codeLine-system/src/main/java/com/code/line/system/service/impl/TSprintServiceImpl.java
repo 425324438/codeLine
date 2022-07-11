@@ -6,13 +6,13 @@ import com.code.line.system.constant.DbStatus;
 import com.code.line.system.entity.TProject;
 import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintProject;
-import com.code.line.system.entity.TSprintTemplet;
+import com.code.line.system.entity.TSprintTemplate;
 import com.code.line.system.mapper.TSprintMapper;
 import com.code.line.system.service.ITProjectService;
 import com.code.line.system.service.ITSprintProjectService;
 import com.code.line.system.service.ITSprintService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.code.line.system.service.ITSprintTempletService;
+import com.code.line.system.service.ITSprintTemplateService;
 import com.codeline.framwork.request.CreateSprintBo;
 import com.codeline.framwork.response.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class TSprintServiceImpl extends ServiceImpl<TSprintMapper, TSprint> impl
     @Autowired
     private ITSprintProjectService sprintProjectService;
     @Autowired
-    private ITSprintTempletService sprintTempletService;
+    private ITSprintTemplateService sprintTempletService;
 
 
 
@@ -49,7 +49,7 @@ public class TSprintServiceImpl extends ServiceImpl<TSprintMapper, TSprint> impl
     public ApiResult create(CreateSprintBo createSprintBo) {
         String format = DateUtil.format(new Date(), "yyyyMMdd");
         //根据Sprint类型查询可用模版
-        TSprintTemplet sprintTemplet = sprintTempletService.getByType(createSprintBo.getSprintType());
+        TSprintTemplate sprintTemplet = sprintTempletService.getByType(createSprintBo.getSprintType());
         if (sprintTemplet == null){
             return ApiResult.error("没有查询到可用的Sprint模版");
         }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,12 +17,13 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author 暮色听雨
- * @since 2022-06-28
+ * @since 2022-06-28 template
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="TSprintTemplet对象", description="迭代模版")
-public class TSprintTemplet implements Serializable {
+@TableName("t_sprint_template")
+@ApiModel(value="TSprintTemplate对象", description="迭代模版")
+public class TSprintTemplate implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

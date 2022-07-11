@@ -1,6 +1,6 @@
 package com.code.line.system.mapper;
 
-import com.code.line.system.entity.TSprintTemplet;
+import com.code.line.system.entity.TSprintTemplate;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author 暮色听雨
  * @since 2022-06-28
  */
-public interface TSprintTempletMapper extends BaseMapper<TSprintTemplet> {
+public interface TSprintTemplateMapper extends BaseMapper<TSprintTemplate> {
 
 }
