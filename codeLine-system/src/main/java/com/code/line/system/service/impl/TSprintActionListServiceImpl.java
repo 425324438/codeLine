@@ -1,6 +1,8 @@
 package com.code.line.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.code.line.system.constant.DbStatus;
 import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
@@ -11,11 +13,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.codeline.framwork.constant.ActionStatusEnums;
 import com.codeline.framwork.constant.SprintEnvStatusEnums;
 import com.codeline.framwork.response.ApiResult;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.LineInputStream;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -47,9 +51,6 @@ public class TSprintActionListServiceImpl extends ServiceImpl<TSprintActionListM
             sprintActionList.setStatus(DbStatus.DEFAULT.getCode());
             savebatch.add(sprintActionList);
         }
-        SprintEnvStatusEnums envStatusEnums = SprintEnvStatusEnums.getByEnv(sprint.getSprintEnvStatus());
-        settingStartedAction(sprint.getId(),envStatusEnums);
-
         boolean b = saveBatch(savebatch);
         if (b){
             return ApiResult.success();
@@ -60,12 +61,29 @@ public class TSprintActionListServiceImpl extends ServiceImpl<TSprintActionListM
     /**
      * ActionStatusEnums
      * 设置Sprint action队列中能执行的action为 activated 状态，如果有，则不用任何操作，如果没有则拿 sortNo 最小的设置为 activated
-     * @param SprintId
+     * @param sprintId
      * @param envStatusEnums
      */
     @Override
-    public ApiResult settingStartedAction(Long SprintId, SprintEnvStatusEnums envStatusEnums){
-
-        return ApiResult.success();
+    public ApiResult settingStartedAction(Long sprintId, SprintEnvStatusEnums envStatusEnums){
+        LambdaQueryWrapper<TSprintActionListEntity> query = Wrappers.lambdaQuery();
+        query.eq(TSprintActionListEntity::getSprintId,sprintId);
+        query.eq(TSprintActionListEntity::getSprintEnvStatus,envStatusEnums.name());
+        query.eq(TSprintActionListEntity::getStatus,DbStatus.DEFAULT.getCode());
+        query.orderByAsc(TSprintActionListEntity::getSortNo);
+        List<TSprintActionListEntity> list = list(query);
+        if (CollectionUtil.isEmpty(list)){
+            return ApiResult.error("Sprint待执行Action列表为空");
+        }
+        Optional<TSprintActionListEntity> first = list.stream()
+                .filter(s -> ActionStatusEnums.NotStarted.name().equals(s.getActionStatus())).findFirst();
+        if (first.isPresent()){
+            TSprintActionListEntity sprintActionList = first.get();
+            sprintActionList.setActionStatus(ActionStatusEnums.activated.name());
+            updateById(sprintActionList);
+            return ApiResult.success();
+        } else {
+            return ApiResult.error("Sprint的Action列表中没有未开始的Action");
+        }
     }
 }

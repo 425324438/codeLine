@@ -46,12 +46,12 @@ public class TSprintTemplateServiceImpl extends ServiceImpl<TSprintTemplateMappe
         if (sprintTemplate == null){
             return ApiResult.error("迭代模版没有查询到");
         }
-        List<TSprintTemplateActionListEntity> templateActionListEntityList = sprintTemplateActionListService.getByTemplateIdAndEnvStatus(
+        List<TSprintTemplateActionListEntity> templateActionList = sprintTemplateActionListService.getByTemplateIdAndEnvStatus(
                 sprintTemplate.getId(), sprint.getSprintEnvStatus());
-        if (CollectionUtil.isEmpty(templateActionListEntityList)){
+        if (CollectionUtil.isEmpty(templateActionList)){
             return ApiResult.error("Action列表不能为空");
         }
-        sprintActionListService.save(templateActionListEntityList,sprint);
+        sprintActionListService.save(templateActionList,sprint);
         return ApiResult.success();
     }
 

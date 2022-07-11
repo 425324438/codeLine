@@ -87,7 +87,8 @@ public class TSprintServiceImpl extends ServiceImpl<TSprintMapper, TSprint> impl
             }
             sprintProjectService.saveBatch(sprintProjectList);
         }
-        //线程异步启动Sprint
+        sprintTempletService.generatorNextSprintActionList(sprint);
+        //todo 线程异步启动Sprint
         return ApiResult.success();
     }
 }

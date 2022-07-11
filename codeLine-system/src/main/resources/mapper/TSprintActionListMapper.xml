@@ -11,6 +11,7 @@
         <result column="sprint_id" property="sprintId" />
         <result column="action_status" property="actionStatus" />
         <result column="action_bean_type_name" property="actionBeanTypeName" />
+        <result column="sprint_env_status" property="sprintEnvStatus" />
         <result column="name" property="name" />
         <result column="description" property="description" />
         <result column="exe_result" property="exeResult" />
@@ -21,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, sprint_id, action_status, action_bean_type_name, name, description, exe_result, sort_no, created_time, status
+        id, sprint_id, action_status, action_bean_type_name, name,sprint_env_status, description, exe_result, sort_no, created_time, status
     </sql>
 
 </mapper>

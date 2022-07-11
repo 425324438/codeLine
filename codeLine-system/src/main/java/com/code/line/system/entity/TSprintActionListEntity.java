@@ -32,6 +32,9 @@ public class TSprintActionListEntity extends Model<TSprintActionListEntity> {
 
     private Long sprintId;
 
+    @ApiModelProperty(value = "SprintEnvStatusEnums 这里指Spint环境阶段信息")
+    private String sprintEnvStatus;
+
     @ApiModelProperty(value = "ActionStatusEnums 默认=未开始，枚举值：未开始，激活，执行中，执行失败，已结束")
     private String actionStatus;
 
