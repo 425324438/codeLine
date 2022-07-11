@@ -24,7 +24,7 @@ public interface ITSprintActionListService extends IService<TSprintActionListEnt
      * @param templateActionListEntityList
      * @param sprint
      */
-    ApiResult save(List<TSprintTemplateActionListEntity> templateActionListEntityList, TSprint sprint);
+    ApiResult generatorActionList(List<TSprintTemplateActionListEntity> templateActionListEntityList, TSprint sprint);
 
 
     /**
@@ -34,4 +34,12 @@ public interface ITSprintActionListService extends IService<TSprintActionListEnt
      * @param envStatusEnums
      */
     ApiResult settingStartedAction(Long SprintId, SprintEnvStatusEnums envStatusEnums);
+
+    /**
+     * 查询Sprint需要执行的Action
+     * @param sprintId
+     * @param envStatusEnums
+     * @return
+     */
+    List<TSprintActionListEntity> pollNextAction(Long sprintId, SprintEnvStatusEnums envStatusEnums);
 }

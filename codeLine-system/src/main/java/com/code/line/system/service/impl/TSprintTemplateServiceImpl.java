@@ -12,6 +12,7 @@ import com.code.line.system.service.ITSprintActionListService;
 import com.code.line.system.service.ITSprintTemplateActionListService;
 import com.code.line.system.service.ITSprintTemplateService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.codeline.framwork.constant.SprintEnvStatusEnums;
 import com.codeline.framwork.constant.SprintTypeEnums;
 import com.codeline.framwork.response.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -46,12 +47,14 @@ public class TSprintTemplateServiceImpl extends ServiceImpl<TSprintTemplateMappe
         if (sprintTemplate == null){
             return ApiResult.error("迭代模版没有查询到");
         }
-        List<TSprintTemplateActionListEntity> templateActionList = sprintTemplateActionListService.getByTemplateIdAndEnvStatus(
-                sprintTemplate.getId(), sprint.getSprintEnvStatus());
-        if (CollectionUtil.isEmpty(templateActionList)){
-            return ApiResult.error("Action列表不能为空");
+        for (SprintEnvStatusEnums value : SprintEnvStatusEnums.values()) {
+            List<TSprintTemplateActionListEntity> templateActionList = sprintTemplateActionListService.getByTemplateIdAndEnvStatus(
+                    sprintTemplate.getId(), value.name());
+            if (CollectionUtil.isEmpty(templateActionList)){
+                return ApiResult.error("Action列表不能为空");
+            }
+            sprintActionListService.generatorActionList(templateActionList,sprint);
         }
-        sprintActionListService.save(templateActionList,sprint);
         return ApiResult.success();
     }
 

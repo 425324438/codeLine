@@ -16,10 +16,8 @@ import com.codeline.framwork.response.ApiResult;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.util.LineInputStream;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * <p>
@@ -34,7 +32,7 @@ public class TSprintActionListServiceImpl extends ServiceImpl<TSprintActionListM
         implements ITSprintActionListService {
 
     @Override
-    public ApiResult save(List<TSprintTemplateActionListEntity> templateActionListEntityList, TSprint sprint) {
+    public ApiResult generatorActionList(List<TSprintTemplateActionListEntity> templateActionListEntityList, TSprint sprint) {
         List<TSprintActionListEntity> savebatch = new LinkedList<>();
         if (CollectionUtil.isEmpty(templateActionListEntityList)){
             return ApiResult.error("模版中的action列表不能为空");
@@ -55,7 +53,7 @@ public class TSprintActionListServiceImpl extends ServiceImpl<TSprintActionListM
         if (b){
             return ApiResult.success();
         }
-        return ApiResult.error("插入数据失败");
+        return ApiResult.error("ActionList插入数据失败");
     }
 
     /**
@@ -76,14 +74,40 @@ public class TSprintActionListServiceImpl extends ServiceImpl<TSprintActionListM
             return ApiResult.error("Sprint待执行Action列表为空");
         }
         Optional<TSprintActionListEntity> first = list.stream()
-                .filter(s -> ActionStatusEnums.NotStarted.name().equals(s.getActionStatus())).findFirst();
+                .filter(s -> !ActionStatusEnums.NotStarted.name().equals(s.getActionStatus())).findFirst();
         if (first.isPresent()){
-            TSprintActionListEntity sprintActionList = first.get();
+            return ApiResult.success("Sprint的Action列表中有执行数据，不需处理");
+        }
+        Optional<TSprintActionListEntity> notStarted = list.stream()
+                .filter(s -> ActionStatusEnums.NotStarted.name().equals(s.getActionStatus())).findFirst();
+        if (notStarted.isPresent()){
+            TSprintActionListEntity sprintActionList = notStarted.get();
             sprintActionList.setActionStatus(ActionStatusEnums.activated.name());
             updateById(sprintActionList);
             return ApiResult.success();
         } else {
             return ApiResult.error("Sprint的Action列表中没有未开始的Action");
         }
+    }
+
+
+    @Override
+    public List<TSprintActionListEntity> pollNextAction(Long sprintId,
+            SprintEnvStatusEnums envStatusEnums) {
+
+        LambdaQueryWrapper<TSprintActionListEntity> query = Wrappers.lambdaQuery();
+        query.eq(TSprintActionListEntity::getSprintId,sprintId);
+        query.eq(TSprintActionListEntity::getSprintEnvStatus,envStatusEnums.name());
+        query.eq(TSprintActionListEntity::getStatus,DbStatus.DEFAULT.getCode());
+        query.eq(TSprintActionListEntity::getActionStatus,ActionStatusEnums.activated.name());
+        List<TSprintActionListEntity> list = list(query);
+
+        List<TSprintActionListEntity> update = new ArrayList<>();
+        for (TSprintActionListEntity sprintActionList : list) {
+            sprintActionList.setActionStatus(ActionStatusEnums.executing.name());
+            update.add(sprintActionList);
+        }
+        updateBatchById(update);
+        return list;
     }
 }

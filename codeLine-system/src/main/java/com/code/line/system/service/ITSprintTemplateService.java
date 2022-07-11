@@ -18,7 +18,7 @@ public interface ITSprintTemplateService extends IService<TSprintTemplate> {
 
 
     /**
-     * 根据Sprint当前的状态生成下一步需要执行的actionList（t_sprint_action_list）
+     * 创建Sprint所有需要执行的actionList（目标数据表 t_sprint_action_list）
      */
     ApiResult generatorNextSprintActionList(TSprint sprint);
 
