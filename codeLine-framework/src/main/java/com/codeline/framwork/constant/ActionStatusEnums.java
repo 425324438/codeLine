@@ -20,13 +20,13 @@ public enum ActionStatusEnums {
     ended("已结束"),
     ;
 
-    private String name;
+    private String statusName;
 
-    ActionStatusEnums(String name) {
-        this.name = name;
+    public String getStatusName() {
+        return statusName;
     }
 
-    public String getName() {
-        return name;
+    ActionStatusEnums(String statusName) {
+        this.statusName = statusName;
     }
 }

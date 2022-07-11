@@ -13,13 +13,13 @@ public enum SprintTypeEnums {
     routine("常规迭代"),
     ;
 
-    private String name;
+    private String typeName;
 
-    SprintTypeEnums( String name) {
-        this.name = name;
+    SprintTypeEnums(String typeName) {
+        this.typeName = typeName;
     }
 
-    public String getName() {
-        return name;
+    public String getTypeName() {
+        return typeName;
     }
 }

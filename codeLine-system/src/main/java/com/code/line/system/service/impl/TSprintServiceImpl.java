@@ -13,6 +13,7 @@ import com.code.line.system.service.ITSprintProjectService;
 import com.code.line.system.service.ITSprintService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.code.line.system.service.ITSprintTemplateService;
+import com.codeline.framwork.constant.SprintEnvStatusEnums;
 import com.codeline.framwork.request.CreateSprintBo;
 import com.codeline.framwork.response.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,8 @@ public class TSprintServiceImpl extends ServiceImpl<TSprintMapper, TSprint> impl
         TSprint sprint = new TSprint();
         sprint.setName(createSprintBo.getName());
         sprint.setSprintType(createSprintBo.getSprintType().name());
-        sprint.setSprintTempletId(sprintTemplet.getId());
+        sprint.setSprintTemplateId(sprintTemplet.getId());
+        sprint.setSprintEnvStatus(SprintEnvStatusEnums.DEV.name());
         sprint.setVersion(createSprintBo.getVersion() +"_"+format);
         sprint.setCreator("admin");
         sprint.setCreatorId(1l);

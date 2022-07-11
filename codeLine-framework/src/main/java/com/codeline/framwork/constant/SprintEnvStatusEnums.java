@@ -11,14 +11,14 @@ public enum SprintEnvStatusEnums {
     PRE("预发环境"),
     PRD("生产环境"),
     ;
-    private String name;
+    private String envName;
 
-    SprintEnvStatusEnums(String name) {
-        this.name = name;
+    SprintEnvStatusEnums(String envName) {
+        this.envName = envName;
     }
 
-    public String getName() {
-        return name;
+    public String getEnvName() {
+        return envName;
     }
 
     public static  SprintEnvStatusEnums getByEnv(String envStatus){
