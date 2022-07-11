@@ -1,8 +1,10 @@
 package com.code.line.system.service;
 
+import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintTemplate;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.codeline.framwork.constant.SprintTypeEnums;
+import com.codeline.framwork.response.ApiResult;
 
 /**
  * <p>
@@ -13,6 +15,13 @@ import com.codeline.framwork.constant.SprintTypeEnums;
  * @since 2022-06-28
  */
 public interface ITSprintTemplateService extends IService<TSprintTemplate> {
+
+
+    /**
+     * 根据Sprint当前的状态生成下一步需要执行的actionList（t_sprint_action_list）
+     */
+    ApiResult generatorNextSprintActionList(TSprint sprint);
+
 
     TSprintTemplate getByType(SprintTypeEnums sprintType);
 

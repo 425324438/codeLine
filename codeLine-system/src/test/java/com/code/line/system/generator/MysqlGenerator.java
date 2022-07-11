@@ -72,7 +72,7 @@ public class MysqlGenerator {
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
 
-        String tableName = "t_project";
+        String tableName = "t_sprint_action_list,t_sprint_template_action_list";
         strategy.setInclude(tableName.split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");

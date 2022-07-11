@@ -36,7 +36,10 @@ public class TSprint implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "迭代模版id")
-    private Long sprintTempletId;
+    private Long sprintTemplateId;
+
+    @ApiModelProperty(value = "SprintEnvStatusEnums 这里指Spint环境阶段信息")
+    private String sprintEnvStatus;
 
     @ApiModelProperty("迭代类型")
     private String sprintType;

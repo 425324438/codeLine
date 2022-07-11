@@ -1,14 +1,24 @@
 package com.code.line.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.code.line.system.constant.DbStatus;
+import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintTemplate;
+import com.code.line.system.entity.TSprintTemplateActionListEntity;
 import com.code.line.system.mapper.TSprintTemplateMapper;
+import com.code.line.system.service.ITSprintActionListService;
+import com.code.line.system.service.ITSprintTemplateActionListService;
 import com.code.line.system.service.ITSprintTemplateService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.codeline.framwork.constant.SprintTypeEnums;
+import com.codeline.framwork.response.ApiResult;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -18,9 +28,32 @@ import org.springframework.stereotype.Service;
  * @author 暮色听雨
  * @since 2022-06-28
  */
+@Slf4j
 @Service
 public class TSprintTemplateServiceImpl extends ServiceImpl<TSprintTemplateMapper, TSprintTemplate> implements
         ITSprintTemplateService {
+
+    //Sprint模版中配置好的 actionList
+    @Autowired
+    private ITSprintTemplateActionListService sprintTemplateActionListService;
+    //sprint Action待执行的集合
+    @Autowired
+    private ITSprintActionListService sprintActionListService;
+
+    @Override
+    public ApiResult generatorNextSprintActionList(TSprint sprint) {
+        TSprintTemplate sprintTemplate = getById(sprint.getSprintTemplateId());
+        if (sprintTemplate == null){
+            return ApiResult.error("迭代模版没有查询到");
+        }
+        List<TSprintTemplateActionListEntity> templateActionListEntityList = sprintTemplateActionListService.getByTemplateIdAndEnvStatus(
+                sprintTemplate.getId(), sprint.getSprintEnvStatus());
+        if (CollectionUtil.isEmpty(templateActionListEntityList)){
+            return ApiResult.error("Action列表不能为空");
+        }
+        sprintActionListService.save(templateActionListEntityList,sprint);
+        return ApiResult.success();
+    }
 
     @Override
     public TSprintTemplate getByType(SprintTypeEnums sprintType) {

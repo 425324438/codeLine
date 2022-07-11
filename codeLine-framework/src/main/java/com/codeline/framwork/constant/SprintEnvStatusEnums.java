@@ -20,4 +20,16 @@ public enum SprintEnvStatusEnums {
     public String getName() {
         return name;
     }
+
+    public static  SprintEnvStatusEnums getByEnv(String envStatus){
+        if (envStatus == null){
+            return null;
+        }
+        for (SprintEnvStatusEnums value : SprintEnvStatusEnums.values()) {
+            if (value.name().equals(envStatus)){
+                return value;
+            }
+        }
+        return null;
+    }
 }

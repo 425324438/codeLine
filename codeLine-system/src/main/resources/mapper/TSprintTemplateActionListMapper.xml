@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.code.line.system.mapper.TSprintTemplateActionListMapper">
+
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.code.line.system.entity.TSprintTemplateActionListEntity">
+        <id column="id" property="id" />
+        <result column="sprint_template_id" property="sprintTemplateId" />
+        <result column="sprint_env_status" property="sprintEnvStatus" />
+        <result column="action_bean_type_name" property="actionBeanTypeName" />
+        <result column="name" property="name" />
+        <result column="description" property="description" />
+        <result column="sort_no" property="sortNo" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, sprint_template_id, sprint_env_status, action_bean_type_name, name, description, sort_no
+    </sql>
+
+</mapper>
