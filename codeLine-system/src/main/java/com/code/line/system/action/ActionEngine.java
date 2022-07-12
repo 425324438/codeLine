@@ -46,7 +46,10 @@ public class ActionEngine {
                 return ApiResult.error("Action不存在");
             }
             actionMap.get(actionBeanType).before(action);
-            actionMap.get(actionBeanType).execute(action);
+            ApiResult execute = actionMap.get(actionBeanType).execute(action);
+            if (execute.isSuccess()){
+                actionMap.get(actionBeanType).executeSuccessAfter(action);
+            }
             actionMap.get(actionBeanType).after(action);
         }
 
