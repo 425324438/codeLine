@@ -28,4 +28,13 @@ public enum ActionBeanTypeName {
         this.beanCode = beanCode;
         this.beanName = beanName;
     }
+
+    public static ActionBeanTypeName getByBeanCode(String beanCode){
+        for (ActionBeanTypeName value : ActionBeanTypeName.values()) {
+            if (value.getBeanCode().equals(beanCode)){
+                return value;
+            }
+        }
+        return null;
+    }
 }

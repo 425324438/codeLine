@@ -63,7 +63,7 @@ public class TSprintActionListServiceImpl extends ServiceImpl<TSprintActionListM
      * @param envStatusEnums
      */
     @Override
-    public ApiResult settingStartedAction(Long sprintId, SprintEnvStatusEnums envStatusEnums){
+    public ApiResult activatedSprintAction(Long sprintId, SprintEnvStatusEnums envStatusEnums){
         LambdaQueryWrapper<TSprintActionListEntity> query = Wrappers.lambdaQuery();
         query.eq(TSprintActionListEntity::getSprintId,sprintId);
         query.eq(TSprintActionListEntity::getSprintEnvStatus,envStatusEnums.name());
@@ -88,6 +88,20 @@ public class TSprintActionListServiceImpl extends ServiceImpl<TSprintActionListM
         } else {
             return ApiResult.error("Sprint的Action列表中没有未开始的Action");
         }
+    }
+
+    /**
+     * 当前action执行结束后，激活下一个action。如果当前状态的action列表全部执行完毕，则推动Sprint进入下个环节
+     * @param SprintId SprintId
+     * @param envStatusEnums sprint当前的状态
+     * @param sprintActionId sprint当前执行完成的action，基于此激活下一个action
+     * @return
+     */
+    @Override
+    public ApiResult activatedNextSprintAction(Long SprintId, SprintEnvStatusEnums envStatusEnums,
+            Long sprintActionId) {
+
+        return ApiResult.success();
     }
 
 
