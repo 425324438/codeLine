@@ -49,17 +49,17 @@ public class TSprintServiceImpl extends ServiceImpl<TSprintMapper, TSprint> impl
     @Transactional
     public ApiResult create(CreateSprintBo createSprintBo) {
         String format = DateUtil.format(new Date(), "yyyyMMdd");
-        //根据Sprint类型查询可用模版
         TSprintTemplate sprintTemplet = sprintTempletService.getByType(createSprintBo.getSprintType());
         if (sprintTemplet == null){
             return ApiResult.error("没有查询到可用的Sprint模版");
         }
+        //校验 version 字段是否合法，要比大于历史创建的 version
         TSprint sprint = new TSprint();
         sprint.setName(createSprintBo.getName());
         sprint.setSprintType(createSprintBo.getSprintType().name());
         sprint.setSprintTemplateId(sprintTemplet.getId());
         sprint.setSprintEnvStatus(SprintEnvStatusEnums.DEV.name());
-        sprint.setVersion(createSprintBo.getVersion() +"_"+format);
+        sprint.setVersion(SprintEnvStatusEnums.DEV.name()+"_"+createSprintBo.getVersion() +"_"+format);
         sprint.setCreator("admin");
         sprint.setCreatorId(1l);
         sprint.setCreatedTime(LocalDateTime.now());
