@@ -2,14 +2,18 @@ package com.code.line.system.action.bean;
 
 import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
-import com.code.line.system.service.ITProjectService;
-import com.code.line.system.service.ITSprintActionListService;
-import com.code.line.system.service.ITSprintProjectService;
-import com.code.line.system.service.ITSprintService;
+import com.code.line.system.service.*;
+import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.constant.SprintEnvStatusEnums;
 import com.codeline.framwork.response.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author: syl
@@ -22,16 +26,25 @@ public class BaseAction {
     @Autowired
     protected ITSprintActionListService actionListService;
     @Autowired
-    private ITSprintService sprintService;
+    protected ITSprintService sprintService;
     @Autowired
-    private ITProjectService projectService;
+    protected ITProjectService projectService;
     @Autowired
-    private ITSprintProjectService sprintProjectService;
+    protected ITSprintProjectService sprintProjectService;
+    @Autowired
+    protected List<GitApiService> gitApiServiceList;
+    protected Map<GitStorageType, GitApiService> gitApiServiceMap = new HashMap<>();
 
 
     public ApiResult exeSuccessAfter(TSprintActionListEntity action) {
         TSprint sprint = sprintService.getById(action.getSprintId());
         SprintEnvStatusEnums envStatusEnums = SprintEnvStatusEnums.getByEnv(sprint.getSprintEnvStatus());
         return actionListService.activatedNextSprintAction(action.getSprintId(),envStatusEnums,action.getId());
+    }
+
+    @Autowired
+    public void setGitApiServiceMap(List<GitApiService> gitApiServiceList){
+        gitApiServiceMap = gitApiServiceList.stream()
+                .collect(Collectors.toMap(GitApiService::getStorageType, Function.identity()));
     }
 }

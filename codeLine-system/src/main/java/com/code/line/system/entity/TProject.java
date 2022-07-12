@@ -6,6 +6,7 @@ import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.codeline.framwork.constant.GitStorageType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -35,6 +36,9 @@ public class TProject implements Serializable {
 
     @ApiModelProperty(value = "项目名称")
     private String name;
+
+    @ApiModelProperty("git仓库类型，可选值：gitlab,github,gitee")
+    private String gitStorageType;
 
     @ApiModelProperty(value = "项目git地址")
     private String gitUrl;

@@ -37,4 +37,11 @@ public interface Action {
      */
     ApiResult executeSuccessAfter(TSprintActionListEntity action);
 
+    /**
+     * 执行异常
+     * @param action
+     * @return
+     */
+    ApiResult error(TSprintActionListEntity action);
+
 }

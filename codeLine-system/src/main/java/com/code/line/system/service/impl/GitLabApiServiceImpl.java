@@ -4,10 +4,12 @@ import com.code.line.system.service.GitApiService;
 import com.code.line.system.service.ISysConfigService;
 import com.codeline.framwork.api.gitlab.GitLabTools;
 import com.codeline.framwork.constant.GitStorageType;
+import com.codeline.framwork.dto.BranchDto;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.request.BaseConfigBo;
 import com.codeline.framwork.response.ApiResult;
 import org.gitlab4j.api.GitLabApiException;
+import org.gitlab4j.api.models.Branch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,20 @@ public class GitLabApiServiceImpl implements GitApiService {
         return GitStorageType.gitlab;
     }
 
-    //Branch main = instance.createBranch(gitUrl, "dev1.0", "main");
+    @Override
+    public BranchDto createBranch(String gitUrl, String branchName, String ref) throws SysException {
+        BranchDto branchDto = new BranchDto();
+        try {
+            Branch main = instance.createBranch(gitUrl, branchName, ref);
+            branchDto.setName(main.getWebUrl());
+            branchDto.setName(main.getName());
+        } catch (SysException e) {
+            throw new SysException("创建分支失败",e);
+        }
+        return branchDto;
+    }
+
+
     //System.out.println("createBranch success ="+ JSON.toJSONString(main));
 
     //MergeRequest merge = instance.createMerge(gitUrl, "dev1.0", "main", "dev1.0 merge test", "merge test");

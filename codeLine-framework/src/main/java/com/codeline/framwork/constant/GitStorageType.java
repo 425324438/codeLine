@@ -10,4 +10,12 @@ public enum GitStorageType {
     github,
     gitee,
     ;
+
+    public static GitStorageType getByName(String name){
+        for (GitStorageType value : GitStorageType.values()) {
+            if (value.name().equals(name))
+                return value;
+        }
+        return null;
+    }
 }

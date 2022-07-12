@@ -35,24 +35,27 @@ public class ActionEngine {
      * 执行 Action
      */
     public ApiResult execute(Long sprintActionId){
-        //区分 ActionTypeEnums.inner 和 ActionTypeEnums.outer 的执行逻辑
+        //初始化 SprintContext
         TSprintActionListEntity action = actionListService.getById(sprintActionId);
         if (action == null){
             return ApiResult.error("sprintAction不存在");
         }
+        //todo 这里后续版本中区分 ActionTypeEnums.inner 和 ActionTypeEnums.outer 的执行逻辑
         if (ActionTypeEnums.inner.name().equals(action.getType())){
             ActionBeanTypeName actionBeanType = ActionBeanTypeName.getByBeanCode(action.getActionBeanTypeName());
             if (actionBeanType == null){
                 return ApiResult.error("Action不存在");
             }
-            actionMap.get(actionBeanType).before(action);
-            ApiResult execute = actionMap.get(actionBeanType).execute(action);
+            Action actionBean = actionMap.get(actionBeanType);
+            actionBean.before(action);
+            ApiResult execute = actionBean.execute(action);
             if (execute.isSuccess()){
-                actionMap.get(actionBeanType).executeSuccessAfter(action);
+                actionBean.executeSuccessAfter(action);
+            } else {
+                actionBean.error(action);
             }
-            actionMap.get(actionBeanType).after(action);
+            actionBean.after(action);
         }
-
         return  ApiResult.success();
     }
 
