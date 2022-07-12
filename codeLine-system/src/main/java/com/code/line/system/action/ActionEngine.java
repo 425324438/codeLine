@@ -24,6 +24,8 @@ public class ActionEngine {
      */
     public ApiResult execute(Long sprintActionId){
 
+        //区分 ActionTypeEnums.inner 和 ActionTypeEnums.outer 的执行逻辑
+
         return ApiResult.success();
     }
 

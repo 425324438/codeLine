@@ -41,6 +41,9 @@ public class TSprintTemplateActionListEntity extends Model<TSprintTemplateAction
 
     private String name;
 
+    @ApiModelProperty("outer:调用外部接口，inner 内部Action")
+    private String type;
+
     @ApiModelProperty(value = "说明")
     private String description;
 

@@ -10,6 +10,8 @@ import com.codeline.framwork.response.ApiResult;
  */
 public interface Action {
 
+
+
     ActionBeanTypeName getActionBeanTypeName();
 
     /**
