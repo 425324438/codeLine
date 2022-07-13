@@ -46,6 +46,7 @@ public class CreateBranchAction extends BaseAction implements Action {
         SprintContext sprintContext = SprintContext.get();
         TSprint sprint = sprintContext.getSprint();
         List<TSprintProject> sprintProjectList = sprintContext.getSprintProjectList();
+
         for (TSprintProject sprintProject : sprintProjectList) {
             TProject project = projectService.getById(sprintProject.getProjectId());
             GitStorageType storageType = GitStorageType.getByName(project.getGitStorageType());
