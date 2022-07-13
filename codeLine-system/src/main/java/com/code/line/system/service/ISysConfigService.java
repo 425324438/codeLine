@@ -22,4 +22,6 @@ public interface ISysConfigService extends IService<SysConfig> {
     ApiResult<BaseConfigBo> getGitLabBaseConfig();
 
     boolean saveConfig( Map<String,String> config);
+
+    String getMainBranchName();
 }

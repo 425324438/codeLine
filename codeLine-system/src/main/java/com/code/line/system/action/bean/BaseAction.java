@@ -4,9 +4,12 @@ import com.code.line.system.action.SprintContext;
 import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.service.*;
+import com.codeline.framwork.constant.ActionStatusEnums;
 import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.constant.SprintEnvStatusEnums;
+import com.codeline.framwork.constant.TypeConstants;
 import com.codeline.framwork.response.ApiResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +37,10 @@ public class BaseAction {
     protected ITSprintProjectService sprintProjectService;
     @Autowired
     protected List<GitApiService> gitApiServiceList;
+    @Autowired
+    protected ISysConfigService configService;
     protected Map<GitStorageType, GitApiService> gitApiServiceMap = new HashMap<>();
+    private String mainBranchName;
 
 
     /**
@@ -52,5 +58,21 @@ public class BaseAction {
     public void setGitApiServiceMap(List<GitApiService> gitApiServiceList){
         gitApiServiceMap = gitApiServiceList.stream()
                 .collect(Collectors.toMap(GitApiService::getStorageType, Function.identity()));
+    }
+
+    protected void execError(TSprintActionListEntity sprintAction,String errorMsg){
+        sprintAction.setActionStatus(ActionStatusEnums.failed.name());
+        sprintAction.setExeResult(errorMsg);
+        actionListService.updateById(sprintAction);
+        TSprint sprint = SprintContext.get().getSprint();
+        sprint.setHasError(TypeConstants.SprintExecStatus.execError);
+        sprintService.updateById(sprint);
+    }
+
+    protected String mainBranch(){
+        if (StringUtils.isBlank(mainBranchName)){
+            mainBranchName = configService.getMainBranchName();
+        }
+        return mainBranchName;
     }
 }

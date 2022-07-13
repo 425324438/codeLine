@@ -9,6 +9,7 @@ import com.code.line.system.mapper.SysConfigMapper;
 import com.code.line.system.service.ISysConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.codeline.framwork.constant.GitLabConstant;
+import com.codeline.framwork.constant.TypeConstants;
 import com.codeline.framwork.request.BaseConfigBo;
 import com.codeline.framwork.response.ApiResult;
 import org.springframework.stereotype.Service;
@@ -79,5 +80,13 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String getMainBranchName() {
+        LambdaQueryWrapper<SysConfig> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(SysConfig::getKeyStr,TypeConstants.SprintConfigKey.mainBranchName);
+        queryWrapper.eq(SysConfig::getStatus,DbStatus.DEFAULT.getCode());
+        return getOne(queryWrapper).getValueStr();
     }
 }

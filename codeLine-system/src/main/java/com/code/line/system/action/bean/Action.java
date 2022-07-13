@@ -19,27 +19,26 @@ public interface Action {
     /**
      * 执行前
      */
-    ApiResult before(TSprintActionListEntity action);
+    ApiResult before();
 
     /**
      * 任务开始执行
      */
-    ApiResult execute(TSprintActionListEntity action);
+    ApiResult<String> execute();
 
     /**
      * 执行后
      */
-    ApiResult after(TSprintActionListEntity action);
+    ApiResult after();
 
     /**
      * 执行成功后，唤醒下一个待激活的Action，
      * 如果当前Sprint状态下的Action全部执行完毕，则Sprint进入下一个状态
      */
-    ApiResult executeSuccessAfter(TSprintActionListEntity action);
+    ApiResult executeSuccessAfter();
 
     /**
      * 执行异常
-     * @param action
      * @return
      */
     ApiResult error(String errorMsg);

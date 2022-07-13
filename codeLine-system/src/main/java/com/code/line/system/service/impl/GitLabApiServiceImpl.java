@@ -5,11 +5,13 @@ import com.code.line.system.service.ISysConfigService;
 import com.codeline.framwork.api.gitlab.GitLabTools;
 import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.dto.BranchDto;
+import com.codeline.framwork.dto.MergeRequestDto;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.request.BaseConfigBo;
 import com.codeline.framwork.response.ApiResult;
 import org.gitlab4j.api.GitLabApiException;
 import org.gitlab4j.api.models.Branch;
+import org.gitlab4j.api.models.MergeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +40,26 @@ public class GitLabApiServiceImpl implements GitApiService {
             Branch main = instance.createBranch(gitUrl, branchName, ref);
             branchDto.setWebUrl(main.getWebUrl());
             branchDto.setName(main.getName());
+            return branchDto;
         } catch (SysException e) {
-            throw new SysException("创建分支失败",e);
+            throw new SysException("创建分支失败，"+e.getMessage(),e);
         }
-        return branchDto;
+    }
+
+    @Override
+    public MergeRequestDto createMerge(String gitUrl, String sourceBranch, String targetBranch, String title, String description)
+            throws SysException {
+        MergeRequestDto mergeRequest = new MergeRequestDto();
+        try {
+            MergeRequest merge = instance.createMerge(gitUrl, sourceBranch, targetBranch, title, description);
+            mergeRequest.setWebUrl(merge.getWebUrl());
+            mergeRequest.setSourceBranch(merge.getSourceBranch());
+            mergeRequest.setTargetBranch(merge.getTargetBranch());
+            mergeRequest.setTitle(merge.getTitle());
+            return mergeRequest;
+        } catch (SysException e) {
+            throw new SysException("创建MergeRequest失败，"+e.getMessage(),e);
+        }
     }
 
 

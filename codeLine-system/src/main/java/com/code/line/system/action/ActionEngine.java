@@ -59,14 +59,14 @@ public class ActionEngine {
                 return ApiResult.error("Action不存在");
             }
             Action actionBean = actionMap.get(actionBeanType);
-            actionBean.before(action);
-            ApiResult execute = actionBean.execute(action);
+            actionBean.before();
+            ApiResult<String> execute = actionBean.execute();
             if (execute.isSuccess()){
-                actionBean.executeSuccessAfter(action);
+                actionBean.executeSuccessAfter();
             } else {
                 actionBean.error(execute.getMsg());
             }
-            actionBean.after(action);
+            actionBean.after();
         }
         SprintContext.remove();
         return  ApiResult.success();

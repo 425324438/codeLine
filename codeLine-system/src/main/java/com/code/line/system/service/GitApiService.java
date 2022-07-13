@@ -2,6 +2,7 @@ package com.code.line.system.service;
 
 import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.dto.BranchDto;
+import com.codeline.framwork.dto.MergeRequestDto;
 import com.codeline.framwork.exception.SysException;
 
 /**
@@ -14,6 +15,8 @@ public interface GitApiService {
     GitStorageType getStorageType();
 
     BranchDto createBranch(String gitUrl,String branchName, String ref) throws SysException;
+
+    MergeRequestDto createMerge(String gitUrl,String sourceBranch,String targetBranch,String title, String description)throws SysException;
 
 
 }

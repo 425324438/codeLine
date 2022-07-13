@@ -47,6 +47,9 @@ public class TSprint implements Serializable {
     @ApiModelProperty(value = "版本号")
     private String version;
 
+    @ApiModelProperty(value = "0无异常，1 action执行有异常")
+    private int hasError;
+
     @ApiModelProperty(value = "创建者")
     private String creator;
 
