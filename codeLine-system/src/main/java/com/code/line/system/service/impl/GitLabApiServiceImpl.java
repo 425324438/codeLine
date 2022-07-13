@@ -36,7 +36,7 @@ public class GitLabApiServiceImpl implements GitApiService {
         BranchDto branchDto = new BranchDto();
         try {
             Branch main = instance.createBranch(gitUrl, branchName, ref);
-            branchDto.setName(main.getWebUrl());
+            branchDto.setWebUrl(main.getWebUrl());
             branchDto.setName(main.getName());
         } catch (SysException e) {
             throw new SysException("创建分支失败",e);
@@ -44,8 +44,6 @@ public class GitLabApiServiceImpl implements GitApiService {
         return branchDto;
     }
 
-
-    //System.out.println("createBranch success ="+ JSON.toJSONString(main));
 
     //MergeRequest merge = instance.createMerge(gitUrl, "dev1.0", "main", "dev1.0 merge test", "merge test");
     //System.out.println("createMerge success ="+ JSON.toJSONString(merge));

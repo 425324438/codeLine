@@ -1,5 +1,6 @@
 package com.code.line.system.action.bean;
 
+import com.code.line.system.action.SprintContext;
 import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.service.*;
@@ -36,8 +37,13 @@ public class BaseAction {
     protected Map<GitStorageType, GitApiService> gitApiServiceMap = new HashMap<>();
 
 
-    public ApiResult exeSuccessAfter(TSprintActionListEntity action) {
-        TSprint sprint = sprintService.getById(action.getSprintId());
+    /**
+     * 激活后续需要执行的Action
+     */
+    public ApiResult exeSuccessAfter() {
+        SprintContext sprintContext = SprintContext.get();
+        TSprint sprint = sprintContext.getSprint();
+        TSprintActionListEntity action = sprintContext.getSprintAction();
         SprintEnvStatusEnums envStatusEnums = SprintEnvStatusEnums.getByEnv(sprint.getSprintEnvStatus());
         return actionListService.activatedNextSprintAction(action.getSprintId(),envStatusEnums,action.getId());
     }

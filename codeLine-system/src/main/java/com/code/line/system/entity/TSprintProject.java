@@ -46,6 +46,9 @@ public class TSprintProject implements Serializable {
     @ApiModelProperty(value = "分支名称")
     private String branch;
 
+    @ApiModelProperty(value = "页面访问地址")
+    private String webUrl;
+
     @ApiModelProperty(value = "创建者")
     private String creator;
 

@@ -14,7 +14,6 @@ public interface GitApiService {
     GitStorageType getStorageType();
 
     BranchDto createBranch(String gitUrl,String branchName, String ref) throws SysException;
-    //Branch main = instance.createBranch(gitUrl, "dev1.0", "main");
 
 
 }

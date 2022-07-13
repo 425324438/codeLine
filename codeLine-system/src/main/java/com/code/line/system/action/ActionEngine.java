@@ -3,8 +3,13 @@ package com.code.line.system.action;
 import com.code.line.system.action.bean.Action;
 import com.code.line.system.constant.ActionBeanTypeName;
 import com.code.line.system.constant.ActionTypeEnums;
+import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
+import com.code.line.system.entity.TSprintProject;
+import com.code.line.system.service.ITProjectService;
 import com.code.line.system.service.ITSprintActionListService;
+import com.code.line.system.service.ITSprintProjectService;
+import com.code.line.system.service.ITSprintService;
 import com.codeline.framwork.response.ApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +29,13 @@ import java.util.stream.Collectors;
 public class ActionEngine {
 
     @Autowired
+    protected ITSprintService sprintService;
+    @Autowired
+    protected ITProjectService projectService;
+    @Autowired
     protected ITSprintActionListService actionListService;
     @Autowired
-    private List<Action> actionList;
+    protected ITSprintProjectService sprintProjectService;
     private Map<ActionBeanTypeName,Action> actionMap = new HashMap<>();
 
     /**
@@ -36,11 +45,14 @@ public class ActionEngine {
      */
     public ApiResult execute(Long sprintActionId){
         //初始化 SprintContext
-        TSprintActionListEntity action = actionListService.getById(sprintActionId);
+        initSprintContext(sprintActionId);
+
+        SprintContext sprintContext = SprintContext.get();
+        TSprintActionListEntity action = sprintContext.getSprintAction();
         if (action == null){
             return ApiResult.error("sprintAction不存在");
         }
-        //todo 这里后续版本中区分 ActionTypeEnums.inner 和 ActionTypeEnums.outer 的执行逻辑
+        //todo 后续版本中区分 ActionTypeEnums.inner 和 ActionTypeEnums.outer 的执行逻辑
         if (ActionTypeEnums.inner.name().equals(action.getType())){
             ActionBeanTypeName actionBeanType = ActionBeanTypeName.getByBeanCode(action.getActionBeanTypeName());
             if (actionBeanType == null){
@@ -52,13 +64,20 @@ public class ActionEngine {
             if (execute.isSuccess()){
                 actionBean.executeSuccessAfter(action);
             } else {
-                actionBean.error(action);
+                actionBean.error(execute.getMsg());
             }
             actionBean.after(action);
         }
+        SprintContext.remove();
         return  ApiResult.success();
     }
 
+    private void initSprintContext(Long sprintActionId){
+        TSprintActionListEntity action = actionListService.getById(sprintActionId);
+        TSprint sprint = sprintService.getById(action.getSprintId());
+        List<TSprintProject> sprintProjectList = sprintProjectService.getBySprintId(action.getSprintId());
+        SprintContext.set(sprint,sprintProjectList,action);
+    }
 
     @Autowired
     public void setActionMap(List<Action> actionList){

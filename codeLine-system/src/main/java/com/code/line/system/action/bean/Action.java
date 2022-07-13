@@ -42,6 +42,6 @@ public interface Action {
      * @param action
      * @return
      */
-    ApiResult error(TSprintActionListEntity action);
+    ApiResult error(String errorMsg);
 
 }

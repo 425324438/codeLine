@@ -1,6 +1,7 @@
 package com.code.line.system.action.bean.impl;
 
 import ch.qos.logback.classic.Logger;
+import com.code.line.system.action.SprintContext;
 import com.code.line.system.action.bean.Action;
 import com.code.line.system.action.bean.BaseAction;
 import com.code.line.system.constant.ActionBeanTypeName;
@@ -9,6 +10,7 @@ import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.entity.TSprintProject;
 import com.code.line.system.service.GitApiService;
+import com.codeline.framwork.constant.ActionStatusEnums;
 import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.dto.BranchDto;
 import com.codeline.framwork.exception.SysException;
@@ -28,8 +30,6 @@ import java.util.List;
 @Service
 public class CreateBranchAction  extends BaseAction implements Action {
 
-
-
     @Override
     public ActionBeanTypeName getActionBeanTypeName() {
         return ActionBeanTypeName.CreateBranch;
@@ -42,14 +42,16 @@ public class CreateBranchAction  extends BaseAction implements Action {
 
     @Override
     public ApiResult execute(TSprintActionListEntity action) {
-        TSprint sprint = sprintService.getById(action.getSprintId());
-        List<TSprintProject> sprintProjectList = sprintProjectService.getBySprintId(action.getSprintId());
+        SprintContext sprintContext = SprintContext.get();
+        TSprint sprint = sprintContext.getSprint();
+        List<TSprintProject> sprintProjectList = sprintContext.getSprintProjectList();
         for (TSprintProject sprintProject : sprintProjectList) {
             TProject project = projectService.getById(sprintProject.getProjectId());
             GitStorageType storageType = GitStorageType.getByName(project.getGitStorageType());
             try {
-                BranchDto main = gitApiServiceMap.get(storageType).createBranch(sprintProject.getGitUrl(), sprint.getVersion(), "main");
-                sprintProject.setBranch(main.getName());
+                BranchDto branch = gitApiServiceMap.get(storageType).createBranch(sprintProject.getGitUrl(), sprint.getVersion(), "main");
+                sprintProject.setBranch(branch.getName());
+                sprintProject.setWebUrl(branch.getWebUrl());
                 sprintProjectService.updateById(sprintProject);
             } catch (SysException e) {
                 log.error("分支创建失败：gitUrl={},e={}",sprintProject.getGitUrl(),e);
@@ -66,11 +68,16 @@ public class CreateBranchAction  extends BaseAction implements Action {
 
     @Override
     public ApiResult executeSuccessAfter(TSprintActionListEntity action) {
-        return super.exeSuccessAfter(action);
+        return super.exeSuccessAfter();
     }
 
     @Override
-    public ApiResult error(TSprintActionListEntity action) {
-        return null;
+    public ApiResult error(String errorMsg) {
+        SprintContext sprintContext = SprintContext.get();
+        TSprintActionListEntity sprintAction = sprintContext.getSprintAction();
+        sprintAction.setActionStatus(ActionStatusEnums.failed.name());
+        sprintAction.setExeResult(errorMsg);
+        actionListService.updateById(sprintAction);
+        return ApiResult.success();
     }
 }
