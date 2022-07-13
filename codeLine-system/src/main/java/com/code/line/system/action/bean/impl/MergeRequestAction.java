@@ -53,8 +53,8 @@ public class MergeRequestAction extends BaseAction implements Action {
                         .createMerge(sprintProject.getGitUrl(),
                                 sprintProject.getBranch(),
                                 mainBranch(),
-                                sprint.getName(),
-                                sprint.getName() + "__" + sprint.getVersion(),
+                                sprint.getVersion() + " -> "+ mainBranch() + " __" + project.getName(),
+                                sprint.getName() + " __ " + sprintProject.getName() + " version:" + sprint.getVersion(),
                                 assigneeId());
 
                 sprintProject.setWebUrl(main.getWebUrl());
