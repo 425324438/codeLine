@@ -41,6 +41,7 @@ public class BaseAction {
     protected ISysConfigService configService;
     protected Map<GitStorageType, GitApiService> gitApiServiceMap = new HashMap<>();
     private String mainBranchName;
+    private Long assigneeId;
 
 
     /**
@@ -74,5 +75,11 @@ public class BaseAction {
             mainBranchName = configService.getMainBranchName();
         }
         return mainBranchName;
+    }
+    protected Long assigneeId(){
+        if (assigneeId == null){
+            assigneeId = configService.getAssigneeId();
+        }
+        return assigneeId;
     }
 }

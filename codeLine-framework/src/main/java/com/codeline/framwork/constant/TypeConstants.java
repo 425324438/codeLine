@@ -14,5 +14,11 @@ public interface TypeConstants {
 
     public interface SprintConfigKey {
         public String mainBranchName = "mainBranchName";
+        public String AssigneeId = "AssigneeId";
+    }
+
+    public interface SprintActionParamJsonKey {
+        public String MergeIid = "MergeIid";
+
     }
 }

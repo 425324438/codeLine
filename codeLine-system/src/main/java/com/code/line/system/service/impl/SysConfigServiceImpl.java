@@ -89,4 +89,13 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         queryWrapper.eq(SysConfig::getStatus,DbStatus.DEFAULT.getCode());
         return getOne(queryWrapper).getValueStr();
     }
+
+    @Override
+    public Long getAssigneeId() {
+        LambdaQueryWrapper<SysConfig> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(SysConfig::getKeyStr,TypeConstants.SprintConfigKey.AssigneeId);
+        queryWrapper.eq(SysConfig::getStatus,DbStatus.DEFAULT.getCode());
+        String valueStr = getOne(queryWrapper).getValueStr();
+        return Long.parseLong(valueStr);
+    }
 }

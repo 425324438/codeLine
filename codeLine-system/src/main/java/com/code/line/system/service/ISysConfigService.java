@@ -23,5 +23,15 @@ public interface ISysConfigService extends IService<SysConfig> {
 
     boolean saveConfig( Map<String,String> config);
 
+    /**
+     * 系统配置：代码主干分支名次 （例：master/main）
+     * @return
+     */
     String getMainBranchName();
+
+    /**
+     * 系统配置的git管理员userId
+     * @return
+     */
+    Long getAssigneeId();
 }

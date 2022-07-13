@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 public class SprintContext {
 
-    private static final ThreadLocal<SprintContext> threadLocal = ThreadLocal.withInitial(() -> new SprintContext());
+    private static final ThreadLocal<SprintContext> threadLocal = new ThreadLocal<>();
 
     private TSprint sprint;
     /**

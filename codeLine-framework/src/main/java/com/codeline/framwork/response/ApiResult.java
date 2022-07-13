@@ -57,7 +57,7 @@ public class ApiResult<T> {
     }
 
     public static ApiResult error(String msg){
-        ApiResult apiResult = new ApiResult<>();
+        ApiResult<String> apiResult = new ApiResult<>();
         apiResult.setCode(error);
         apiResult.setMsg(msg);
         return apiResult;

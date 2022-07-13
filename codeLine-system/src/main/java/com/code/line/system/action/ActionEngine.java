@@ -11,7 +11,9 @@ import com.code.line.system.service.ITSprintActionListService;
 import com.code.line.system.service.ITSprintProjectService;
 import com.code.line.system.service.ITSprintService;
 import com.codeline.framwork.response.ApiResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -25,7 +27,8 @@ import java.util.stream.Collectors;
  * @Date: 2022/7/12 01:18
  * @Description: sprint Action 执行引擎，定时启动，查询待执行的Action，并处理执行逻辑
  */
-@Service
+@Slf4j
+@Component
 public class ActionEngine {
 
     @Autowired
@@ -40,11 +43,11 @@ public class ActionEngine {
 
     /**
      * TSprintActionListEntity
-     * 定时任务获取待执行的Action列表，然后逐个执行
+     * 定时任务获取待执行的 Action 列表，然后逐个执行
      * 执行 Action
      */
     public ApiResult execute(Long sprintActionId){
-        //初始化 SprintContext
+        log.info("开始执行Action，id={}",sprintActionId);
         initSprintContext(sprintActionId);
 
         SprintContext sprintContext = SprintContext.get();
@@ -72,6 +75,9 @@ public class ActionEngine {
         return  ApiResult.success();
     }
 
+    /**
+     * 初始化 SprintContext
+     */
     private void initSprintContext(Long sprintActionId){
         TSprintActionListEntity action = actionListService.getById(sprintActionId);
         TSprint sprint = sprintService.getById(action.getSprintId());

@@ -3,6 +3,7 @@ package com.code.line.system.entity;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -48,6 +49,9 @@ public class TSprintProject implements Serializable {
 
     @ApiModelProperty(value = "页面访问地址")
     private String webUrl;
+
+    @ApiModelProperty(value = "action执行过程需要的数据,冗余字段")
+    private JSONObject paramJson;
 
     @ApiModelProperty(value = "创建者")
     private String creator;

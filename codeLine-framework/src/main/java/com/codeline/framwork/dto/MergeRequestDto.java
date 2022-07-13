@@ -20,5 +20,6 @@ public class MergeRequestDto {
     private String sourceBranch;
     private String targetBranch;
     private String title;
+    private Long   iid;
 
 }

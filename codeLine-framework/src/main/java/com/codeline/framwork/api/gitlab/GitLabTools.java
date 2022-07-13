@@ -86,13 +86,14 @@ public class GitLabTools {
      * @param targetBranch 目标分支
      * @param title 标题
      * @param description   描述
+     * @param assigneeId 合并人id，这里指系统配置的git管理员帐号
      */
-    public MergeRequest createMerge(String projectPath, String sourceBranch, String targetBranch, String title, String description)
+    public MergeRequest createMerge(String projectPath, String sourceBranch, String targetBranch, String title, String description, Long assigneeId)
             throws SysException {
         MergeRequestApi mergeRequestApi = gitLabApi.getMergeRequestApi();
         try {
             return mergeRequestApi.createMergeRequest(getProjectUrl(projectPath), sourceBranch, targetBranch,
-                    title, description, null);
+                    title, description, assigneeId);
         } catch (GitLabApiException e) {
             log.info("gitLab createMerge Exception, projectPath={},sourceBranch={},targetBranch={},title={},description={}",projectPath,sourceBranch,targetBranch,title,description);
             log.info("gitLab createMerge Exception, errMsg={},e={}",e.getMessage(),e);

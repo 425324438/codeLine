@@ -1,5 +1,6 @@
 package com.code.line.system.action.bean.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.code.line.system.action.SprintContext;
 import com.code.line.system.action.bean.Action;
 import com.code.line.system.action.bean.BaseAction;
@@ -9,6 +10,7 @@ import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.entity.TSprintProject;
 import com.codeline.framwork.constant.GitStorageType;
+import com.codeline.framwork.constant.TypeConstants;
 import com.codeline.framwork.dto.BranchDto;
 import com.codeline.framwork.dto.MergeRequestDto;
 import com.codeline.framwork.exception.SysException;
@@ -51,8 +53,16 @@ public class MergeRequestAction extends BaseAction implements Action {
                                 sprintProject.getBranch(),
                                 mainBranch(),
                                 sprint.getName(),
-                                sprint.getName() + "__" + sprint.getVersion());
+                                sprint.getName() + "__" + sprint.getVersion(),
+                                assigneeId());
+
                 sprintProject.setWebUrl(main.getWebUrl());
+                JSONObject paramJson = sprintProject.getParamJson();
+                if (paramJson == null){
+                    paramJson = new JSONObject();
+                }
+                paramJson.put(TypeConstants.SprintActionParamJsonKey.MergeIid,main.getIid());
+                sprintProject.setParamJson(paramJson);
                 sprintProjectService.updateById(sprintProject);
             } catch (SysException e) {
                 log.error("Merge创建失败：gitUrl={},e={}",sprintProject.getGitUrl(),e);
@@ -71,12 +81,15 @@ public class MergeRequestAction extends BaseAction implements Action {
 
     @Override
     public ApiResult executeSuccessAfter() {
-        return null;
+        return super.exeSuccessAfter();
     }
 
     @Override
     public ApiResult error(String errorMsg) {
-        return null;
+        SprintContext sprintContext = SprintContext.get();
+        TSprintActionListEntity sprintAction = sprintContext.getSprintAction();
+        execError(sprintAction,errorMsg);
+        return ApiResult.success();
     }
 
 }
