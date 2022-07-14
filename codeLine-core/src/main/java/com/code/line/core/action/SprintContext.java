@@ -1,4 +1,4 @@
-package com.code.line.system.action;
+package com.code.line.core.action;
 
 import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;

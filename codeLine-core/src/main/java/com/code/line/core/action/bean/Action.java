@@ -1,9 +1,7 @@
-package com.code.line.system.action.bean;
+package com.code.line.core.action.bean;
 
 import com.code.line.system.constant.ActionBeanTypeName;
-import com.code.line.system.entity.TSprintActionListEntity;
 import com.codeline.framwork.response.ApiResult;
-import io.swagger.annotations.Api;
 
 /**
  * @author: syl

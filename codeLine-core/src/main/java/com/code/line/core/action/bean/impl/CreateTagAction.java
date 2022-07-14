@@ -1,8 +1,10 @@
-package com.code.line.system.action.bean.impl;
+package com.code.line.core.action.bean.impl;
 
-import com.code.line.system.action.bean.Action;
-import com.code.line.system.action.bean.BaseAction;
+import com.code.line.core.action.SprintContext;
+import com.code.line.core.action.bean.Action;
+import com.code.line.core.action.bean.BaseAction;
 import com.code.line.system.constant.ActionBeanTypeName;
+import com.code.line.system.entity.TSprintActionListEntity;
 import com.codeline.framwork.response.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,15 +16,15 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class AcceptMergeAction extends BaseAction implements Action {
+public class CreateTagAction extends BaseAction implements Action {
     @Override
     public ActionBeanTypeName getActionBeanTypeName() {
-        return ActionBeanTypeName.AcceptMerge;
+        return ActionBeanTypeName.CreateTag;
     }
 
     @Override
     public ApiResult before() {
-        return null;
+        return ApiResult.success();
     }
 
     @Override
@@ -32,7 +34,7 @@ public class AcceptMergeAction extends BaseAction implements Action {
 
     @Override
     public ApiResult after() {
-        return null;
+        return ApiResult.success();
     }
 
     @Override
@@ -42,6 +44,9 @@ public class AcceptMergeAction extends BaseAction implements Action {
 
     @Override
     public ApiResult error(String errorMsg) {
-        return null;
+        SprintContext sprintContext = SprintContext.get();
+        TSprintActionListEntity sprintAction = sprintContext.getSprintAction();
+        execError(sprintAction,errorMsg);
+        return ApiResult.success();
     }
 }

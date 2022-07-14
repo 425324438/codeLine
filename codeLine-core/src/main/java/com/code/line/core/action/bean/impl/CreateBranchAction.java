@@ -1,24 +1,19 @@
-package com.code.line.system.action.bean.impl;
+package com.code.line.core.action.bean.impl;
 
-import ch.qos.logback.classic.Logger;
-import com.code.line.system.action.SprintContext;
-import com.code.line.system.action.bean.Action;
-import com.code.line.system.action.bean.BaseAction;
+import com.code.line.core.action.SprintContext;
+import com.code.line.core.action.bean.Action;
+import com.code.line.core.action.bean.BaseAction;
 import com.code.line.system.constant.ActionBeanTypeName;
 import com.code.line.system.entity.TProject;
 import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.entity.TSprintProject;
-import com.code.line.system.service.GitApiService;
-import com.codeline.framwork.constant.ActionStatusEnums;
 import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.dto.BranchDto;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.response.ApiResult;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

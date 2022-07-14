@@ -1,6 +1,6 @@
-package com.code.line.system.action;
+package com.code.line.core.action;
 
-import com.code.line.system.action.bean.Action;
+import com.code.line.core.action.bean.Action;
 import com.code.line.system.constant.ActionBeanTypeName;
 import com.code.line.system.constant.ActionTypeEnums;
 import com.code.line.system.entity.TSprint;
@@ -14,7 +14,6 @@ import com.codeline.framwork.response.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +38,7 @@ public class ActionEngine {
     protected ITSprintActionListService actionListService;
     @Autowired
     protected ITSprintProjectService sprintProjectService;
-    private Map<ActionBeanTypeName,Action> actionMap = new HashMap<>();
+    private Map<ActionBeanTypeName, Action> actionMap = new HashMap<>();
 
     /**
      * TSprintActionListEntity

@@ -1,18 +1,15 @@
-package com.code.line.system.action.bean.impl;
+package com.code.line.core.action.bean.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.code.line.system.action.SprintContext;
-import com.code.line.system.action.bean.Action;
-import com.code.line.system.action.bean.BaseAction;
+import com.code.line.core.action.SprintContext;
+import com.code.line.core.action.bean.Action;
+import com.code.line.core.action.bean.BaseAction;
 import com.code.line.system.constant.ActionBeanTypeName;
 import com.code.line.system.entity.TProject;
-import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.entity.TSprintProject;
 import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.constant.TypeConstants;
-import com.codeline.framwork.dto.BranchDto;
-import com.codeline.framwork.dto.MergeRequestDto;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.response.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -22,17 +19,17 @@ import java.util.List;
 
 /**
  * @author: syl
- * @Date: 2022/7/13 23:48
- * @Description: 创建合并请求
+ * @Date: 2022/7/14 01:47
+ * @Description:
  */
 @Slf4j
 @Component
-public class MergeRequestAction extends BaseAction implements Action {
+public class AcceptMergeAction extends BaseAction implements Action {
 
 
     @Override
     public ActionBeanTypeName getActionBeanTypeName() {
-        return ActionBeanTypeName.CreateMerge;
+        return ActionBeanTypeName.AcceptMerge;
     }
 
     @Override
@@ -42,34 +39,20 @@ public class MergeRequestAction extends BaseAction implements Action {
 
     @Override
     public ApiResult<String> execute() {
-        TSprint sprint = SprintContext.get().getSprint();
         List<TSprintProject> sprintProjectList = SprintContext.get().getSprintProjectList();
 
         for (TSprintProject sprintProject : sprintProjectList) {
             TProject project = projectService.getById(sprintProject.getProjectId());
             GitStorageType storageType = GitStorageType.getByName(project.getGitStorageType());
+            JSONObject paramJson = sprintProject.getParamJson();
+            Long iid = paramJson.getLong(TypeConstants.SprintActionParamJsonKey.MergeIid);
             try {
-                MergeRequestDto main = gitApiServiceMap.get(storageType)
-                        .createMerge(sprintProject.getGitUrl(),
-                                sprintProject.getBranch(),
-                                mainBranch(),
-                                sprint.getVersion() + " -> "+ mainBranch() + " __" + project.getName(),
-                                sprint.getName() + " __ " + sprintProject.getName() + " version:" + sprint.getVersion(),
-                                assigneeId());
-
-                sprintProject.setWebUrl(main.getWebUrl());
-                JSONObject paramJson = sprintProject.getParamJson();
-                if (paramJson == null){
-                    paramJson = new JSONObject();
-                }
-                paramJson.put(TypeConstants.SprintActionParamJsonKey.MergeIid,main.getIid());
-                sprintProject.setParamJson(paramJson);
-                sprintProjectService.updateById(sprintProject);
+                gitApiServiceMap.get(storageType).acceptMergeRequest(sprintProject.getGitUrl(), iid);
             } catch (SysException e) {
-                log.error("Merge创建失败：gitUrl={},e={}",sprintProject.getGitUrl(),e);
-                sprintProject.setWebUrl("Merge创建失败,"+e.getMessage());
+                log.error("Merge自动合并失败：gitUrl={},e={}",sprintProject.getGitUrl(),e);
+                sprintProject.setWebUrl("Merge自动合并失败,"+e.getMessage());
                 sprintProjectService.updateById(sprintProject);
-                return ApiResult.error("project："+sprintProject.getName()+"，Merge创建失败,"+e.getMessage());
+                return ApiResult.error("project："+sprintProject.getName()+"，Merge自动合并失败,"+e.getMessage());
             }
         }
         return ApiResult.success();
@@ -92,5 +75,4 @@ public class MergeRequestAction extends BaseAction implements Action {
         execError(sprintAction,errorMsg);
         return ApiResult.success();
     }
-
 }
