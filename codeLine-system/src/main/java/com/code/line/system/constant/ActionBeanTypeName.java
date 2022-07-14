@@ -3,7 +3,7 @@ package com.code.line.system.constant;
 /**
  * @author: syl
  * @Date: 2022/7/12 01:28
- * @Description:
+ * @Description: action的类型
  */
 public enum ActionBeanTypeName {
     CreateBranch("CreateBranch","创建分支"),
