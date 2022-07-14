@@ -19,6 +19,7 @@ public interface TypeConstants {
 
     public interface SprintActionParamJsonKey {
         public String MergeIid = "MergeIid";
+        public String TagName = "TagName";
 
     }
 }

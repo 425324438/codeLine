@@ -40,7 +40,6 @@ public class AcceptMergeAction extends BaseAction implements Action {
     @Override
     public ApiResult<String> execute() {
         List<TSprintProject> sprintProjectList = SprintContext.get().getSprintProjectList();
-
         for (TSprintProject sprintProject : sprintProjectList) {
             TProject project = projectService.getById(sprintProject.getProjectId());
             GitStorageType storageType = GitStorageType.getByName(project.getGitStorageType());

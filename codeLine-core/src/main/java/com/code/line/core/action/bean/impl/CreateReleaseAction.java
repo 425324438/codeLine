@@ -1,13 +1,22 @@
 package com.code.line.core.action.bean.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.code.line.core.action.SprintContext;
 import com.code.line.core.action.bean.Action;
 import com.code.line.core.action.bean.BaseAction;
 import com.code.line.system.constant.ActionBeanTypeName;
+import com.code.line.system.entity.TProject;
+import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
+import com.code.line.system.entity.TSprintProject;
+import com.codeline.framwork.constant.GitStorageType;
+import com.codeline.framwork.constant.TypeConstants;
+import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.response.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author: syl
@@ -31,7 +40,28 @@ public class CreateReleaseAction extends BaseAction implements Action {
 
     @Override
     public ApiResult<String> execute() {
-        return null;
+        TSprint sprint = SprintContext.get().getSprint();
+        List<TSprintProject> sprintProjectList = SprintContext.get().getSprintProjectList();
+        for (TSprintProject sprintProject : sprintProjectList) {
+            TProject project = projectService.getById(sprintProject.getProjectId());
+            GitStorageType storageType = GitStorageType.getByName(project.getGitStorageType());
+
+            JSONObject paramJson = sprintProject.getParamJson();
+            String tagName = paramJson.getString(TypeConstants.SprintActionParamJsonKey.TagName);
+            try {
+                gitApiServiceMap.get(storageType).createRelease(
+                        sprintProject.getGitUrl(),
+                        tagName,
+                        sprint.getVersion() + "_Release",
+                        sprint.getName());
+            } catch (SysException e) {
+                log.error("Release创建失败：gitUrl={},e={}",sprintProject.getGitUrl(),e);
+                sprintProject.setWebUrl("Release创建失败,"+e.getMessage());
+                sprintProjectService.updateById(sprintProject);
+                return ApiResult.error("project："+sprintProject.getName()+"，Release创建失败,"+e.getMessage());
+            }
+        }
+        return ApiResult.success();
     }
 
     @Override
@@ -41,7 +71,7 @@ public class CreateReleaseAction extends BaseAction implements Action {
 
     @Override
     public ApiResult executeSuccessAfter() {
-        return null;
+        return super.exeSuccessAfter();
     }
 
     @Override
