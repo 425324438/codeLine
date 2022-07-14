@@ -98,8 +98,14 @@ public class TSprintActionListServiceImpl extends ServiceImpl<TSprintActionListM
     @Override
     public ApiResult activatedNextSprintAction(Long SprintId, SprintEnvStatusEnums envStatusEnums,
             Long sprintActionId) {
-
+        //todo
         return ApiResult.success();
+    }
+
+    @Override
+    public ApiResult retryFailAction(Long SprintId, SprintEnvStatusEnums envStatusEnums, Long sprintActionId) {
+        //todo
+        return null;
     }
 
 

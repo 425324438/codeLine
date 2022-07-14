@@ -10,6 +10,7 @@ import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.entity.TSprintProject;
 import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.constant.TypeConstants;
+import com.codeline.framwork.dto.MergeRequestDto;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.response.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,8 @@ public class AcceptMergeAction extends BaseAction implements Action {
             JSONObject paramJson = sprintProject.getParamJson();
             Long iid = paramJson.getLong(TypeConstants.SprintActionParamJsonKey.MergeIid);
             try {
-                gitApiServiceMap.get(storageType).acceptMergeRequest(sprintProject.getGitUrl(), iid);
+                MergeRequestDto mergeRequestDto = gitApiServiceMap.get(storageType)
+                        .acceptMergeRequest(sprintProject.getGitUrl(), iid);
             } catch (SysException e) {
                 log.error("Merge自动合并失败：gitUrl={},e={}",sprintProject.getGitUrl(),e);
                 sprintProject.setWebUrl("Merge自动合并失败,"+e.getMessage());

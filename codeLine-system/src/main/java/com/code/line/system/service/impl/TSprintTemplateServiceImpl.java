@@ -55,6 +55,7 @@ public class TSprintTemplateServiceImpl extends ServiceImpl<TSprintTemplateMappe
             }
             sprintActionListService.generatorActionList(templateActionList,sprint);
         }
+        sprintActionListService.activatedSprintAction(sprint.getId(),SprintEnvStatusEnums.DEV);
         return ApiResult.success();
     }
 

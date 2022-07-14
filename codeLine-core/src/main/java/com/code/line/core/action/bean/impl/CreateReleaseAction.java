@@ -11,6 +11,7 @@ import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.entity.TSprintProject;
 import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.constant.TypeConstants;
+import com.codeline.framwork.dto.ReleaseDto;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.response.ApiResult;
 import lombok.extern.slf4j.Slf4j;
@@ -49,11 +50,13 @@ public class CreateReleaseAction extends BaseAction implements Action {
             JSONObject paramJson = sprintProject.getParamJson();
             String tagName = paramJson.getString(TypeConstants.SprintActionParamJsonKey.TagName);
             try {
-                gitApiServiceMap.get(storageType).createRelease(
-                        sprintProject.getGitUrl(),
-                        tagName,
-                        sprint.getVersion() + "_Release",
-                        sprint.getName());
+                ReleaseDto release = gitApiServiceMap.get(storageType)
+                        .createRelease(sprintProject.getGitUrl(),
+                                tagName,
+                                sprint.getVersion() + "_Release",
+                                sprint.getName());
+                sprintProject.setWebUrl(release.getName());
+                sprintProjectService.updateById(sprintProject);
             } catch (SysException e) {
                 log.error("Release创建失败：gitUrl={},e={}",sprintProject.getGitUrl(),e);
                 sprintProject.setWebUrl("Release创建失败,"+e.getMessage());

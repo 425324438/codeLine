@@ -45,6 +45,15 @@ public interface ITSprintActionListService extends IService<TSprintActionListEnt
     ApiResult activatedNextSprintAction(Long SprintId, SprintEnvStatusEnums envStatusEnums,Long sprintActionId);
 
     /**
+     * Sprint的action如果执行失败了，调用这个方法可以重新激活失败的action，激活之后会由Action引擎拉起重新执行
+     * @param SprintId SprintId
+     * @param envStatusEnums sprint当前的状态
+     * @param sprintActionId sprint当前执行完成的action，基于此激活下一个action
+     * @return
+     */
+    ApiResult retryFailAction(Long SprintId, SprintEnvStatusEnums envStatusEnums,Long sprintActionId);
+
+    /**
      * 查询Sprint需要执行的Action
      * @param sprintId
      * @param envStatusEnums
