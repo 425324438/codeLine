@@ -26,6 +26,16 @@ public class GitLabTools {
 
     private GitLabTools (){};
 
+    public Member addMember(String projectPath,Long assigneeId) throws SysException {
+        ProjectApi projectApi = gitLabApi.getProjectApi();
+        try {
+            return projectApi.addMember(getProjectUrl(projectPath), assigneeId, AccessLevel.ADMIN);
+        } catch (GitLabApiException e) {
+            log.info("gitLab addMember Exception, projectPath={},assigneeId={}",projectPath,assigneeId);
+            log.info("gitLab addMember Exception, errMsg={},e={}",e.getMessage(),e);
+            throw new SysException(e.getMessage(),e);
+        }
+    }
 
     /**
      * 创建分支

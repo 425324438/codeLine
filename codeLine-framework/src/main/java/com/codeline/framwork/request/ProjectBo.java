@@ -20,6 +20,9 @@ public class ProjectBo  {
     @ApiModelProperty(value = "项目git地址")
     private String gitUrl;
 
+    @ApiModelProperty("git仓库类型，可选值：gitlab,github,gitee")
+    private String gitStorageType;
+
     @ApiModelProperty(value = "项目所属的组")
     private String group;
 

@@ -6,6 +6,7 @@ import com.codeline.framwork.dto.MergeRequestDto;
 import com.codeline.framwork.dto.ReleaseDto;
 import com.codeline.framwork.dto.TagDto;
 import com.codeline.framwork.exception.SysException;
+import org.gitlab4j.api.models.Member;
 
 /**
  * @author: syl
@@ -15,6 +16,8 @@ import com.codeline.framwork.exception.SysException;
 public interface GitApiService {
 
     GitStorageType getStorageType();
+
+    public boolean addMember(String projectPath,Long assigneeId) throws SysException;
 
     BranchDto createBranch(String gitUrl,String branchName, String ref) throws SysException;
 

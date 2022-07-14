@@ -13,10 +13,7 @@ import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.request.BaseConfigBo;
 import com.codeline.framwork.response.ApiResult;
 import org.gitlab4j.api.GitLabApiException;
-import org.gitlab4j.api.models.Branch;
-import org.gitlab4j.api.models.MergeRequest;
-import org.gitlab4j.api.models.Release;
-import org.gitlab4j.api.models.Tag;
+import org.gitlab4j.api.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +33,17 @@ public class GitLabApiServiceImpl implements GitApiService {
     @Override
     public GitStorageType getStorageType() {
         return GitStorageType.gitlab;
+    }
+
+    @Override
+    public boolean addMember(String projectPath, Long assigneeId) throws SysException {
+        try {
+            init();
+            instance.addMember(projectPath, assigneeId);
+            return true;
+        } catch (SysException e) {
+            throw new SysException("创建分支失败，"+e.getMessage(),e);
+        }
     }
 
     @Override

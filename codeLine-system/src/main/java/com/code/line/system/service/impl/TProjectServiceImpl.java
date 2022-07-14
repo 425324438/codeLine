@@ -7,15 +7,25 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.code.line.system.constant.DbStatus;
 import com.code.line.system.entity.TProject;
 import com.code.line.system.mapper.TProjectMapper;
+import com.code.line.system.service.GitApiService;
+import com.code.line.system.service.ISysConfigService;
 import com.code.line.system.service.ITProjectService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.codeline.framwork.constant.GitStorageType;
+import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.request.ProjectBo;
 import com.codeline.framwork.request.UpdateProjectBo;
 import com.codeline.framwork.response.ApiResult;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -28,7 +38,15 @@ import java.util.List;
 @Service
 public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> implements ITProjectService {
 
+    @Autowired
+    private ISysConfigService configService;
+    protected Map<GitStorageType, GitApiService> gitApiServiceMap = new HashMap<>();
 
+    @Autowired
+    public void setGitApiServiceMap(List<GitApiService> gitApiServiceList){
+        gitApiServiceMap = gitApiServiceList.stream()
+                .collect(Collectors.toMap(GitApiService::getStorageType, Function.identity()));
+    }
 
     @Override
     public List<TProject> getByGroup(String group) {
@@ -40,12 +58,23 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
     }
 
     @Override
-    public ApiResult save(ProjectBo projectBo) {
+    @Transactional()
+    public ApiResult save(ProjectBo projectBo) throws SysException {
         if (StringUtils.isEmpty(projectBo.getGitUrl())){
             return ApiResult.error("项目地址不能为空");
         }
         TProject tProject = JSON.parseObject(JSON.toJSONString(projectBo), TProject.class);
         boolean save = save(tProject);
+
+        Long assigneeId = configService.getAssigneeId();
+        GitStorageType storageType = GitStorageType.getByName(tProject.getGitStorageType());
+        try {
+            gitApiServiceMap.get(storageType).addMember(tProject.getGitUrl(),assigneeId);
+        } catch (SysException e) {
+            log.error("项目添加管理员异常，e={}",e);
+            throw e;
+        }
+
         if (save){
             return ApiResult.success();
         }
@@ -84,4 +113,5 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
         }
         return ApiResult.error("删除失败，数据保存失败");
     }
+
 }

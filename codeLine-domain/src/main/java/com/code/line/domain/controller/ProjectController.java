@@ -2,11 +2,13 @@ package com.code.line.domain.controller;
 
 import com.code.line.system.entity.TProject;
 import com.code.line.system.service.ITProjectService;
+import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.request.ProjectBo;
 import com.codeline.framwork.request.UpdateProjectBo;
 import com.codeline.framwork.request.search.ProjectSearch;
 import com.codeline.framwork.response.ApiResult;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.List;
  * @Date: 2022/6/30 23:44
  * @Description:
  */
+@Slf4j
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
@@ -31,7 +34,12 @@ public class ProjectController {
     @PostMapping()
     @ApiOperation("新增项目")
     public ApiResult saveProject(@RequestBody ProjectBo projectBo){
-        return projectService.save(projectBo);
+        try {
+            projectService.save(projectBo);
+            return ApiResult.success();
+        } catch (SysException e) {
+            return ApiResult.error(e.getMessage());
+        }
     }
 
     @PutMapping()
