@@ -128,4 +128,13 @@ public class TSprintActionListServiceImpl extends ServiceImpl<TSprintActionListM
         updateBatchById(update);
         return list;
     }
+
+    @Override
+    public TSprintActionListEntity pollNextAction() {
+        LambdaQueryWrapper<TSprintActionListEntity> query = Wrappers.lambdaQuery();
+        query.eq(TSprintActionListEntity::getStatus,DbStatus.DEFAULT.getCode());
+        query.eq(TSprintActionListEntity::getActionStatus,ActionStatusEnums.activated.name());
+        query.first("LIMIT 1");
+        return getOne(query);
+    }
 }

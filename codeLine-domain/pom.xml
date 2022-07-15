@@ -30,6 +30,11 @@
         </dependency>
         <dependency>
             <groupId>com.code.line</groupId>
+            <artifactId>codeLine-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.code.line</groupId>
             <artifactId>codeLine-framework</artifactId>
             <version>${project.version}</version>
         </dependency>
