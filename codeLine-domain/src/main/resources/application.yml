@@ -1,3 +1,6 @@
 spring:
   profiles:
     active: dev
+
+quartz:
+  actionEngineCron: 0/5 * * * * ?

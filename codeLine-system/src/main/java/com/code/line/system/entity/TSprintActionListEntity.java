@@ -62,9 +62,4 @@ public class TSprintActionListEntity extends Model<TSprintActionListEntity> {
     private Integer status;
 
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
-
 }

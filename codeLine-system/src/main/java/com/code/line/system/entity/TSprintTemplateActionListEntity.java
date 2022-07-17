@@ -57,9 +57,5 @@ public class TSprintTemplateActionListEntity extends Model<TSprintTemplateAction
     private LocalDateTime createdTime;
 
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 
 }
