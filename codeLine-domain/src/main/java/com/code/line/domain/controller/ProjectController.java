@@ -48,7 +48,7 @@ public class ProjectController {
         return projectService.editProject(updateProjectBo);
     }
 
-    @GetMapping("#{id}")
+    @GetMapping("{id}")
     @ApiOperation("根据id查询")
     public ApiResult<TProject> getById(@PathVariable("id") Long id){
         TProject project = projectService.getById(id);
@@ -62,7 +62,7 @@ public class ProjectController {
         查看OPEN状态的MR列表
      */
 
-    @GetMapping("#{group}")
+    @GetMapping("{group}")
     @ApiOperation("根据应用group查询")
     public ApiResult<List<TProject>> getByGroup(@PathVariable("group") String group){
         List<TProject> projectList = projectService.getByGroup(group);
@@ -74,7 +74,7 @@ public class ProjectController {
         return null;
     }
 
-    @DeleteMapping("#{id}")
+    @DeleteMapping("{id}")
     @ApiOperation("删除项目")
     public ApiResult delProject(@PathVariable("id") Long id){
         return projectService.delProject(id);

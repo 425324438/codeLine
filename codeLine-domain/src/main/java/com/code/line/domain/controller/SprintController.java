@@ -35,7 +35,7 @@ public class SprintController {
      * 查询Sprint详情
      * @return
      */
-    @GetMapping("#{id}")
+    @GetMapping("{id}")
     public ApiResult getSprintDetail(@PathVariable("id") Long id){
         return null;
     }
