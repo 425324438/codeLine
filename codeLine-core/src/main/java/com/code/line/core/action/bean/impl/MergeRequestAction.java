@@ -54,7 +54,7 @@ public class MergeRequestAction extends BaseAction implements Action {
                                 mainBranch(),
                                 sprint.getVersion() + " -> "+ mainBranch() + " __" + project.getName(),
                                 sprint.getName() + " __ " + sprintProject.getName() + " version:" + sprint.getVersion(),
-                                assigneeId());
+                                adminUserId());
 
                 sprintProject.setWebUrl(main.getWebUrl());
                 JSONObject paramJson = sprintProject.getParamJson();

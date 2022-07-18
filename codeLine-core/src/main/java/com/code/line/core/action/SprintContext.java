@@ -39,6 +39,25 @@ public class SprintContext {
         threadLocal.set(context);
     }
 
+    public static void set(TSprintActionListEntity sprintAction){
+        SprintContext context = threadLocal.get();
+        context.setSprintAction(sprintAction);
+        threadLocal.set(context);
+    }
+
+    public static void set(TSprint sprint){
+        SprintContext context = threadLocal.get();
+        context.setSprint(sprint);
+        threadLocal.set(context);
+    }
+    public static void set(TSprint sprint,TSprintActionListEntity sprintAction){
+        SprintContext context = threadLocal.get();
+        context.setSprint(sprint);
+        context.setSprintAction(sprintAction);
+        threadLocal.set(context);
+    }
+
+
     public static void remove(){
         threadLocal.remove();
     }

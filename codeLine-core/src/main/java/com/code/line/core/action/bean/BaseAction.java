@@ -51,6 +51,9 @@ public class BaseAction {
         SprintContext sprintContext = SprintContext.get();
         TSprint sprint = sprintContext.getSprint();
         TSprintActionListEntity action = sprintContext.getSprintAction();
+        action.setActionStatus(ActionStatusEnums.ended.name());
+        actionListService.updateById(action);
+        SprintContext.set(action);
         SprintEnvStatusEnums envStatusEnums = SprintEnvStatusEnums.getByEnv(sprint.getSprintEnvStatus());
         return actionListService.activatedNextSprintAction(action.getSprintId(),envStatusEnums,action.getId());
     }
@@ -68,6 +71,7 @@ public class BaseAction {
         TSprint sprint = SprintContext.get().getSprint();
         sprint.setHasError(TypeConstants.SprintExecStatus.execError);
         sprintService.updateById(sprint);
+        SprintContext.set(sprint,sprintAction);
     }
 
     protected String mainBranch(){
@@ -76,7 +80,8 @@ public class BaseAction {
         }
         return mainBranchName;
     }
-    protected Long assigneeId(){
+
+    protected Long adminUserId(){
         if (assigneeId == null){
             assigneeId = configService.getAssigneeId();
         }

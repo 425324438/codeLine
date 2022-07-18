@@ -38,7 +38,7 @@ public class TSprintActionListEntity extends Model<TSprintActionListEntity> {
     @ApiModelProperty(value = "ActionStatusEnums 默认=未开始，枚举值：未开始，激活，执行中，执行失败，已结束")
     private String actionStatus;
 
-    @ApiModelProperty(value = "程序中Action中的type属性，代表了需要执行的Action")
+    @ApiModelProperty(value = "ActionBeanTypeName 程序中Action中的type属性，代表了需要执行的Action")
     private String actionBeanTypeName;
 
     private String name;

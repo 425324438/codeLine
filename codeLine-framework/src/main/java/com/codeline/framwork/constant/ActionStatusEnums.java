@@ -29,4 +29,13 @@ public enum ActionStatusEnums {
     ActionStatusEnums(String statusName) {
         this.statusName = statusName;
     }
+
+    public static ActionStatusEnums getByName(String name){
+        for (ActionStatusEnums value : ActionStatusEnums.values()) {
+            if (value.getStatusName().equals(name)){
+                return value;
+            }
+        }
+        return null;
+    }
 }
