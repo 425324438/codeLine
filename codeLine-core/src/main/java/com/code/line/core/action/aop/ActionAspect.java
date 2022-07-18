@@ -25,7 +25,7 @@ public class ActionAspect {
     @Autowired
     protected ITSprintActionListService actionListService;
 
-    @Pointcut("execution (* com.code.line.core.action.bean.impl.*.*(..))")
+    @Pointcut("execution (* com.code.line.core.action.bean.impl.*.execute(..))")
     public void pointcut(){}
 
     /**
