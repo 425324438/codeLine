@@ -4,6 +4,7 @@ import com.code.line.system.service.ITSprintService;
 import com.codeline.framwork.request.CreateSprintBo;
 import com.codeline.framwork.request.search.SprintSearch;
 import com.codeline.framwork.response.ApiResult;
+import com.codeline.framwork.response.SprintVo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -38,8 +39,8 @@ public class SprintController {
      * @return
      */
     @GetMapping("{id}")
-    public ApiResult getSprintDetail(@PathVariable("id") Long id){
-        return null;
+    public ApiResult<SprintVo> getSprintDetail(@PathVariable("id") Long id){
+        return sprintService.getSprintDetail(id);
     }
 
     /**
