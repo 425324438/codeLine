@@ -1,8 +1,10 @@
 package com.code.line.system.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.code.line.system.entity.TSprint;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.codeline.framwork.request.CreateSprintBo;
+import com.codeline.framwork.request.search.SprintSearch;
 import com.codeline.framwork.response.ApiResult;
 import com.codeline.framwork.response.SprintVo;
 
@@ -20,5 +22,7 @@ public interface ITSprintService extends IService<TSprint> {
 
 
     ApiResult<SprintVo> getSprintDetail(Long id);
+
+    ApiResult<Page<TSprint>> getSprintListPage( SprintSearch sprintSearch);
 
 }

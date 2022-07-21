@@ -55,6 +55,13 @@ public class ApiResult<T> {
         apiResult.setData(data);
         return apiResult;
     }
+    public static <T> ApiResult<T> success(T data){
+        ApiResult<T> apiResult = new ApiResult<>();
+        apiResult.setCode(success);
+        apiResult.setMsg("成功");
+        apiResult.setData(data);
+        return apiResult;
+    }
 
     public static ApiResult error(String msg){
         ApiResult<String> apiResult = new ApiResult<>();

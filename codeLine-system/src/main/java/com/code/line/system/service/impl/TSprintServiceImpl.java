@@ -4,6 +4,10 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.code.line.system.constant.DbStatus;
 import com.code.line.system.entity.TProject;
 import com.code.line.system.entity.TSprint;
@@ -17,9 +21,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.code.line.system.service.ITSprintTemplateService;
 import com.codeline.framwork.constant.SprintEnvStatusEnums;
 import com.codeline.framwork.request.CreateSprintBo;
+import com.codeline.framwork.request.search.SprintSearch;
 import com.codeline.framwork.response.ApiResult;
 import com.codeline.framwork.response.SprintProjectVo;
 import com.codeline.framwork.response.SprintVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -108,5 +114,27 @@ public class TSprintServiceImpl extends ServiceImpl<TSprintMapper, TSprint> impl
             sprintVo.setProjects(JSON.parseObject(JSON.toJSONString(sprintProjectList),new TypeReference<List<SprintProjectVo>>(){}));
         }
         return ApiResult.success(sprintVo,"成功");
+    }
+
+    @Override
+    public ApiResult<Page<TSprint>> getSprintListPage(SprintSearch sprintSearch){
+        Page<TSprint> page = new Page<>();
+        page.setCurrent(1);
+        page = page(page,queryWrappers(sprintSearch));
+        return ApiResult.success(page);
+
+    }
+    private LambdaQueryWrapper<TSprint> queryWrappers(SprintSearch sprintSearch){
+        LambdaQueryWrapper<TSprint> query = Wrappers.lambdaQuery();
+        if (StringUtils.isNotBlank(sprintSearch.getLikeName())){
+            query.like(TSprint::getName,sprintSearch.getLikeName());
+        }
+        if (StringUtils.isNotBlank(sprintSearch.getLikeVersion())){
+            query.like(TSprint::getVersion,sprintSearch.getLikeVersion());
+        }
+
+        query.eq(TSprint::getStatus,DbStatus.DEFAULT.getCode());
+        query.orderByDesc(TSprint::getCreatedTime);
+        return query;
     }
 }

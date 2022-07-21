@@ -1,5 +1,7 @@
 package com.code.line.domain.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.code.line.system.entity.TSprint;
 import com.code.line.system.service.ITSprintService;
 import com.codeline.framwork.request.CreateSprintBo;
 import com.codeline.framwork.request.search.SprintSearch;
@@ -47,8 +49,8 @@ public class SprintController {
      * 查询Sprint列表
      */
     @GetMapping("/page")
-    public ApiResult getSprintListPage(@RequestBody SprintSearch sprintSearch){
-        return null;
+    public ApiResult<Page<TSprint>> getSprintListPage(@RequestBody SprintSearch sprintSearch){
+        return sprintService.getSprintListPage(sprintSearch);
     }
 
 
