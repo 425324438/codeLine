@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: dev
+server:
+  port: 8080
 
 quartz:
   actionEngineCron: 0/5 * * * * ?

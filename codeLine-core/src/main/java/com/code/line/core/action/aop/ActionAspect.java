@@ -7,6 +7,7 @@ import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.service.ITSprintActionListService;
 import com.codeline.framwork.constant.ActionStatusEnums;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class ActionAspect {
     /**
      * Action执行完成后通知
      */
-    @AfterReturning
-    public void afterReturningAdvice(ProceedingJoinPoint joinPoint){
+    @AfterReturning(pointcut = "pointcut()")
+    public void afterReturningAdvice(JoinPoint joinPoint){
         TSprintActionListEntity sprintAction = SprintContext.get().getSprintAction();
         ActionStatusEnums statusEnums = ActionStatusEnums.getByName(sprintAction.getActionStatus());
         ActionBeanTypeName actionBeanType = ActionBeanTypeName.getByBeanCode(sprintAction.getActionBeanTypeName());
@@ -57,8 +58,8 @@ public class ActionAspect {
         }
     }
 
-    @AfterThrowing
-    public void afterThrowingAdvice(ProceedingJoinPoint joinPoint){
+    @AfterThrowing(pointcut = "pointcut()")
+    public void afterThrowingAdvice(JoinPoint joinPoint){
 
     }
 }
