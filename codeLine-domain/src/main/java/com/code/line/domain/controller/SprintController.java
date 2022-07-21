@@ -4,6 +4,7 @@ import com.code.line.system.service.ITSprintService;
 import com.codeline.framwork.request.CreateSprintBo;
 import com.codeline.framwork.request.search.SprintSearch;
 import com.codeline.framwork.response.ApiResult;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import javax.ws.rs.Path;
  * @Date: 2022/7/5 23:52
  * @Description:
  */
+@Api(tags = "sprint")
 @RestController
 @RequestMapping("/sprint")
 public class SprintController {
@@ -53,7 +55,7 @@ public class SprintController {
      * Sprint 状态向下个节点推进
      */
     @PostMapping
-    public ApiResult stageNext(){
+    public ApiResult pushStageNext(){
         return null;
     }
 

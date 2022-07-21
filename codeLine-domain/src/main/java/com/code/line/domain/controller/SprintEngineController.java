@@ -1,5 +1,6 @@
 package com.code.line.domain.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2022/7/12 01:03
  * @Description: Sprint 操作
  */
+@Api(tags = "sprintEngine")
 @RestController
 @RequestMapping("/sprint/engine")
 public class SprintEngineController {

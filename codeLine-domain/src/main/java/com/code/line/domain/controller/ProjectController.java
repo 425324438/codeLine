@@ -7,6 +7,7 @@ import com.codeline.framwork.request.ProjectBo;
 import com.codeline.framwork.request.UpdateProjectBo;
 import com.codeline.framwork.request.search.ProjectSearch;
 import com.codeline.framwork.response.ApiResult;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.List;
  * @Description:
  */
 @Slf4j
+@Api(tags = "project")
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
