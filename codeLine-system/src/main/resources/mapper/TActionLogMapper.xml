@@ -13,11 +13,13 @@
         <result column="action_name" property="actionName" />
         <result column="action_exe_status" property="actionExeStatus" />
         <result column="log" property="log" />
+        <result column="created_time" property="createdTime" />
+        <result column="status" property="status" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, sprint_id, sprint_action_id, action_name, action_exe_status, log
+        id, sprint_id, sprint_action_id, action_name, action_exe_status, log,created_time,status
     </sql>
 
 </mapper>

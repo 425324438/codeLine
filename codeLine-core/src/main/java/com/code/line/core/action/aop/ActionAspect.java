@@ -3,9 +3,12 @@ package com.code.line.core.action.aop;
 
 import com.code.line.core.action.SprintContext;
 import com.code.line.system.constant.ActionBeanTypeName;
+import com.code.line.system.constant.DbStatus;
+import com.code.line.system.entity.TActionLogEntity;
 import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.entity.TSprintProject;
+import com.code.line.system.service.ITActionLogService;
 import com.code.line.system.service.ITSprintActionListService;
 import com.code.line.system.service.ITSprintProjectService;
 import com.code.line.system.service.ITSprintService;
@@ -17,6 +20,7 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,11 +34,13 @@ import java.util.List;
 public class ActionAspect {
 
     @Autowired
-    protected ITSprintActionListService actionListService;
+    private ITSprintActionListService actionListService;
     @Autowired
-    protected ITSprintService sprintService;
+    private ITSprintService sprintService;
     @Autowired
-    protected ITSprintProjectService sprintProjectService;
+    private ITSprintProjectService sprintProjectService;
+    @Autowired
+    private ITActionLogService actionLogService;
 
     @Pointcut("execution (* com.code.line.core.action.bean.impl.*.execute(..))")
     public void pointcut(){}
@@ -62,6 +68,8 @@ public class ActionAspect {
         TSprintActionListEntity sprintAction = SprintContext.get().getSprintAction();
         ActionStatusEnums statusEnums = ActionStatusEnums.getByName(sprintAction.getActionStatus());
         ActionBeanTypeName actionBeanType = ActionBeanTypeName.getByBeanCode(sprintAction.getActionBeanTypeName());
+
+        TActionLogEntity tActionLogEntity = new TActionLogEntity();
         switch (statusEnums){
             case NotStarted:
             case activated:
@@ -81,6 +89,9 @@ public class ActionAspect {
                 break;
 
         }
+        tActionLogEntity.setCreatedTime(new Date());
+        tActionLogEntity.setStatus(DbStatus.DEFAULT.getCode());
+        actionLogService.save(tActionLogEntity);
     }
 
     @AfterThrowing(pointcut = "pointcut()")

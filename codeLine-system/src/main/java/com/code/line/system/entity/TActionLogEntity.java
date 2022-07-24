@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -39,6 +41,12 @@ public class TActionLogEntity extends Model<TActionLogEntity> {
     private String actionExeStatus;
 
     private String log;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createdTime;
+
+    @ApiModelProperty(value = "状态 0:无效,1:有效")
+    private Integer status;
 
 
     @Override
