@@ -98,8 +98,5 @@ public class ActionAspect {
         actionLogService.save(tActionLogEntity);
     }
 
-    @AfterThrowing(pointcut = "pointcut()")
-    public void afterThrowingAdvice(JoinPoint joinPoint){
 
-    }
 }
