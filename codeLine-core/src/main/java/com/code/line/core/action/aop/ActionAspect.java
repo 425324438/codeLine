@@ -70,6 +70,7 @@ public class ActionAspect {
         ActionBeanTypeName actionBeanType = ActionBeanTypeName.getByBeanCode(sprintAction.getActionBeanTypeName());
 
         TActionLogEntity tActionLogEntity = new TActionLogEntity();
+        tActionLogEntity.setActionExeStatus(statusEnums.getStatusName());
         switch (statusEnums){
             case NotStarted:
             case activated:
@@ -78,17 +79,20 @@ public class ActionAspect {
                 break;
             case failed:
                 log.info("Action执行异常，id={}",sprintAction.getId());
+                SprintContext.log("Action执行异常,");
                 //记录到Action执行日志表中
+                tActionLogEntity.setLog(SprintContext.get().getLog());
                 break;
             case ended:
                 //action执行完成，生成Action执行日志
-                actionBeanType.getBeanName();
-                sprintAction.getId();
                 break;
             default:
                 break;
 
         }
+        tActionLogEntity.setLog(SprintContext.get().getLog());
+        tActionLogEntity.setActionName(actionBeanType.getBeanName());
+        tActionLogEntity.setSprintActionId(sprintAction.getId());
         tActionLogEntity.setCreatedTime(new Date());
         tActionLogEntity.setStatus(DbStatus.DEFAULT.getCode());
         actionLogService.save(tActionLogEntity);

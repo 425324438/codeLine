@@ -4,6 +4,7 @@ import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
 import com.code.line.system.entity.TSprintProject;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -26,6 +27,11 @@ public class SprintContext {
      * 当前正在执行的action
      */
     private TSprintActionListEntity sprintAction;
+
+    /**
+     * Action 执行日志
+     */
+    private String log;
 
     public static SprintContext get(){
         return threadLocal.get();
@@ -55,6 +61,17 @@ public class SprintContext {
         context.setSprint(sprint);
         context.setSprintAction(sprintAction);
         threadLocal.set(context);
+    }
+
+    public static void log(String log){
+        SprintContext context = threadLocal.get();
+        String contextLog = context.getLog();
+        if (StringUtils.isBlank(context.getLog())){
+            contextLog = "";
+        }
+        StringBuilder logBuilder = new StringBuilder();
+        logBuilder.append(contextLog).append(log).append("<br/>");
+        context.setLog(logBuilder.toString());
     }
 
 
