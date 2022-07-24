@@ -34,4 +34,6 @@ public interface ISysConfigService extends IService<SysConfig> {
      * @return
      */
     Long getAssigneeId();
+
+    String getHookCallbackUrl();
 }

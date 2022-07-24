@@ -37,6 +37,17 @@ public class GitLabTools {
         }
     }
 
+    public ProjectHook addHook(String projectPath,String hookUrl) throws SysException {
+        ProjectApi projectApi = gitLabApi.getProjectApi();
+        try {
+            return  projectApi.addHook(projectPath,hookUrl,true,false,true);
+        } catch (GitLabApiException e) {
+            log.info("gitLab addHook Exception, projectPath={},hookUrl={}",projectPath,hookUrl);
+            log.info("gitLab addHook Exception, errMsg={},e={}",e.getMessage(),e);
+            throw new SysException(e.getMessage(),e);
+        }
+    }
+
     /**
      * 创建分支
      * @param projectPath gitLab中项目的访问地址webUrl 例：https://gitlab.com/425324438/test

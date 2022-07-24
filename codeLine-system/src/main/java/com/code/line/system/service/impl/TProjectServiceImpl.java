@@ -67,9 +67,14 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
         boolean save = save(tProject);
 
         Long assigneeId = configService.getAssigneeId();
+        String hookCallbackUrl = configService.getHookCallbackUrl();
+        if (StringUtils.isEmpty(hookCallbackUrl)){
+            return ApiResult.error("需要管理员配置 GitLab webHook 地址");
+        }
         GitStorageType storageType = GitStorageType.getByName(tProject.getGitStorageType());
         try {
             gitApiServiceMap.get(storageType).addMember(tProject.getGitUrl(),assigneeId);
+            gitApiServiceMap.get(storageType).addHook(tProject.getGitUrl(),hookCallbackUrl);
         } catch (SysException e) {
             log.error("项目添加管理员异常，e={}",e);
             throw e;

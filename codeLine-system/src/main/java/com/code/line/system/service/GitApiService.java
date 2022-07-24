@@ -19,6 +19,8 @@ public interface GitApiService {
 
     public boolean addMember(String projectPath,Long assigneeId) throws SysException;
 
+    public boolean addHook(String projectPath,String hookUrl) throws SysException;
+
     BranchDto createBranch(String gitUrl,String branchName, String ref) throws SysException;
 
     MergeRequestDto createMerge(String gitUrl,String sourceBranch,String targetBranch,String title, String description, Long assigneeId)throws SysException;

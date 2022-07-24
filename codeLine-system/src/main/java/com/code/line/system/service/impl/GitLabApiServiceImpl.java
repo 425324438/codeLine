@@ -47,6 +47,17 @@ public class GitLabApiServiceImpl implements GitApiService {
     }
 
     @Override
+    public boolean addHook(String projectPath, String hookUrl) throws SysException {
+        try {
+            init();
+            instance.addHook(projectPath, hookUrl);
+            return true;
+        } catch (SysException e) {
+            throw new SysException("添加Hook失败，"+e.getMessage(),e);
+        }
+    }
+
+    @Override
     public BranchDto createBranch(String gitUrl, String branchName, String ref) throws SysException {
         init();
         BranchDto branchDto = new BranchDto();

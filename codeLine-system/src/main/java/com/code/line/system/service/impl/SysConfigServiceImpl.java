@@ -98,4 +98,12 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         String valueStr = getOne(queryWrapper).getValueStr();
         return Long.parseLong(valueStr);
     }
+
+    @Override
+    public String getHookCallbackUrl() {
+        LambdaQueryWrapper<SysConfig> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(SysConfig::getKeyStr,TypeConstants.SprintConfigKey.HookCallBackUrl);
+        queryWrapper.eq(SysConfig::getStatus,DbStatus.DEFAULT.getCode());
+        return getOne(queryWrapper).getValueStr();
+    }
 }

@@ -15,6 +15,7 @@ public interface TypeConstants {
     public interface SprintConfigKey {
         public String mainBranchName = "mainBranchName";
         public String AssigneeId = "AssigneeId";
+        public String HookCallBackUrl = "HookCallBackUrl";
     }
 
     public interface SprintActionParamJsonKey {
