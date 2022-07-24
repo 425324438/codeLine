@@ -47,7 +47,6 @@ public class ActionEngine {
      */
     public ApiResult execute(Long sprintActionId){
         log.info("开始执行Action，id={}",sprintActionId);
-        initSprintContext(sprintActionId);
 
         SprintContext sprintContext = SprintContext.get();
         TSprintActionListEntity action = sprintContext.getSprintAction();
@@ -74,16 +73,6 @@ public class ActionEngine {
         return  ApiResult.success();
     }
 
-
-    /**
-     * 初始化 SprintContext
-     */
-    private void initSprintContext(Long sprintActionId){
-        TSprintActionListEntity action = actionListService.getById(sprintActionId);
-        TSprint sprint = sprintService.getById(action.getSprintId());
-        List<TSprintProject> sprintProjectList = sprintProjectService.getBySprintId(action.getSprintId());
-        SprintContext.set(sprint,sprintProjectList,action);
-    }
 
     @Autowired
     public void setActionMap(List<Action> actionList){

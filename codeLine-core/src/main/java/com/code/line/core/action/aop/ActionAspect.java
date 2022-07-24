@@ -3,8 +3,12 @@ package com.code.line.core.action.aop;
 
 import com.code.line.core.action.SprintContext;
 import com.code.line.system.constant.ActionBeanTypeName;
+import com.code.line.system.entity.TSprint;
 import com.code.line.system.entity.TSprintActionListEntity;
+import com.code.line.system.entity.TSprintProject;
 import com.code.line.system.service.ITSprintActionListService;
+import com.code.line.system.service.ITSprintProjectService;
+import com.code.line.system.service.ITSprintService;
 import com.codeline.framwork.constant.ActionStatusEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -12,6 +16,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author: syl
@@ -25,9 +31,28 @@ public class ActionAspect {
 
     @Autowired
     protected ITSprintActionListService actionListService;
+    @Autowired
+    protected ITSprintService sprintService;
+    @Autowired
+    protected ITSprintProjectService sprintProjectService;
 
     @Pointcut("execution (* com.code.line.core.action.bean.impl.*.execute(..))")
     public void pointcut(){}
+
+    /**
+     * 初始化 SprintContext
+     * @param joinPoint
+     */
+    @Before(value = "pointcut()")
+    public void before(JoinPoint joinPoint){
+        Object[] args = joinPoint.getArgs();
+        Long sprintActionId = (Long) args[0];
+        log.info("初始化 SprintContext sprintActionId={}",sprintActionId);
+        TSprintActionListEntity action = actionListService.getById(sprintActionId);
+        TSprint sprint = sprintService.getById(action.getSprintId());
+        List<TSprintProject> sprintProjectList = sprintProjectService.getBySprintId(action.getSprintId());
+        SprintContext.set(sprint,sprintProjectList,action);
+    }
 
     /**
      * Action执行完成后通知
