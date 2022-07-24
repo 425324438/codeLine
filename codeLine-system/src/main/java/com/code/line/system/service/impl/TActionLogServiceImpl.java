@@ -1,10 +1,15 @@
 package com.code.line.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.code.line.system.constant.DbStatus;
 import com.code.line.system.entity.TActionLogEntity;
 import com.code.line.system.mapper.TActionLogMapper;
 import com.code.line.system.service.ITActionLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +22,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TActionLogServiceImpl extends ServiceImpl<TActionLogMapper, TActionLogEntity> implements ITActionLogService {
 
+    @Override
+    public List<TActionLogEntity> listActionLogBySprintId(Long sprintId) {
+        LambdaQueryWrapper<TActionLogEntity> query = Wrappers.lambdaQuery();
+        query.eq(TActionLogEntity::getSprintId,sprintId);
+        query.eq(TActionLogEntity::getStatus, DbStatus.DEFAULT.getCode());
+        query.orderByAsc(TActionLogEntity::getCreatedTime);
+        return list(query);
+    }
 }

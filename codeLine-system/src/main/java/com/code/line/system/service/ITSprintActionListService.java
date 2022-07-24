@@ -55,8 +55,8 @@ public interface ITSprintActionListService extends IService<TSprintActionListEnt
 
     /**
      * 查询Sprint需要执行的Action
-     * @param sprintId
-     * @param envStatusEnums
+     * @param sprintId SprintId
+     * @param envStatusEnums sprint当前的状态
      * @return
      */
     List<TSprintActionListEntity> pollNextAction(Long sprintId, SprintEnvStatusEnums envStatusEnums);
