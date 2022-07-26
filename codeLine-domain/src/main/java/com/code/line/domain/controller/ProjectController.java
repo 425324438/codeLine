@@ -72,6 +72,7 @@ public class ProjectController {
     }
 
     @GetMapping("/page")
+    @ApiOperation("查询项目列表")
     public ApiResult getProjectPage(@RequestBody ProjectSearch projectSearch){
         return null;
     }
