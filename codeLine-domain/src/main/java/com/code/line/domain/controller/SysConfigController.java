@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -42,7 +43,9 @@ public class SysConfigController {
 
     @PutMapping("/save")
     @ApiOperation("保存任意配置")
-    public ApiResult save(@RequestBody Map<String,String> config){
+    public ApiResult save(@RequestParam("key") String key, @RequestParam("value") String value){
+        Map<String,String> config = new HashMap<>();
+        config.put(key,value);
         return ApiResult.result(configService.saveConfig(config));
     }
 }
