@@ -1,41 +1,133 @@
 <template>
-	<el-config-provider :locale="locale">
-		<div id="nav">
-			<router-link to="/">{{ $t("nav.home") }}</router-link> |
-			<router-link to="/about">{{ $t("nav.about") }}</router-link> |
-			<router-link to="/example">{{ $t("nav.example") }}</router-link> | 
-			<a href="src/pages/test.html" target="_blank">访问多入口</a>
-		</div>
-		<router-view />
-		<div hidden>我知道你肯定会修改这里的^.^</div>
-	</el-config-provider>
+  <a-layout has-sider>
+    <a-layout-sider collapsible
+      :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }"
+    >
+      <div class="logo" >log</div>
+      <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
+        <a-menu-item key="1">
+          <project-outlined />
+          <span class="nav-text">项目</span>
+        </a-menu-item>
+        <a-menu-item key="2">
+          <calendar-outlined />
+          <span class="nav-text">迭代列表</span>
+        </a-menu-item>
+        <a-menu-item key="3">
+          <setting-outlined />
+          <span class="nav-text">系统设置</span>
+        </a-menu-item>
+      </a-menu>
+    </a-layout-sider>
+    <a-layout :style="{ marginLeft: '200px' }">
+      <a-layout-header :style="{ background: '#fff', padding: 0 }" />
+      <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
+        <div :style="{ padding: '24px', background: '#fff', textAlign: 'center' }">
+          ...
+          <br />
+          Really
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          ...
+          <br />
+          ...
+          ...
+          <br />
+          ...
+          ...
+          <br />
+          ...
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          ...
+          <br />
+          content
+        </div>
+      </a-layout-content>
+      <a-layout-footer :style="{ textAlign: 'center' }">
+        CodeLine ©2022 Created by Ant UED
+      </a-layout-footer>
+    </a-layout>
+  </a-layout>
 </template>
-
-<script setup lang="ts">
-import { computed } from "vue";
-import { i18n } from "./i18n";
-import { version, buildTime } from "../build/info.json"
-
-console.log(`%c Release Build Info 
-%cVersion			v${version}
-BuildTime		${buildTime}`
-, "background:#000;color:#FFF;font-weight:bold;"
-, "background:#FFF;color:#000;"
-)
-
-let locale = computed(() => (i18n.global.messages as any)![i18n.global.locale]);
+<script lang="ts">
+import {
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
+  BarChartOutlined,
+  CloudOutlined,
+  AppstoreOutlined,
+  TeamOutlined,
+  ShopOutlined,
+  SettingOutlined,
+  ProjectOutlined,
+  CalendarOutlined,
+} from '@ant-design/icons-vue';
+import { defineComponent, ref } from 'vue';
+export default defineComponent({
+  components: {
+    UserOutlined,
+    VideoCameraOutlined,
+    UploadOutlined,
+    BarChartOutlined,
+    CloudOutlined,
+    AppstoreOutlined,
+    TeamOutlined,
+    ShopOutlined,
+	SettingOutlined,
+	ProjectOutlined,
+	CalendarOutlined,
+  },
+  setup() {
+    return {
+		//默认选中的页面
+      selectedKeys: ref<string[]>(['1']),
+    };
+  },
+});
 </script>
-
 <style>
-#app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #2c3e50;
+.logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
+.site-layout .site-layout-background {
+  background: #fff;
 }
 
-#nav { padding: 30px; }
-#nav a { font-weight: bold; color: #2c3e50; }
-#nav a.router-link-exact-active { color: #42b983; }
+[data-theme='dark'] .site-layout .site-layout-background {
+  background: #141414;
+}
 </style>
