@@ -1,113 +1,74 @@
 <template>
-  <div class="hello">
+	<img alt="Vue logo" src="../assets/logo.png" />
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
+    <h2>vite-ts-quick</h2>
+
+    <p>使用示例请看 {{ $t("nav.example") }}</p>
+
+    <p>
+        Recommended IDE setup:
+        <a href="https://code.visualstudio.com/" target="_blank">VSCode</a>
+        +
         <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
+            href="https://marketplace.visualstudio.com/items?itemName=octref.vetur"
+            target="_blank"
+            >
+            Vetur
         </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
+        or
+        <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
+        (if using
+        <code>&lt;script setup&gt;</code>)
+    </p>
+
+    <p>
+        <a href="https://cn.vitejs.dev/" target="_blank">
+            Vite Docs
         </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
-  </div>
+        |
+        <a href="https://v3.cn.vuejs.org/" target="_blank">Vue 3 Docs</a>
+        |
+        <a href="https://next.router.vuejs.org/zh/" target="_blank">Vue-router 4.x Docs</a>
+        |
+        <a href="https://next.vuex.vuejs.org/zh/" target="_blank">Vuex 4.x Docs</a>
+        |
+        <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch" target="_blank">Fetch</a>
+        |
+        <a href="https://element-plus.gitee.io/#/zh-CN/component/installation" target="_blank">Element-Plus</a>
+    </p>
+
+    <button @click="count++">count is: {{ count }}</button>
+    <p>
+        Edit
+        <code>components/HelloWorld.vue</code> to test hot module replacement.
+    </p>
 </template>
 
-<script>
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
-}
+<script setup lang="ts">
+import { ref } from "vue";
+
+const props = withDefaults(defineProps<{
+    msg: string;
+}>(), {})
+
+const count = ref(0);
+
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
 a {
-  color: #42b983;
+    color: #42b983;
+}
+
+label {
+    margin: 0 0.5em;
+    font-weight: bold;
+}
+
+code {
+    background-color: #eee;
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: #304455;
 }
 </style>
