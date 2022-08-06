@@ -3,7 +3,7 @@
     <a-layout-sider collapsible
       :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }"
     >
-      <div class="logo" >log</div>
+      <div class="logo" >logo</div>
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
         <a-menu-item key="1">
           <project-outlined />
