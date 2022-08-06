@@ -2,14 +2,16 @@
   <a-menu class="project-operation" v-model:selectedKeys="current" mode="horizontal">
     <a-menu-item key="list">
       <template #icon>
-        <appstore-outlined to="/project"/>
+        <appstore-outlined />
       </template>
+      <router-link to="/project"/>
       项目列表
     </a-menu-item>
-    <a-menu-item key="create">
+    <a-menu-item key="create" >
       <template #icon>
         <edit-outlined />
-      </template>
+        </template>
+      <router-link to="/createProject"/>
       新增项目
     </a-menu-item>
   </a-menu>
