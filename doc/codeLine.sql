@@ -87,7 +87,7 @@ CREATE TABLE `t_project` (
   `id` bigint NOT NULL COMMENT 'id',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目名称',
   `git_url` varchar(300) DEFAULT NULL COMMENT '项目git地址',
-  `group` varchar(80) DEFAULT NULL COMMENT '项目所属的组',
+  `git_group` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目所属的组',
   `creator` varchar(50) DEFAULT NULL COMMENT '创建者',
   `creator_id` bigint DEFAULT NULL COMMENT '创建人id',
   `created_time` datetime DEFAULT NULL COMMENT '创建时间',

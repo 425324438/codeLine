@@ -37,14 +37,11 @@ public class TProject implements Serializable {
     @ApiModelProperty(value = "项目名称")
     private String name;
 
-    @ApiModelProperty("git仓库类型，可选值：gitlab,github,gitee")
-    private String gitStorageType;
-
     @ApiModelProperty(value = "项目git地址")
     private String gitUrl;
 
     @ApiModelProperty(value = "项目所属的组")
-    private String group;
+    private String gitGroup;
 
     @ApiModelProperty(value = "创建者")
     private String creator;

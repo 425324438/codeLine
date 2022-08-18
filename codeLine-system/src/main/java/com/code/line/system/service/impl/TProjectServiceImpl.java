@@ -1,5 +1,6 @@
 package com.code.line.system.service.impl;
 
+import cn.hutool.core.util.URLUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -16,11 +17,13 @@ import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.request.ProjectBo;
 import com.codeline.framwork.request.UpdateProjectBo;
 import com.codeline.framwork.response.ApiResult;
+import com.codeline.framwork.util.UrlUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +54,7 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
     @Override
     public List<TProject> getByGroup(String group) {
         LambdaQueryWrapper<TProject> query = Wrappers.lambdaQuery();
-        query.eq(TProject::getGroup,group);
+        query.eq(TProject::getGitGroup,group);
         query.eq(TProject::getStatus, DbStatus.DEFAULT.getCode());
         query.orderByDesc(TProject::getCreatedTime);
         return list(query);
@@ -63,6 +66,9 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
         if (StringUtils.isEmpty(projectBo.getGitUrl())){
             return ApiResult.error("项目地址不能为空");
         }
+        if (!StringUtils.startsWith(projectBo.getGitUrl(),"http")) {
+            return ApiResult.error("项目地址必须是http格式");
+        }
         TProject tProject = JSON.parseObject(JSON.toJSONString(projectBo), TProject.class);
         boolean save = save(tProject);
 
@@ -71,7 +77,12 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
         if (StringUtils.isEmpty(hookCallbackUrl)){
             return ApiResult.error("需要管理员配置 GitLab webHook 地址");
         }
-        GitStorageType storageType = GitStorageType.getByName(tProject.getGitStorageType());
+
+        String domain = UrlUtils.getDomain(projectBo.getGitUrl());
+        if (StringUtils.isBlank(domain)){
+            return ApiResult.error("Git地址格式错误，没有获取到Git地址中的Domain");
+        }
+        GitStorageType storageType = GitStorageType.getByName(domain);
         try {
             gitApiServiceMap.get(storageType).addMember(tProject.getGitUrl(),assigneeId);
             gitApiServiceMap.get(storageType).addHook(tProject.getGitUrl(),hookCallbackUrl);
@@ -94,7 +105,7 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
         LambdaUpdateWrapper<TProject> updateWrapper = Wrappers.lambdaUpdate();
         updateWrapper.eq(TProject::getId,updateProjectBo.getId());
         updateWrapper.set(TProject::getGitUrl,updateProjectBo.getGitUrl());
-        updateWrapper.eq(TProject::getGroup,updateProjectBo.getGroup());
+        updateWrapper.eq(TProject::getGitGroup,updateProjectBo.getGroup());
 
         boolean update = update(updateWrapper);
         if (update){

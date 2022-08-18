@@ -64,14 +64,14 @@ public class ProjectController {
         查看OPEN状态的MR列表
      */
 
-    @GetMapping("{group}")
+    @GetMapping("/group/{group}")
     @ApiOperation("根据应用group查询")
     public ApiResult<List<TProject>> getByGroup(@PathVariable("group") String group){
         List<TProject> projectList = projectService.getByGroup(group);
         return ApiResult.success(projectList,"成功");
     }
 
-    @GetMapping("/page")
+    @PostMapping("/page")
     @ApiOperation("查询项目列表")
     public ApiResult getProjectPage(@RequestBody ProjectSearch projectSearch){
         return null;

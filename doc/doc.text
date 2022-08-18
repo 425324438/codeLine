@@ -31,8 +31,6 @@ urgentSprint
 	dev -> pre >> 基于dev分支创建 hotfix_new_tag,预发环境就发布这个tag
 	pre -> prod >> 预发环境 tag ，mr代码到 master分支
 
-# 参考文档
-https://blog.csdn.net/firebat/article/details/90178339
 
 
 {

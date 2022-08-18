@@ -13,7 +13,9 @@ import com.codeline.framwork.constant.TypeConstants;
 import com.codeline.framwork.dto.MergeRequestDto;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.response.ApiResult;
+import com.codeline.framwork.util.UrlUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -43,7 +45,11 @@ public class AcceptMergeAction extends BaseAction implements Action {
         List<TSprintProject> sprintProjectList = SprintContext.get().getSprintProjectList();
         for (TSprintProject sprintProject : sprintProjectList) {
             TProject project = projectService.getById(sprintProject.getProjectId());
-            GitStorageType storageType = GitStorageType.getByName(project.getGitStorageType());
+            String domain = UrlUtils.getDomain(project.getGitUrl());
+            if (StringUtils.isBlank(domain)){
+                return ApiResult.error("Git地址格式错误，没有获取到Git地址中的Domain");
+            }
+            GitStorageType storageType = GitStorageType.getByName(domain);
             JSONObject paramJson = sprintProject.getParamJson();
             Long iid = paramJson.getLong(TypeConstants.SprintActionParamJsonKey.MergeIid);
             try {

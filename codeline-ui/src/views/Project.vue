@@ -1,7 +1,7 @@
 <template>
     <ProjectHeader/>
 
-    <a-table class="project-table" :columns="columns" :data-source="data" :bordered="true" >
+    <a-table class="project-table" :columns="projectList" :data-source="data" :bordered="true" >
     <template #bodyCell="{ column }">
       <template v-if="column.key === 'operation'">
         <a>action</a>
@@ -19,7 +19,7 @@ import { defineComponent, ref } from 'vue';
 import ProjectHeader from '@/components/ProjectHeader.vue';
 import type { TableColumnsType } from 'ant-design-vue';
 
-const columns: TableColumnsType = [
+const projectList: TableColumnsType = [
   { title: '序号', width: 5, dataIndex: 'key', key: 'key', fixed: 'left' },
   { title: '项目', width: 30, dataIndex: 'name', key: 'name', fixed: 'left' },
   { title: '仓库地址', dataIndex: 'gitUrl', key: 'gitUrl', width: 200 },
@@ -56,7 +56,7 @@ export default defineComponent({
     return {
       current,
       data,
-      columns,
+      projectList,
     };
   },
 });

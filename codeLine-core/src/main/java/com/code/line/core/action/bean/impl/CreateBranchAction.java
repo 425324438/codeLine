@@ -12,7 +12,9 @@ import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.dto.BranchDto;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.response.ApiResult;
+import com.codeline.framwork.util.UrlUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -44,7 +46,11 @@ public class CreateBranchAction extends BaseAction implements Action {
 
         for (TSprintProject sprintProject : sprintProjectList) {
             TProject project = projectService.getById(sprintProject.getProjectId());
-            GitStorageType storageType = GitStorageType.getByName(project.getGitStorageType());
+            String domain = UrlUtils.getDomain(project.getGitUrl());
+            if (StringUtils.isBlank(domain)){
+                return ApiResult.error("Git地址格式错误，没有获取到Git地址中的Domain");
+            }
+            GitStorageType storageType = GitStorageType.getByName(domain);
             try {
                 BranchDto branch = gitApiServiceMap.get(storageType).createBranch(sprintProject.getGitUrl(),sprint.getVersion(), mainBranch());
                 sprintProject.setBranch(branch.getName());

@@ -6,16 +6,26 @@ package com.codeline.framwork.constant;
  * @Description:
  */
 public enum GitStorageType {
-    gitlab,
-    github,
-    gitee,
+    gitlab("gitlab"),
+    github("github"),
+    gitee("gitee"),
     ;
+
+    private String type;
+
+    GitStorageType(String type) {
+        this.type = type;
+    }
 
     public static GitStorageType getByName(String name){
         for (GitStorageType value : GitStorageType.values()) {
-            if (value.name().equals(name))
+            if (value.getType().equals(name))
                 return value;
         }
         return null;
+    }
+
+    public String getType() {
+        return type;
     }
 }
