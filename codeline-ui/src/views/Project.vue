@@ -15,6 +15,7 @@
 </style>
 
 <script lang="ts">
+import Base from '@/lib/ts/Base'
 import { defineComponent, ref } from 'vue';
 import ProjectHeader from '@/components/ProjectHeader.vue';
 import type { TableColumnsType } from 'ant-design-vue';
@@ -31,6 +32,9 @@ const projectList: TableColumnsType = [
   },
 ];
 
+const api2 = Base.NetBase.create({
+    baseUrl: "./"
+})
 
 interface DataItem {
   key: number;

@@ -78,6 +78,8 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
             return ApiResult.error("项目地址必须是http格式");
         }
         TProject tProject = JSON.parseObject(JSON.toJSONString(projectBo), TProject.class);
+        String  gitGroup =  projectBo.getGitUrl().split(".com/")[1].split("/")[0];
+        tProject.setGitGroup(gitGroup);
         tProject.setStatus(DbStatus.DEFAULT.getCode());
         tProject.setCreatedTime(LocalDateTime.now());
         boolean save = save(tProject);
