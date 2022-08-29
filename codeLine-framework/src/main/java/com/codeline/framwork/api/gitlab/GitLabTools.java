@@ -29,7 +29,7 @@ public class GitLabTools {
     public Member addMember(String projectPath,Long assigneeId) throws SysException {
         ProjectApi projectApi = gitLabApi.getProjectApi();
         try {
-            return projectApi.addMember(getProjectUrl(projectPath), assigneeId, AccessLevel.ADMIN);
+            return projectApi.addMember(getProjectUrl(projectPath), assigneeId, AccessLevel.OWNER);
         } catch (GitLabApiException e) {
             log.info("gitLab addMember Exception, projectPath={},assigneeId={}",projectPath,assigneeId);
             log.info("gitLab addMember Exception, errMsg={},e={}",e.getMessage(),e);

@@ -42,7 +42,7 @@ public class GitLabApiServiceImpl implements GitApiService {
             instance.addMember(projectPath, assigneeId);
             return true;
         } catch (SysException e) {
-            throw new SysException("创建分支失败，"+e.getMessage(),e);
+            throw new SysException("git添加管理员失败，"+e.getMessage(),e);
         }
     }
 

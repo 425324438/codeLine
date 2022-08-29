@@ -35,5 +35,9 @@ public interface ISysConfigService extends IService<SysConfig> {
      */
     Long getAssigneeId();
 
+    /**
+     * webHook回调地址
+     * @return
+     */
     String getHookCallbackUrl();
 }

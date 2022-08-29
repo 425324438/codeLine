@@ -17,6 +17,13 @@ public class ApiResult<T> {
 
     private T data;
 
+    /** 分页参数 */
+    private Long pageNum;
+
+    private Long pageTotal;
+
+    private Long pageSize;
+
     private static int success = 0;
     private static int error = -1;
 

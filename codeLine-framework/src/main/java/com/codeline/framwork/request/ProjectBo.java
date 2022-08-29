@@ -26,22 +26,4 @@ public class ProjectBo  {
     @ApiModelProperty(value = "项目所属的组")
     private String group;
 
-    @ApiModelProperty(value = "创建者")
-    private String creator;
-
-    @ApiModelProperty(value = "创建人id")
-    private Long creatorId;
-
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createdTime;
-
-    @ApiModelProperty(value = "修改者")
-    private String modifier;
-
-    @ApiModelProperty(value = "修改人id")
-    private Long modifierId;
-
-    @ApiModelProperty(value = "修改时间")
-    private LocalDateTime modifiedTime;
-
 }

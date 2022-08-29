@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.request.ProjectBo;
 import com.codeline.framwork.request.UpdateProjectBo;
+import com.codeline.framwork.request.search.ProjectSearch;
 import com.codeline.framwork.response.ApiResult;
+import com.codeline.framwork.search.PageSearch;
 
 import java.util.List;
 
@@ -27,4 +29,5 @@ public interface ITProjectService extends IService<TProject> {
 
     ApiResult delProject(Long id);
 
+    ApiResult getProjectPage(PageSearch<ProjectSearch> projectSearch);
 }

@@ -7,6 +7,7 @@ import com.codeline.framwork.request.ProjectBo;
 import com.codeline.framwork.request.UpdateProjectBo;
 import com.codeline.framwork.request.search.ProjectSearch;
 import com.codeline.framwork.response.ApiResult;
+import com.codeline.framwork.search.PageSearch;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -73,8 +74,8 @@ public class ProjectController {
 
     @PostMapping("/page")
     @ApiOperation("查询项目列表")
-    public ApiResult getProjectPage(@RequestBody ProjectSearch projectSearch){
-        return null;
+    public ApiResult getProjectPage(@RequestBody PageSearch<ProjectSearch> projectSearch){
+        return projectService.getProjectPage(projectSearch);
     }
 
     @DeleteMapping("{id}")

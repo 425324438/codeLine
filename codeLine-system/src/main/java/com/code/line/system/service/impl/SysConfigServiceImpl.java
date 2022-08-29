@@ -61,7 +61,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
             configBo.setToken(firstToken.get().getValueStr());
         }
         if (firstUrl.isPresent()){
-            configBo.setToken(firstUrl.get().getValueStr());
+            configBo.setUrl(firstUrl.get().getValueStr());
         }
         return ApiResult.success(configBo,"成功");
     }
@@ -95,7 +95,11 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         LambdaQueryWrapper<SysConfig> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(SysConfig::getKeyStr,TypeConstants.SprintConfigKey.AssigneeId);
         queryWrapper.eq(SysConfig::getStatus,DbStatus.DEFAULT.getCode());
-        String valueStr = getOne(queryWrapper).getValueStr();
+        SysConfig config = getOne(queryWrapper);
+        if (config == null){
+            throw new NullPointerException("AssigneeId is null,git管理员userId 不能为空");
+        }
+        String valueStr = config.getValueStr();
         return Long.parseLong(valueStr);
     }
 
@@ -104,6 +108,10 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         LambdaQueryWrapper<SysConfig> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(SysConfig::getKeyStr,TypeConstants.SprintConfigKey.HookCallBackUrl);
         queryWrapper.eq(SysConfig::getStatus,DbStatus.DEFAULT.getCode());
-        return getOne(queryWrapper).getValueStr();
+        SysConfig config = getOne(queryWrapper);
+        if (config == null){
+            throw new NullPointerException("webHook回调地址，不能为空");
+        }
+        return config.getValueStr();
     }
 }

@@ -1,10 +1,14 @@
 package com.code.line.system.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.URLUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.code.line.system.constant.DbStatus;
 import com.code.line.system.entity.TProject;
 import com.code.line.system.mapper.TProjectMapper;
@@ -16,7 +20,9 @@ import com.codeline.framwork.constant.GitStorageType;
 import com.codeline.framwork.exception.SysException;
 import com.codeline.framwork.request.ProjectBo;
 import com.codeline.framwork.request.UpdateProjectBo;
+import com.codeline.framwork.request.search.ProjectSearch;
 import com.codeline.framwork.response.ApiResult;
+import com.codeline.framwork.search.PageSearch;
 import com.codeline.framwork.util.UrlUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +30,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +78,8 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
             return ApiResult.error("项目地址必须是http格式");
         }
         TProject tProject = JSON.parseObject(JSON.toJSONString(projectBo), TProject.class);
+        tProject.setStatus(DbStatus.DEFAULT.getCode());
+        tProject.setCreatedTime(LocalDateTime.now());
         boolean save = save(tProject);
 
         Long assigneeId = configService.getAssigneeId();
@@ -85,10 +95,13 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
         GitStorageType storageType = GitStorageType.getByName(domain);
         try {
             gitApiServiceMap.get(storageType).addMember(tProject.getGitUrl(),assigneeId);
-            gitApiServiceMap.get(storageType).addHook(tProject.getGitUrl(),hookCallbackUrl);
         } catch (SysException e) {
             log.error("项目添加管理员异常，e={}",e);
-            throw e;
+        }
+        try {
+            gitApiServiceMap.get(storageType).addHook(tProject.getGitUrl(),hookCallbackUrl);
+        } catch (SysException e) {
+            log.error("添加Hook失败，e={}",e);
         }
 
         if (save){
@@ -128,6 +141,39 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
             return ApiResult.success();
         }
         return ApiResult.error("删除失败，数据保存失败");
+    }
+
+    @Override
+    public ApiResult getProjectPage(PageSearch<ProjectSearch> projectSearch) {
+        ProjectSearch search = projectSearch.getSearch();
+
+        LambdaQueryWrapper<TProject> wrappers = getWrappers(search);
+        IPage<TProject> page = new Page<>();
+        page.setSize(projectSearch.getPageSize());
+        page.setCurrent(projectSearch.getCurrentPage());
+        page = page(page,wrappers);
+
+        ApiResult<List<TProject>> success = ApiResult.success(page.getRecords());
+        success.setPageNum(page.getCurrent());
+        success.setPageTotal(page.getTotal());
+        success.setPageSize(page.getSize());
+        return success;
+    }
+
+    private LambdaQueryWrapper<TProject> getWrappers(ProjectSearch search) {
+        LambdaQueryWrapper<TProject> query = Wrappers.lambdaQuery();
+        if (StringUtils.isNotBlank(search.getGroup())){
+            query.eq(TProject::getGitGroup, search.getGroup());
+        }
+        if (StringUtils.isNotBlank(search.getName())){
+            query.eq(TProject::getName, search.getName());
+        }
+        if (StringUtils.isNotBlank(search.getLikeGitUrl())){
+            query.like(TProject::getGitUrl, search.getLikeGitUrl());
+        }
+        query.eq(TProject::getStatus, DbStatus.DEFAULT.getCode());
+        query.orderByDesc(TProject::getId);
+        return query;
     }
 
 }
