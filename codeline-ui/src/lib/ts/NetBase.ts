@@ -100,7 +100,7 @@ export default class NetBase {
 
     private static async request<T>(url: string, config: NetConfig, params: NetParams, baseConfig?: NetBaseConfig): Promise<T> {
         return new Promise<T>((resolve: (value: T) => void, reject: (reason?: any) => void) => {
-            fetch(url, config)
+            fetch(`${import.meta.env.VITE_BASE_URL}${url}`, config)
                 .then(res=> {
                     if (res.status === 200) {
                         res.json()
