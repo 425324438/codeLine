@@ -20,7 +20,7 @@ public class Main {
     static GitLabTools instance = GitLabTools.getInstance(url, token);
 
     public static void main(String[] args) throws GitLabApiException, SysException {
-        //Branch main = instance.createBranch(gitUrl, "dev1.0", "main");
+        //Branch main = instance.createBranch(gitUrl, "dev1.0.1", "main");
         //System.out.println("createBranch success ="+ JSON.toJSONString(main));
 
         //MergeRequest merge = instance.createMerge(gitUrl, "dev1.1", "main", "dev1.0 merge test", "merge test");
@@ -40,6 +40,11 @@ public class Main {
 
         //Release release = instance.createRelease(gitUrl, "tag_1.2", "release_1.3","备注");
         //System.out.println("createRelease success ="+ JSON.toJSONString(release));
+
+
+        ProjectHook hook = instance.addHook(gitUrl, "https://fanyi.baidu.com/#en/zh/");
+        //ProjectHook hook = instance.addHook(gitUrl, "https://miao.baidu.com/abdr");
+        System.out.println("createRelease success ="+ JSON.toJSONString(hook));
 
     }
 
