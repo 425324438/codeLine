@@ -31,7 +31,14 @@ export default defineConfig({
     }
   },
   server: {
-    host: process.env.NODE_ENV !== "production"
+    host: process.env.NODE_ENV !== "production",
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   },
   plugins: [
     changePackageVersion(),
@@ -43,5 +50,6 @@ export default defineConfig({
     rollupOptions: {
       input: getPages(),
     }
-  }
+  },
+  
 })

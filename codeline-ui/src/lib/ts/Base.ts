@@ -14,7 +14,17 @@ export default class Base {
 
     static IS_DEV = IS_DEV;
 
-    static NetBase = NetBase
+    static NetBase = new NetBase({
+        baseUrl: import.meta.env.VITE_BASE_URL,
+        // canNoJson: true,
+        // baseSuccess: 
+    /** 网络请求根路径 */
+    // baseUrl: string,
+    // canNoJson?: boolean,
+    // baseSuccess?: Function,
+    // baseFail?: Function,
+    // baseComplete?: Function
+    })
     static Cookie = Cookie
     static Storage = Storage
 

@@ -31,11 +31,11 @@ export default class NetBase {
     static async spost<T>(url: string, params: NetParams = {}, config?: NetConfig): Promise<T> {
         let _config: NetQueryConfig = {
             method: 'POST',
-            body: NetBase.getParams(params),
+            body: JSON.stringify(params),
             mode: config?.mode || "cors",
             credentials: config?.credentials || "include",
             headers: config?.headers || {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/json"
             }
         }
         // 拦截器，但是为什么要拦截？
@@ -100,7 +100,7 @@ export default class NetBase {
 
     private static async request<T>(url: string, config: NetConfig, params: NetParams, baseConfig?: NetBaseConfig): Promise<T> {
         return new Promise<T>((resolve: (value: T) => void, reject: (reason?: any) => void) => {
-            fetch(`${import.meta.env.VITE_BASE_URL}${url}`, config)
+            fetch(url, config)
                 .then(res=> {
                     if (res.status === 200) {
                         res.json()
@@ -137,6 +137,7 @@ export default class NetBase {
                                 }
                             })
                     } else {
+                        console.error('请求失败')
                         if (baseConfig?.baseFail) res = baseConfig.baseFail(res) || res;
                         if (baseConfig?.baseComplete) baseConfig.baseComplete(res);
                         if (params._fail) params._fail(res);
@@ -145,6 +146,7 @@ export default class NetBase {
                     }
                 })
                 .catch(res => {
+                    console.error('请求异常')
                     if (baseConfig?.baseFail) res = baseConfig.baseFail(res) || res;
                     if (baseConfig?.baseComplete) baseConfig.baseComplete(res);
                     if (params._fail) params._fail(res);
