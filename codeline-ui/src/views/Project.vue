@@ -7,7 +7,7 @@
     :columns="projectList" 
     :data-source="data" :bordered="true"
     class="project-table" 
-    @change="handleTableChange"  >
+    >
     <template #bodyCell="{ column }">
       <template v-if="column.key === 'operation'">
         <a>操作</a>
@@ -20,11 +20,13 @@
 
 </style>
 
-<script lang="ts">
+<script lang="ts" >
 import Base from '@/lib/ts/Base'
 import { defineComponent, ref, onMounted,  } from 'vue';
 import ProjectHeader from '@/components/ProjectHeader.vue';
 import type { TableColumnsType } from 'ant-design-vue';
+import type { TableProps } from 'ant-design-vue';
+
 
 const projectList: TableColumnsType = [
   { title: '序号', width: 5, dataIndex: 'key', key: 'key', fixed: 'left' },
@@ -44,45 +46,41 @@ interface DataItem {
   gitUrl: string;
 }
 
-const data: DataItem[] = [{'key':1,'name':'test','gitUrl':'test'}];
-
-function init(){
-  debugger
-  Base.NetBase.post<any>("/project/page", {
-      "currentPage": 0,
-      "pageNum": 0,
-      "pageSize": 20,
-      "search": { 
-      }
-    }).then(res => {
-          console.log(res.data)
-          for (let i = 1; i < res.data.length; i++) {
-            var projectVo = res.data[i];
-            data.push({
-              key: i,
-              name: projectVo.name,
-              gitUrl: projectVo.gitUrl,
-            });
-          }
-    })
-}
+const data: DataItem[] = [];
 
 export default {
   components: {
     ProjectHeader,
   },
   data() {
-    debugger
-    const current = ref<string[]>(['mail']);
-    init()
     return {
-      current,
       data,
       projectList,
     }
-  },
+  },]
+  
   created() {
-    
+    this.loadProjectPage()
+  },
+  methods:{
+    loadProjectPage(){
+      Base.NetBase.post<any>("/project/page", {
+      "currentPage": 0,
+      "pageNum": 0,
+      "pageSize": 20,
+      "search": { 
+      }
+    }).then(res => {
+          for (let i = 0; i < res.data.length; i++) {
+            var projectVo = res.data[i];
+            this.data.push({
+              key: i+1,
+              name: projectVo.name,
+              gitUrl: projectVo.gitUrl,
+            });
+          }
+    })
+    },
   }
 }
 </script>
