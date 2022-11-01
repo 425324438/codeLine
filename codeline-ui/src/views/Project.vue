@@ -37,7 +37,7 @@ const projectList: TableColumnsType = [
     key: 'operation',
     fixed: 'right',
     width: 20,
-  },
+  }
 ];
 
 interface DataItem {
@@ -57,7 +57,7 @@ export default {
       data,
       projectList,
     }
-  },]
+  },
   
   created() {
     this.loadProjectPage()

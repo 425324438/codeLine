@@ -13,6 +13,7 @@
         <a-menu-item key="2">
           <calendar-outlined />
           <span class="nav-text">迭代列表</span>
+          <router-link to="/sprint"/>
         </a-menu-item>
         <a-menu-item key="3">
           <setting-outlined />

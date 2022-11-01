@@ -21,7 +21,7 @@ import java.util.Arrays;
 @Component
 public class LogAspect {
 
-    @Pointcut("execution(* com.code.line.domain.controller.*(..))")
+    @Pointcut("execution(* com.code.line.domain.controller.*.*(..))")
     public void pointcut(){}
 
     @Before("pointcut()")
