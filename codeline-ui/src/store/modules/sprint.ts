@@ -1,26 +1,52 @@
 import { Module } from "vuex";
+import Base from '@/lib/ts/Base'
+// interface DataItem {
+//     key: number;
+//     name: string;
+//     gitUrl: string;
+//   }
 
-interface StoreUser {
-    text: string
-}
-
-const store: Module<StoreUser, unknown> = {
+const store: Module<any, unknown> = {
     namespaced: true,
     state() {
         return {
             condition: {
-                name : "",
-                version : 0
+                "currentPage": 0,
+                "pageNum": 0,
+                "pageSize": 20,
+                "search": {}
+                // 查询条件
             },
-            list: []
+            list: [] // 页面渲染的数据
         }
     },
+    // 更改 state, 但只能同步更改
     mutations: {
+        setList(state, payload) {
+            state.list = payload
+        },
         setText(state: StoreUser, payload: AnyObject) {
             state.text = payload.text;
         }
     },
+    // 更改 state, 可以执行异步任务
     actions: {
+        async getData({commit, state}) {
+            // 1. 查询
+            // 2. 保存数据
+            try {
+                let res = await Base.NetBase.post<any>("/project/page", state.condition)
+                console.log('getData', res);
+                let list = res.data.map(item => ({
+                    key: i+1,
+                    name: projectVo.name,
+                    gitUrl: projectVo.gitUrl,
+                }))
+                commit('setList', list)
+            } catch (error) {
+                console.error(error)
+            }
+        },
         setText(context, payload: AnyObject) {
             context.commit("setText", payload);
         }
