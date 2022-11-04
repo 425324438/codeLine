@@ -24,8 +24,7 @@
 import Base from '@/lib/ts/Base'
 import { defineComponent, ref, onMounted,  } from 'vue';
 import ProjectHeader from '@/components/ProjectHeader.vue';
-import type { TableColumnsType } from 'ant-design-vue';
-import type { TableProps } from 'ant-design-vue';
+import { TableColumnsType,TableProps } from 'ant-design-vue';
 
 
 const projectList: TableColumnsType = [

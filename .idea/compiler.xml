@@ -9,9 +9,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="codeLine-quartz" />
         <module name="core" />
-        <module name="codeLine-system" />
-        <module name="codeLine-framwork" />
+        <module name="codeLine-core" />
         <module name="domain" />
+        <module name="codeLine-domain" />
+        <module name="codeLine-system" />
+        <module name="codeLine-framework" />
+        <module name="codeLine-framwork" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -21,6 +24,9 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="codeLine" options="" />
+      <module name="codeLine-core" options="-parameters" />
+      <module name="codeLine-domain" options="-parameters" />
+      <module name="codeLine-framework" options="-parameters" />
       <module name="codeLine-framwork" options="-parameters" />
       <module name="codeLine-quartz" options="-parameters" />
       <module name="codeLine-system" options="-parameters" />

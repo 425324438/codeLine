@@ -22,7 +22,6 @@
       </a-menu>
     </a-layout-sider>
     <a-layout :style="{ marginLeft: '200px' }">
-      <!-- <a-layout-header :style="{ background: '#fff', padding: 0 }" /> -->
       <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
         <router-view />
       </a-layout-content>
@@ -57,9 +56,9 @@ export default defineComponent({
     AppstoreOutlined,
     TeamOutlined,
     ShopOutlined,
-	SettingOutlined,
-	ProjectOutlined,
-	CalendarOutlined,
+    SettingOutlined,
+    ProjectOutlined,
+    CalendarOutlined,
   },
   setup() {
     return {
