@@ -17,7 +17,10 @@ const store: Module<any, unknown> = {
                 "search": {}
                 // 查询条件
             },
-            list: [] // 页面渲染的数据
+            list: [], // 页面渲染的数据
+            pagination: {
+
+            }
         }
     },
     // 更改 state, 但只能同步更改
@@ -37,10 +40,10 @@ const store: Module<any, unknown> = {
             try {
                 let res = await Base.NetBase.post<any>("/project/page", state.condition)
                 console.log('getData', res);
-                let list = res.data.map(item => ({
+                let list = res.data.map((item,i) => ({
                     key: i+1,
-                    name: projectVo.name,
-                    gitUrl: projectVo.gitUrl,
+                    name: item.name,
+                    gitUrl: item.gitUrl,
                 }))
                 commit('setList', list)
             } catch (error) {
