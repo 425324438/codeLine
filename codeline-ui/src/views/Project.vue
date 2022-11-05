@@ -2,12 +2,12 @@
     <ProjectHeader/>
 
     <a-table  
-    :pagination="pagination"
-    :loading="loading"
-    :columns="projectList"
-    :data-source="store.state.sprint.list" 
-    :bordered="true"
-    class="project-table" 
+      :pagination="store.state.sprint.pagination"
+      :loading="loading"
+      :columns="projectList"
+      :data-source="store.state.sprint.list" 
+      :bordered="true"
+      class="project-table" 
     >
     <template #bodyCell="{ column }">
       <template v-if="column.key === 'operation'">

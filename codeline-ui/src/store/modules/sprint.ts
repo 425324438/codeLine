@@ -19,7 +19,11 @@ const store: Module<any, unknown> = {
             },
             list: [], // 页面渲染的数据
             pagination: {
-
+                /*
+                    current
+                    pageSize
+                    total
+                */
             }
         }
     },
@@ -27,6 +31,9 @@ const store: Module<any, unknown> = {
     mutations: {
         setList(state, payload) {
             state.list = payload
+        },
+        setPagination(state, payload) {
+            state.pagination = payload
         },
         setText(state: StoreUser, payload: AnyObject) {
             state.text = payload.text;
@@ -40,11 +47,17 @@ const store: Module<any, unknown> = {
             try {
                 let res = await Base.NetBase.post<any>("/project/page", state.condition)
                 console.log('getData', res);
+                
                 let list = res.data.map((item,i) => ({
                     key: i+1,
                     name: item.name,
                     gitUrl: item.gitUrl,
                 }))
+                commit('setPagination', {
+                    current: state.condition.currentPage,
+                    pageSize: res.pageSize,
+                    total: res.pageTotal,
+                })
                 commit('setList', list)
             } catch (error) {
                 console.error(error)
