@@ -2,12 +2,18 @@
     <ProjectHeader/>
     {{ store.state.sprint.pagination }}
     <a-table  
-      :pagination="store.state.sprint.pagination"
+      :pagination="false"
       :columns="projectList"
       :data-source="store.state.sprint.list" 
       :bordered="true"
       class="project-table" 
     >
+    <a-pagination 
+      @change="changePage" 
+      :total="store.state.sprint.pagination.total" 
+      :current="store.state.sprint.pagination.current"
+      :pageSize="store.state.sprint.pagination.pageSize"
+    />
     <template #bodyCell="{ column }">
       <template v-if="column.key === 'operation'">
         <a>操作</a>
@@ -43,5 +49,16 @@ const projectList: TableColumnsType = [
 onMounted(() => {
   store.dispatch('sprint/getData', {})
 })
+
+const changePage = (page) => {
+  console.log(page)
+  // 更改查询条件
+  store.commit('sprint/setCondition', {
+    ...store.state.sprint.condition,
+    pageNum: page,
+  });
+  // 查询
+  store.dispatch('sprint/getData', {});
+}
 
 </script>

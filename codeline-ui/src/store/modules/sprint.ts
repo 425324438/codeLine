@@ -27,6 +27,9 @@ const store: Module<any, unknown> = {
     },
     // 更改 state, 但只能同步更改
     mutations: {
+        setCondition(state, payload) {
+            state.condition = payload;
+        },
         setList(state, payload) {
             state.list = payload
         },
