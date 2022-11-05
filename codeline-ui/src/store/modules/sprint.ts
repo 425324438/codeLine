@@ -19,11 +19,9 @@ const store: Module<any, unknown> = {
             },
             list: [], // 页面渲染的数据
             pagination: {
-                /*
-                    current
-                    pageSize
-                    total
-                */
+                current: 0,
+                pageSize: 20,
+                total: 0
             }
         }
     },
@@ -54,7 +52,7 @@ const store: Module<any, unknown> = {
                     gitUrl: item.gitUrl,
                 }))
                 commit('setPagination', {
-                    current: state.condition.currentPage,
+                    current: parseInt(state.condition.currentPage),
                     pageSize: res.pageSize,
                     total: res.pageTotal,
                 })

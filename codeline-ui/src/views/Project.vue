@@ -1,9 +1,8 @@
 <template>
     <ProjectHeader/>
-
+    {{ store.state.sprint.pagination }}
     <a-table  
       :pagination="store.state.sprint.pagination"
-      :loading="loading"
       :columns="projectList"
       :data-source="store.state.sprint.list" 
       :bordered="true"
