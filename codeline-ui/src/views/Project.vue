@@ -1,19 +1,20 @@
 <template>
     <ProjectHeader/>
-    {{ store.state.sprint.pagination }}
-    <a-table  
-      :pagination="false"
-      :columns="projectList"
-      :data-source="store.state.sprint.list" 
-      :bordered="true"
-      class="project-table" 
-    >
     <a-pagination 
       @change="changePage" 
       :total="store.state.sprint.pagination.total" 
       :current="store.state.sprint.pagination.current"
       :pageSize="store.state.sprint.pagination.pageSize"
     />
+    <a-table  
+      :pagination="false"
+      :columns="projectList"
+      :data-source="store.state.sprint.list" 
+      :bordered="true"
+      :loading="loading"
+    >
+    
+
     <template #bodyCell="{ column }">
       <template v-if="column.key === 'operation'">
         <a>操作</a>
@@ -35,7 +36,7 @@ import type { TableProps } from 'ant-design-vue';
 import store from '../store'
 
 const projectList: TableColumnsType = [
-  { title: '序号', width: 5, dataIndex: 'key', key: 'key', fixed: 'left' },
+  { title: 'id', width: 5, dataIndex: 'key', key: 'key', fixed: 'left' },
   { title: '项目', width: 30, dataIndex: 'name', key: 'name', fixed: 'left' },
   { title: '仓库地址', dataIndex: 'gitUrl', key: 'gitUrl', width: 200 },
   {
@@ -55,7 +56,7 @@ const changePage = (page) => {
   // 更改查询条件
   store.commit('sprint/setCondition', {
     ...store.state.sprint.condition,
-    pageNum: page,
+    pageNum: page ,
   });
   // 查询
   store.dispatch('sprint/getData', {});

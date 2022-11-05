@@ -11,15 +11,14 @@ const store: Module<any, unknown> = {
     state() {
         return {
             condition: {
-                "currentPage": 0,
-                "pageNum": 0,
+                "pageNum": 1,
                 "pageSize": 20,
                 "search": {}
                 // 查询条件
             },
             list: [], // 页面渲染的数据
             pagination: {
-                current: 0,
+                current: 1,
                 pageSize: 20,
                 total: 0
             }
@@ -50,12 +49,12 @@ const store: Module<any, unknown> = {
                 console.log('getData', res);
                 
                 let list = res.data.map((item,i) => ({
-                    key: i+1,
+                    key: item.id,
                     name: item.name,
                     gitUrl: item.gitUrl,
                 }))
                 commit('setPagination', {
-                    current: parseInt(state.condition.currentPage),
+                    current: parseInt(state.condition.pageNum),
                     pageSize: res.pageSize,
                     total: res.pageTotal,
                 })

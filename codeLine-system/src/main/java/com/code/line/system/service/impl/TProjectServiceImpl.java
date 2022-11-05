@@ -152,7 +152,7 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
         LambdaQueryWrapper<TProject> wrappers = getWrappers(search);
         IPage<TProject> page = new Page<>();
         page.setSize(projectSearch.getPageSize());
-        page.setCurrent(projectSearch.getCurrentPage());
+        page.setCurrent(projectSearch.getPageNum());
         page = page(page,wrappers);
 
         ApiResult<List<TProject>> success = ApiResult.success(page.getRecords());
@@ -174,7 +174,7 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
             query.like(TProject::getGitUrl, search.getLikeGitUrl());
         }
         query.eq(TProject::getStatus, DbStatus.DEFAULT.getCode());
-        query.orderByDesc(TProject::getId);
+        query.orderByAsc(TProject::getId);
         return query;
     }
 

@@ -12,10 +12,8 @@ public class PageSearch<T> {
 
     private T search;
 
-    private int currentPage;
-
     private Integer pageSize = 20;
 
-    private Integer pageNum;
+    private Integer pageNum = 1;
 
 }
