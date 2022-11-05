@@ -10,3 +10,7 @@ quartz:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+    global-config:
+      db-config:
+        table-prefix: t_   # 表名前缀
+        id-type: auto   # id策略为自增长
