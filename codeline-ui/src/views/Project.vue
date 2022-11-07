@@ -2,14 +2,14 @@
     <ProjectHeader/>
     <a-pagination 
       @change="changePage" 
-      :total="store.state.sprint.pagination.total" 
-      :current="store.state.sprint.pagination.current"
-      :pageSize="store.state.sprint.pagination.pageSize"
+      :total="store.state.project.pagination.total" 
+      :current="store.state.project.pagination.current"
+      :pageSize="store.state.project.pagination.pageSize"
     />
     <a-table  
       :pagination="false"
       :columns="projectList"
-      :data-source="store.state.sprint.list" 
+      :data-source="store.state.project.list" 
       :bordered="true"
       :loading="loading"
     >
@@ -48,18 +48,18 @@ const projectList: TableColumnsType = [
 ];
 
 onMounted(() => {
-  store.dispatch('sprint/getData', {})
+  store.dispatch('project/getData', {})
 })
 
 const changePage = (page) => {
   console.log(page)
   // 更改查询条件
-  store.commit('sprint/setCondition', {
-    ...store.state.sprint.condition,
+  store.commit('project/setCondition', {
+    ...store.state.project.condition,
     pageNum: page ,
   });
   // 查询
-  store.dispatch('sprint/getData', {});
+  store.dispatch('project/getData', {});
 }
 
 </script>
