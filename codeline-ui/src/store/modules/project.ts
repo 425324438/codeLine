@@ -1,10 +1,8 @@
 import { Module } from "vuex";
 import Base from '@/lib/ts/Base'
-// interface DataItem {
-//     key: number;
-//     name: string;
-//     gitUrl: string;
-//   }
+import { defineComponent, ref } from 'vue';
+
+
 
 const store: Module<any, unknown> = {
     namespaced: true,
@@ -21,6 +19,10 @@ const store: Module<any, unknown> = {
                 current: 1,
                 pageSize: 20,
                 total: 0
+            },
+            form: {
+                name: "",
+                url: ""
             }
         }
     },
@@ -37,6 +39,9 @@ const store: Module<any, unknown> = {
         },
         setText(state: StoreUser, payload: AnyObject) {
             state.text = payload.text;
+        },
+        loadForm(state, payload) {
+            state.form = payload;
         }
     },
     // 更改 state, 可以执行异步任务
