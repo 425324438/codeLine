@@ -3,11 +3,10 @@
         <a-layout>
         <a-layout-content style="margin: 0 16px">
             <a-breadcrumb style="margin: 16px 0">
-            <a-breadcrumb-item>
+            <!-- <a-breadcrumb-item>
                 <b>迭代列表</b>
                 <router-link to="/project"/>
-            </a-breadcrumb-item>
-            <a-breadcrumb-item>迭代详情</a-breadcrumb-item>
+            </a-breadcrumb-item> -->
             </a-breadcrumb>
             <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
                 <a-table

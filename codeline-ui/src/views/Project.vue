@@ -24,12 +24,13 @@
       :body-style="{ paddingBottom: '80px' }"
       :footer-style="{ textAlign: 'right' }"
       @close="onClose"
+      @submit="onSubmit"
     >
-    <a-form :model="store.state.project.form" layout="vertical">
+    <a-form :model="store.state.project.form"  layout="vertical">
       <a-row :gutter="16">
         <a-col :span="12">
           <a-form-item label="项目名称" name="name">
-            <a-input v-model:value="store.state.project.form.name" placeholder="请输入项目名称" />
+            <a-input v-model:value="store.state.project.form.name" @change="fromChange" placeholder="请输入项目名称" />
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -93,6 +94,10 @@ const changePage = (page) => {
 
 const visible = ref<boolean>(false);
 
+const fromChange = (values: any) =>{
+  //表单内容变更
+  console.log('表单变更',values)
+}
 const showDrawer = () =>{
   visible.value = true;
 }
@@ -101,6 +106,7 @@ const onClose = () => {
 };
 
 const onSubmit = (values: any) =>{
+  // store.state.project.form
   console.info('表单提交',store.state.project.form);
   visible.value = false;
 }
