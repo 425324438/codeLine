@@ -42,6 +42,13 @@ const store: Module<any, unknown> = {
         },
         loadForm(state, payload) {
             state.form = payload;
+        },
+        setFormName(state,payload){
+            if(payload.name == null){
+                state.form.name = '';
+            } else {
+                state.form.name += payload.name;
+            }
         }
     },
     // 更改 state, 可以执行异步任务
