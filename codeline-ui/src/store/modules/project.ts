@@ -23,6 +23,12 @@ const store: Module<any, unknown> = {
             form: {
                 name: "",
                 url: ""
+            },
+            projectDo: {
+                gitUrl: "",
+                name: "",
+                gitStorageType: "",
+                group: ""
             }
         }
     },
@@ -44,10 +50,24 @@ const store: Module<any, unknown> = {
             state.form = payload;
         },
         setFormName(state,payload){
-            if(payload.name == null){
+            if(payload.name == null || payload.name  == ''){
                 state.form.name = '';
             } else {
                 state.form.name += payload.name;
+            }
+        },
+        setFormUrl(state,payload){
+            if(payload.url == null || payload.url  == ''){
+                state.form.url = '';
+            } else {
+                state.form.url += payload.url;
+            }
+            if(state.form.url.startsWith('https://')){
+                state.projectDo.gitUrl = state.form.url;
+                state.projectDo.gitStorageType = state.form.url.split('https://')[1].split('.com')[0];
+                state.projectDo.group = state.form.url.split('https://')[1].split('.com')[1].split('/')[1];
+                state.projectDo.name = state.form.url.split('https://')[1].split('.com')[1].split('/')[2];
+                state.form.name = state.projectDo.name;
             }
         }
     },

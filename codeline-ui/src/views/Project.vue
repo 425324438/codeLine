@@ -30,12 +30,12 @@
       <a-row :gutter="16">
         <a-col :span="12">
           <a-form-item label="GitUrl" name="url">
-            <a-input :value="store.state.project.form.url" style="width: 100%" placeholder="不是.git结尾"/>
+            <a-input :value="store.state.project.form.url" @change="fromChangeUrl"  style="width: 100%" placeholder="非.git结尾"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="项目名称" name="name">
-            <a-input :value="store.state.project.form.name" @change="fromChange" placeholder="请输入项目名称" />
+          <a-form-item label="项目名称(自动解析Url)" name="name">
+            <a-input :value="store.state.project.form.name" @change="fromChangeName" disabled="true" placeholder="请输入项目名称" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -95,11 +95,20 @@ const changePage = (page) => {
 const visible = ref<boolean>(false);
 
 
-const fromChange = (values: any) =>{
+const fromChangeName = (values: any) =>{
+  console.info('fromChange',values)
   //表单内容变更
   store.commit('project/setFormName', {
     ...store.state.project.form,
     name: values.data
+  });
+}
+const fromChangeUrl = (values: any) =>{
+  console.info('fromChange',values.data)
+  //表单内容变更
+  store.commit('project/setFormUrl', {
+    ...store.state.project.form,
+    url: values.data
   });
 }
 const showDrawer = () =>{
@@ -107,12 +116,27 @@ const showDrawer = () =>{
 }
 const onClose = () => {
   visible.value = false;
+  clearForm();
 };
 
 const onSubmit = (values: any) =>{
   // store.state.project.form
   console.info('表单提交',store.state.project.form);
   visible.value = false;
+
+  clearForm();
+}
+
+const clearForm = () =>{
+  console.info('clearForm执行')
+  store.commit('project/setFormName', {
+    ...store.state.project.form,
+    name: null
+  });
+  store.commit('project/setFormUrl', {
+    ...store.state.project.form,
+    url: null
+  });
 }
 
 </script>
