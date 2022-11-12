@@ -7,10 +7,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.codeline.framwork.constant.SprintTypeEnums;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 /**
  * <p>
@@ -57,6 +59,7 @@ public class TSprint implements Serializable {
     private Long creatorId;
 
     @ApiModelProperty(value = "创建时间")
+    @FormDataParam(value = "yyyy-MM-dd ss:HH:mm")
     private LocalDateTime createdTime;
 
     @ApiModelProperty(value = "修改者")
@@ -66,6 +69,7 @@ public class TSprint implements Serializable {
     private Long modifierId;
 
     @ApiModelProperty(value = "修改时间")
+    @FormDataParam(value = "")
     private LocalDateTime modifiedTime;
 
     @ApiModelProperty(value = "状态 0:无效,1:有效")

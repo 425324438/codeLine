@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Path;
+import java.util.List;
 
 /**
  * @author: syl
@@ -54,9 +55,9 @@ public class SprintController {
     /**
      * 查询Sprint列表
      */
-    @GetMapping("/page")
+    @PostMapping("/page")
     @ApiOperation("查询Sprint列表")
-    public ApiResult<Page<TSprint>> getSprintListPage(@RequestBody SprintSearch sprintSearch){
+    public ApiResult<List<TSprint>> getSprintListPage(@RequestBody SprintSearch sprintSearch){
         return sprintService.getSprintListPage(sprintSearch);
     }
 

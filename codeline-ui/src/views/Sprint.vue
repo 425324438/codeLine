@@ -1,31 +1,25 @@
 <template>
     <a-layout style="min-height: 100vh">
         <a-layout>
-        <a-layout-content style="margin: 0 16px">
-            <a-breadcrumb style="margin: 16px 0">
-            <!-- <a-breadcrumb-item>
-                <b>迭代列表</b>
-                <router-link to="/project"/>
-            </a-breadcrumb-item> -->
-            </a-breadcrumb>
-            <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-                <a-table
-                    :columns="columns"
-                    :row-key="record => record.id"
-                    :data-source="dataSource"
-                    :pagination="pagination"
-                    :loading="loading"
-                    @change="handleTableChange"
-                >
-                    <template #bodyCell="{ column, text }">
-                    <template v-if="column.dataIndex === 'name'">{{ text.first }} {{ text.last }}</template>
-                    </template>
-                </a-table>
-            </div>
-        </a-layout-content>
-        <a-layout-footer style="text-align: center">
-            Ant Design ©2018 Created by Ant UED
-        </a-layout-footer>
+          <a-layout-content style="margin: 0 16px">
+              <a-breadcrumb style="margin: 16px 0">
+              </a-breadcrumb>
+              <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
+                  <a-table
+                      :columns="sprintColumns"
+                      :row-key="record => record.id"
+                      :data-source="store.state.sprint.list" 
+                      :pagination="store.state.sprint.pagination"
+                      :bordered="true"
+                      
+                  >
+                  <!-- @change="handleTableChange" -->
+                      <template #bodyCell="{ column, text }">
+                      <template v-if="column.dataIndex === 'name'">{{ text.first }} {{ text.last }}</template>
+                      </template>
+                  </a-table>
+              </div>
+          </a-layout-content>
         </a-layout>
     </a-layout>
 </template>
@@ -43,7 +37,7 @@
     background: #141414;
 }
 </style>
-  <script lang="ts">
+  <script lang="ts" setup>
   import {
     PieChartOutlined,
     DesktopOutlined,
@@ -51,85 +45,30 @@
     TeamOutlined,
     FileOutlined,
   } from '@ant-design/icons-vue';
-  import type { TableProps } from 'ant-design-vue';
-  import { computed, defineComponent,ref } from 'vue';
-  
-  const columns = [
-    {
-        title: '序号',
-        dataIndex: 'index',
-        sorter: true,
-        width: '20%',
-    },
-    {
-        title: '项目',
-        dataIndex: 'name',
-        filters: [
-        { text: 'Male', value: 'male' },
-        { text: 'Female', value: 'female' },
-        ],
-        width: '20%',
-    },
-    {
-        title: '仓库地址',
-        dataIndex: 'gitUrl',
-    },
-  ];
+  import { computed, defineComponent,ref, onMounted } from 'vue';
+  import store from '../store'
 
-  type APIParams = {
-    results: number;
-    page?: number;
-    sortField?: string;
-    sortOrder?: number;
-    [key: string]: any;
-  };
-  type APIResult = {
-    results: {
-      gender: 'female' | 'male';
-      name: string;
-      email: string;
-    }[];
-  };
+  const sprintColumns = [
+  { title: 'id',        width: 5,    dataIndex: 'id', fixed: 'left'  },
+  { title: '迭代名称',   width: 60,   dataIndex: 'name'               },
+  { title: '阶段',      width: 30,   dataIndex: 'sprintEnvStatus'    },
+  { title: '迭代类型',   width: 30,   dataIndex: 'sprintType'         },
+  { title: '版本号',     width: 90,  dataIndex: 'version'             },
+  { title: '创建人',     width: 30,   dataIndex: 'creator'            },
+  { title: '创建时间',   width: 30,   dataIndex: 'createdTime'        },
+  { title: '最后更新时间',width: 30,   dataIndex: 'modifiedTime'       },
+  // {
+  //   title: 'Action',
+  //   key: 'operation',
+  //   fixed: 'right',
+  //   width: 20,
+  // }
+];
 
-  const queryData = (params: APIParams) => {
-    // return axios.get<APIResult>('https://randomuser.me/api?noinfo', { params });
-  };
-  export default defineComponent({
-    components: {
-      PieChartOutlined,
-      DesktopOutlined,
-      UserOutlined,
-      TeamOutlined,
-      FileOutlined,
-    },
-    data() {
-      return {
-        // dataSource,
-        // pagination,
-        // loading,
-        columns,
-      };
-    },
-    created() {
-        
-    },
-    methods:{
-        handleTableChange(){
-          TableProps['onChange'] = (
-            pag: { pageSize: number; current: number },
-            filters: any,
-            sorter: any,
-            ) => { run({
-                results: pag.pageSize!,
-                page: pag?.current,
-                sortField: sorter.field,
-                sortOrder: sorter.order,
-                ...filters,
-            });
-          };
-        }
-    }
-  });
+onMounted(() => {
+  store.dispatch('sprint/getData', {})
+})
+ 
   </script>
  
   

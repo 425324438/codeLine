@@ -8,6 +8,8 @@ import com.codeline.framwork.request.search.SprintSearch;
 import com.codeline.framwork.response.ApiResult;
 import com.codeline.framwork.response.SprintVo;
 
+import java.util.List;
+
 /**
  * <p>
  * 迭代列表 服务类
@@ -23,6 +25,6 @@ public interface ITSprintService extends IService<TSprint> {
 
     ApiResult<SprintVo> getSprintDetail(Long id);
 
-    ApiResult<Page<TSprint>> getSprintListPage( SprintSearch sprintSearch);
+    ApiResult<List<TSprint>> getSprintListPage( SprintSearch sprintSearch);
 
 }

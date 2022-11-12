@@ -14,7 +14,7 @@ public class SprintSearch {
     @ApiModelProperty("模糊查询名称")
     private String likeName;
 
-    @ApiModelProperty("模糊查询名称")
+    @ApiModelProperty("模糊查询版本")
     private String likeVersion;
 
 }

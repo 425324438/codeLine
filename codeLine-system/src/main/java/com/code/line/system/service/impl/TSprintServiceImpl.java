@@ -117,11 +117,16 @@ public class TSprintServiceImpl extends ServiceImpl<TSprintMapper, TSprint> impl
     }
 
     @Override
-    public ApiResult<Page<TSprint>> getSprintListPage(SprintSearch sprintSearch){
+    public ApiResult<List<TSprint>> getSprintListPage(SprintSearch sprintSearch){
         Page<TSprint> page = new Page<>();
         page.setCurrent(1);
         page = page(page,queryWrappers(sprintSearch));
-        return ApiResult.success(page);
+
+        ApiResult<List<TSprint>> success = ApiResult.success(page.getRecords());
+        success.setPageNum(page.getCurrent());
+        success.setPageTotal(page.getTotal());
+        success.setPageSize(page.getSize());
+        return success;
 
     }
     private LambdaQueryWrapper<TSprint> queryWrappers(SprintSearch sprintSearch){

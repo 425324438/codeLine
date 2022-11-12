@@ -80,7 +80,7 @@ const store: Module<any, unknown> = {
                 let res = await Base.NetBase.post<any>("/project/page", state.condition)
                 console.log('getData', res);
                 
-                let list = res.data.map((item,i) => ({
+                let list = res.data.map((item) => ({
                     key: item.id,
                     name: item.name,
                     gitUrl: item.gitUrl,
