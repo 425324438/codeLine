@@ -10,6 +10,9 @@ public enum SprintEnvStatusEnums {
     TEST("测试环境"),
     PRE("预发环境"),
     PRD("生产环境"),
+    PUBLISHED("已发布"),
+    DISCARD("废弃"),
+
     ;
     private String envName;
 

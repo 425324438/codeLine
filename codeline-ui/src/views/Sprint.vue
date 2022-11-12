@@ -4,21 +4,20 @@
           <a-layout-content style="margin: 0 16px">
               <a-breadcrumb style="margin: 16px 0">
               </a-breadcrumb>
-              <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-                  <a-table
-                      :columns="sprintColumns"
-                      :row-key="record => record.id"
-                      :data-source="store.state.sprint.list" 
-                      :pagination="store.state.sprint.pagination"
-                      :bordered="true"
-                      
-                  >
-                  <!-- @change="handleTableChange" -->
-                      <template #bodyCell="{ column, text }">
-                      <template v-if="column.dataIndex === 'name'">{{ text.first }} {{ text.last }}</template>
-                      </template>
-                  </a-table>
-              </div>
+                <a-table
+                    :columns="sprintColumns"
+                    :row-key="record => record.id"
+                    :data-source="store.state.sprint.list" 
+                    :pagination="store.state.sprint.pagination"
+                    :bordered="true"
+                    
+                >
+                
+                <!-- @change="handleTableChange" -->
+                    <template #bodyCell="{ column, text }">
+                    <template v-if="column.dataIndex === 'name'">{{ text.first }} {{ text.last }}</template>
+                    </template>
+                </a-table>
           </a-layout-content>
         </a-layout>
     </a-layout>
@@ -46,14 +45,15 @@
     FileOutlined,
   } from '@ant-design/icons-vue';
   import { computed, defineComponent,ref, onMounted } from 'vue';
+  import type { TableColumnsType } from 'ant-design-vue';
   import store from '../store'
 
-  const sprintColumns = [
-  { title: 'id',        width: 5,    dataIndex: 'id', fixed: 'left'  },
-  { title: '迭代名称',   width: 60,   dataIndex: 'name'               },
+  const sprintColumns: TableColumnsType  = [
+  { title: 'id',        width: 5,    dataIndex: 'id'  },
+  { title: '迭代名称',   width: 90,   dataIndex: 'name'               },
   { title: '阶段',      width: 30,   dataIndex: 'sprintEnvStatus'    },
   { title: '迭代类型',   width: 30,   dataIndex: 'sprintType'         },
-  { title: '版本号',     width: 90,  dataIndex: 'version'             },
+  { title: '版本号',     width: 50,  dataIndex: 'version'             },
   { title: '创建人',     width: 30,   dataIndex: 'creator'            },
   { title: '创建时间',   width: 30,   dataIndex: 'createdTime'        },
   { title: '最后更新时间',width: 30,   dataIndex: 'modifiedTime'       },

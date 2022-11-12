@@ -139,7 +139,7 @@ public class TSprintServiceImpl extends ServiceImpl<TSprintMapper, TSprint> impl
         }
 
         query.eq(TSprint::getStatus,DbStatus.DEFAULT.getCode());
-        query.orderByDesc(TSprint::getCreatedTime);
+        query.orderByDesc(TSprint::getId);
         return query;
     }
 }

@@ -21,10 +21,6 @@ const store: Module<any, unknown> = {
                 pageSize: 20,
                 total: 0
             },
-            form: {
-                name: "",
-                url: ""
-            }
         }
     },
     // 更改 state, 但只能同步更改
