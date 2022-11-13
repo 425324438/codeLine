@@ -35,7 +35,7 @@
         </a-col>
         <a-col :span="12">
           <a-form-item label="项目名称(自动解析Url)" name="name">
-            <a-input :value="store.state.project.form.name" @change="fromChangeName" disabled="true" placeholder="请输入项目名称" />
+            <a-input :value="store.state.project.form.name" @change="fromChangeName" disabled placeholder="请输入项目名称" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -104,11 +104,12 @@ const fromChangeName = (values: any) =>{
   });
 }
 const fromChangeUrl = (values: any) =>{
-  console.info('fromChange',values.data)
+  console.info('fromChange',values)
+  console.info('fromChange',values.target.value)
   //表单内容变更
   store.commit('project/setFormUrl', {
     ...store.state.project.form,
-    url: values.data
+    url: values.target.value
   });
 }
 const showDrawer = () =>{

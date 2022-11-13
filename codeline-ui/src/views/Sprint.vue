@@ -12,11 +12,6 @@
                     :bordered="true"
                     
                 >
-                
-                <!-- @change="handleTableChange" -->
-                    <template #bodyCell="{ column, text }">
-                    <template v-if="column.dataIndex === 'name'">{{ text.first }} {{ text.last }}</template>
-                    </template>
                 </a-table>
           </a-layout-content>
         </a-layout>

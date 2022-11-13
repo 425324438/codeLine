@@ -53,14 +53,14 @@ const store: Module<any, unknown> = {
             if(payload.name == null || payload.name  == ''){
                 state.form.name = '';
             } else {
-                state.form.name += payload.name;
+                state.form.name = payload.name;
             }
         },
         setFormUrl(state,payload){
             if(payload.url == null || payload.url  == ''){
                 state.form.url = '';
             } else {
-                state.form.url += payload.url;
+                state.form.url = payload.url;
             }
             if(state.form.url.startsWith('https://')){
                 state.projectDo.gitUrl = state.form.url;
