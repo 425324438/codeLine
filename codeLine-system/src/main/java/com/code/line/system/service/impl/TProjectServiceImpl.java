@@ -22,6 +22,7 @@ import com.codeline.framwork.request.ProjectBo;
 import com.codeline.framwork.request.UpdateProjectBo;
 import com.codeline.framwork.request.search.ProjectSearch;
 import com.codeline.framwork.response.ApiResult;
+import com.codeline.framwork.response.ProjectVo;
 import com.codeline.framwork.search.PageSearch;
 import com.codeline.framwork.util.UrlUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -146,7 +147,7 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
     }
 
     @Override
-    public ApiResult getProjectPage(PageSearch<ProjectSearch> projectSearch) {
+    public ApiResult<List<ProjectVo>> getProjectPage(PageSearch<ProjectSearch> projectSearch) {
         ProjectSearch search = projectSearch.getSearch();
 
         LambdaQueryWrapper<TProject> wrappers = getWrappers(search);
@@ -155,7 +156,8 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
         page.setCurrent(projectSearch.getPageNum());
         page = page(page,wrappers);
 
-        ApiResult<List<TProject>> success = ApiResult.success(page.getRecords());
+        List<ProjectVo> projectVos = JSON.parseArray(JSON.toJSONString(page.getRecords()), ProjectVo.class);
+        ApiResult<List<ProjectVo>> success = ApiResult.success(projectVos);
         success.setPageNum(page.getCurrent());
         success.setPageTotal(page.getTotal());
         success.setPageSize(page.getSize());
@@ -174,7 +176,7 @@ public class TProjectServiceImpl extends ServiceImpl<TProjectMapper, TProject> i
             query.like(TProject::getGitUrl, search.getLikeGitUrl());
         }
         query.eq(TProject::getStatus, DbStatus.DEFAULT.getCode());
-        query.orderByAsc(TProject::getId);
+        query.orderByDesc(TProject::getId);
         return query;
     }
 

@@ -66,7 +66,7 @@ const store: Module<any, unknown> = {
                 state.projectDo.gitUrl = state.form.url;
                 state.projectDo.gitStorageType = state.form.url.split('https://')[1].split('.com')[0];
                 state.projectDo.group = state.form.url.split('https://')[1].split('.com')[1].split('/')[1];
-                state.projectDo.name = state.form.url.split('https://')[1].split('.com')[1].split('/')[2];
+                state.projectDo.name = state.form.url.split('https://')[1].split('.com')[1].split('/')[2].split('.')[0];
                 state.form.name = state.projectDo.name;
             }
         }
@@ -97,6 +97,15 @@ const store: Module<any, unknown> = {
         },
         setText(context, payload: AnyObject) {
             context.commit("setText", payload);
+        },
+        async saveProject({commit, state}) {
+            try {
+                let res = await Base.NetBase.post<any>("/project/save", state.projectDo)
+                console.log('saveProject', res);
+                
+            } catch (error) {
+                console.error(error)
+            }
         }
     },
     getters: {

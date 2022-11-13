@@ -7,6 +7,7 @@ import com.codeline.framwork.request.ProjectBo;
 import com.codeline.framwork.request.UpdateProjectBo;
 import com.codeline.framwork.request.search.ProjectSearch;
 import com.codeline.framwork.response.ApiResult;
+import com.codeline.framwork.response.ProjectVo;
 import com.codeline.framwork.search.PageSearch;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,16 +31,21 @@ public class ProjectController {
     @Autowired
     private ITProjectService projectService;
 
+    @PostMapping("/page")
+    @ApiOperation("查询项目列表")
+    public ApiResult<List<ProjectVo>> getProjectPage(@RequestBody PageSearch<ProjectSearch> projectSearch){
+        return projectService.getProjectPage(projectSearch);
+    }
+
     /**
      * 新增项目
      * @return
      */
-    @PostMapping()
+    @PostMapping("/save")
     @ApiOperation("新增项目")
     public ApiResult saveProject(@RequestBody ProjectBo projectBo){
         try {
-            projectService.save(projectBo);
-            return ApiResult.success();
+            return projectService.save(projectBo);
         } catch (SysException e) {
             return ApiResult.error(e.getMessage());
         }
@@ -72,11 +78,7 @@ public class ProjectController {
         return ApiResult.success(projectList,"成功");
     }
 
-    @PostMapping("/page")
-    @ApiOperation("查询项目列表")
-    public ApiResult getProjectPage(@RequestBody PageSearch<ProjectSearch> projectSearch){
-        return projectService.getProjectPage(projectSearch);
-    }
+
 
     @DeleteMapping("{id}")
     @ApiOperation("删除项目")

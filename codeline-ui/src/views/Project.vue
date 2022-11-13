@@ -109,7 +109,7 @@ const fromChangeUrl = (values: any) =>{
   //表单内容变更
   store.commit('project/setFormUrl', {
     ...store.state.project.form,
-    url: values.target.value
+    url: values.target.value.trim()
   });
 }
 const showDrawer = () =>{
@@ -120,11 +120,13 @@ const onClose = () => {
   clearForm();
 };
 
-const onSubmit = (values: any) =>{
+const  onSubmit = async (values: any) =>{
   // store.state.project.form
   console.info('表单提交',store.state.project.form);
   visible.value = false;
-
+  await store.dispatch('project/saveProject', {});
+  //刷新表格
+  store.dispatch('project/getData', {});
   clearForm();
 }
 

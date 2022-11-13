@@ -15,7 +15,7 @@ public class ProjectVo {
 
 
     @ApiModelProperty(value = "id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "项目名称")
     private String name;
@@ -33,7 +33,7 @@ public class ProjectVo {
     private String creator;
 
     @ApiModelProperty(value = "创建人id")
-    private Long creatorId;
+    private String creatorId;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createdTime;
@@ -42,7 +42,7 @@ public class ProjectVo {
     private String modifier;
 
     @ApiModelProperty(value = "修改人id")
-    private Long modifierId;
+    private String modifierId;
 
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime modifiedTime;
