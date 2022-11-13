@@ -31,6 +31,14 @@ public class SprintController {
     @Autowired
     private ITSprintService sprintService;
 
+    /**
+     * 查询Sprint列表
+     */
+    @PostMapping("/page")
+    @ApiOperation("查询Sprint列表")
+    public ApiResult<List<SprintVo>> getSprintListPage(@RequestBody SprintSearch sprintSearch){
+        return sprintService.getSprintListPage(sprintSearch);
+    }
 
     /**
      * 创建Sprint
@@ -51,16 +59,6 @@ public class SprintController {
     public ApiResult<SprintVo> getSprintDetail(@PathVariable("id") Long id){
         return sprintService.getSprintDetail(id);
     }
-
-    /**
-     * 查询Sprint列表
-     */
-    @PostMapping("/page")
-    @ApiOperation("查询Sprint列表")
-    public ApiResult<List<TSprint>> getSprintListPage(@RequestBody SprintSearch sprintSearch){
-        return sprintService.getSprintListPage(sprintSearch);
-    }
-
 
     /**
      * Sprint 状态向下个节点推进

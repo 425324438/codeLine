@@ -25,6 +25,6 @@ public interface ITSprintService extends IService<TSprint> {
 
     ApiResult<SprintVo> getSprintDetail(Long id);
 
-    ApiResult<List<TSprint>> getSprintListPage( SprintSearch sprintSearch);
+    ApiResult<List<SprintVo>> getSprintListPage( SprintSearch sprintSearch);
 
 }

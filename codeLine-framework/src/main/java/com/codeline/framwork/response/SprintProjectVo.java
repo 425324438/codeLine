@@ -17,13 +17,13 @@ import java.time.LocalDateTime;
 public class SprintProjectVo {
 
     @ApiModelProperty(value = "id")
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "迭代id")
-    private Long sprintId;
+    private String sprintId;
 
     @ApiModelProperty(value = "项目id")
-    private Long projectId;
+    private String projectId;
 
     @ApiModelProperty(value = "项目git地址")
     private String gitUrl;
@@ -44,7 +44,7 @@ public class SprintProjectVo {
     private String creator;
 
     @ApiModelProperty(value = "创建人id")
-    private Long creatorId;
+    private String creatorId;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createdTime;
@@ -53,7 +53,7 @@ public class SprintProjectVo {
     private String modifier;
 
     @ApiModelProperty(value = "修改人id")
-    private Long modifierId;
+    private String modifierId;
 
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime modifiedTime;
