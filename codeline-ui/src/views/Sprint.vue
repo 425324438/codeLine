@@ -1,4 +1,8 @@
 <template>
+  <a-button type="primary" @click="showDrawer">
+    <template #icon><PlusOutlined /></template>
+    新增迭代
+  </a-button>
     <a-layout style="min-height: 100vh">
         <a-layout>
           <a-layout-content style="margin: 0 16px">
@@ -12,6 +16,11 @@
                     :bordered="true"
                     
                 >
+                <template #bodyCell="{ column, record }">
+                  <template v-if="column.dataIndex === 'version'">
+                    <router-link to="/sprintDetail">{{ record.version }}</router-link>
+                  </template>
+                </template>
                 </a-table>
           </a-layout-content>
         </a-layout>
