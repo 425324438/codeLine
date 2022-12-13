@@ -21,6 +21,8 @@ app.use(Antd);
 app.use(ElementPlus, { size: "mini" });
 app.use(i18n);
 
-app.mount('#app')
+app.mount('#app');
+
+// app.use(router).use(store).use(Antd).use(ElementPlus, { size: "mini" }).use(i18n).mount('#app')
 
 export default app;
