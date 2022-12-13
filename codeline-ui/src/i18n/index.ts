@@ -10,12 +10,6 @@ export function loadLanguages() {
         if (key === "./index.ts") return;
         let lang = context[key].lang;
         let name = key.replace(/(\.\/languages\/|\.ts)/g, '');
-        // try {
-        //     if (name === "en") console.log('?????')
-        //     // const elLang = await import(`element-plus/lib/locale/lang/en`) as  AnyObject;
-        //     let elLang = await import(`element-plus/lib/locale/lang/${name}`) as AnyObject;
-        //     lang = Object.assign(lang, {el: elLang.deafault.default.el})
-        // } catch (error) {}
         languages[name] = lang
     }
     

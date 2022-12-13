@@ -34,7 +34,7 @@
         |
         <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch" target="_blank">Fetch</a>
         |
-        <a href="https://element-plus.gitee.io/#/zh-CN/component/installation" target="_blank">Element-Plus</a>
+        
     </p>
 
     <button @click="count++">count is: {{ count }}</button>
